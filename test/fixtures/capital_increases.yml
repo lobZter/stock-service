@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  company_id: 1
+  class: MyString
+  date_issued: 2016-02-28
+  fund: 1
+  currency: 1
+  stock_price: 1
+  stock_num: 1
+  remark: MyString
+
+two:
+  company_id: 1
+  class: MyString
+  date_issued: 2016-02-28
+  fund: 1
+  currency: 1
+  stock_price: 1
+  stock_num: 1
+  remark: MyString
