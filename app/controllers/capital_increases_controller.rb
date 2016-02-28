@@ -1,0 +1,2 @@
+class CapitalIncreasesController < ApplicationController
+end

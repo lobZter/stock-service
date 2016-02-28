@@ -1,0 +1,2 @@
+module CapitalIncreasesHelper
+end
