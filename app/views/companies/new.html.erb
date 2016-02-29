@@ -38,6 +38,7 @@
       </div>
     </div>
   </div>
+  
   <!-- 公司人員 -->
   <div class="row">
     <div class="col-sm-6">
@@ -183,48 +184,136 @@
   
   <!-- 帳戶資訊 -->
   <% @bank_hashes.each_with_index  do |bank_hash, index| %>
-  <% if index%2 == 0%>
-  <div class="row">
-  <% end %>  
-    <div class="col-sm-6">
-      <div class="panel panel-default">
-        <div class="panel-heading text-center">
-          <h3 class="panel-title"><%= bank_hash['title'] %></h3>
-        </div>
-        <div class="panel-body">
-          <div class="form-group">
-            <label class="col-sm-2 control-label">銀行名稱</label>
-            <div class="col-sm-8">
-              <%= f.text_field bank_hash['bank'] , class: 'form-control' %>
-            </div>
+    <% if index%2 == 0%>
+    <div class="row">
+    <% end %>  
+      <div class="col-sm-6">
+        <div class="panel panel-default">
+          <div class="panel-heading text-center">
+            <h3 class="panel-title"><%= bank_hash['title'] %></h3>
           </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">帳號</label>
-            <div class="col-sm-8">
-              <%= f.text_field bank_hash['num'] , class: 'form-control' %>
+          <div class="panel-body">
+            <div class="form-group">
+              <label class="col-sm-2 control-label">銀行名稱</label>
+              <div class="col-sm-8">
+                <%= f.text_field bank_hash['bank'] , class: 'form-control' %>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">帳戶名稱</label>
-            <div class="col-sm-8">
-              <%= f.text_field bank_hash['name'] , class: 'form-control' %>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">帳號</label>
+              <div class="col-sm-8">
+                <%= f.text_field bank_hash['num'] , class: 'form-control' %>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label class="col-sm-2 control-label">銀行地址</label>
-            <div class="col-sm-8">
-              <%= f.text_field bank_hash['address'] , class: 'form-control' %>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">帳戶名稱</label>
+              <div class="col-sm-8">
+                <%= f.text_field bank_hash['name'] , class: 'form-control' %>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-2 control-label">銀行地址</label>
+              <div class="col-sm-8">
+                <%= f.text_field bank_hash['address'] , class: 'form-control' %>
+              </div>
             </div>
           </div>
         </div>
       </div>
+    <% if index%2==1 or bank_hash == @bank_hashes.last%>
     </div>
-  <% if index%2==1 or bank_hash == @bank_hashes.last%>
+    <% end %>
+  <% end %>
+  
+  <!-- 日期 --> 
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">公司成立日期</label>
+        <div class='input-group date' id='datetimepicker1'>
+          <%= f.text_field :date_establish , class: 'form-control' %>
+          <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
+      </div>
+    </div>
   </div>
-  <% end %>
-  <% end %>
+  <div class="row">
+    <div class="col-sm-8">
+      <div class="form-group">
+        <label class="col-sm-2 control-label">會計年度</label>
+        <div class='input-group date' id='datetimepicker2'>
+          <%= f.text_field :date_accounting , class: 'form-control' %>
+          <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- 資本額 -->
+  <div class="row">
+    <label class="col-sm-1 control-label">資本額</label>
+    <div class="col-sm-5">
+      <div class="input-group">
+        <%= f.text_field :fund , class: 'form-control' %>
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">請選擇 <span class="caret"></span></button>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="#">台幣</a></li>
+            <li><a href="#">美元</a></li>
+            <li><a href="#">人民幣</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <label class="col-sm-1 control-label">每股面額</label>
+    <div class="col-sm-5">
+      <div class="input-group">
+        <%= f.text_field :stock_price , class: 'form-control' %>
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">請選擇 <span class="caret"></span></button>
+          <ul class="dropdown-menu dropdown-menu-right">
+            <li><a href="#">台幣</a></li>
+            <li><a href="#">美元</a></li>
+            <li><a href="#">人民幣</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
+    <label class="col-sm-1 control-label">股票類型</label>
+    <div class="col-sm-5">
+      <div class="dropdown">
+        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+          請選擇
+          <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+          <li><a href="#">A股</a></li>
+          <li><a href="#">B股</a></li>
+          <li><a href="#">股股股</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
   
   
-  <%= f.submit "Create", class: 'btn btn-primary btn-lg' %>
+   <div class="row">
+    <label class="col-sm-1 control-label">原始股數</label>
+    <div class="col-sm-5">
+        <h5>132</h5>
+    </div>
+  </div>
+  
+  <div class="row">
+  <%= f.submit "Create", class: 'btn btn-primary btn-lg center-block' %>
+  </div>
 <% end %>
 
