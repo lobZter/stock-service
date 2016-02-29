@@ -22,10 +22,10 @@
 </div>
 <div class="row">
   <div class="col-sm-4">
-    <button type="button" class="btn btn-block btn-primary btn-lg">新增股東</button>
+    <%= link_to "新增股東", new_stockholder_path, class: "btn btn-block btn-primary btn-lg"%>
   </div>
   <div class="col-sm-4">
-    <button type="button" class="btn btn-block btn-success btn-lg">新增股票交易</button>
+    <%= link_to "新增股票交易", new_transaction_path, class: "btn btn-block btn-success btn-lg"%>
   </div>
   <div class="col-sm-4">
     <button type="button" class="btn btn-block btn-danger btn-lg">股票交易列表</button>
@@ -36,7 +36,7 @@
     <%= link_to "新增公司", new_company_path, class: "btn btn-block btn-primary btn-lg"%>
   </div>
   <div class="col-sm-4">
-    <button type="button" class="btn btn-block btn-success btn-lg">新增公司增資</button>
+    <%= link_to "新增公司增資", new_capital_increase_path, class: "btn btn-block btn-success btn-lg"%>
   </div>
   <div class="col-sm-4">
     <button type="button" class="btn btn-block btn-danger btn-lg">公司增資列表</button>

@@ -14,107 +14,107 @@
 ActiveRecord::Schema.define(version: 20160228065653) do
 
   create_table "capital_increases", force: :cascade do |t|
-    t.integer  "company_id",  null: false
-    t.string   "class",       null: false
-    t.date     "date_issued", null: false
-    t.decimal  "fund",        null: false
-    t.integer  "currency",    null: false
-    t.decimal  "stock_price", null: false
-    t.decimal  "stock_num",   null: false
+    t.integer  "company_id"
+    t.string   "class"
+    t.date     "date_issued"
+    t.decimal  "fund"
+    t.integer  "currency"
+    t.decimal  "stock_price"
+    t.decimal  "stock_num"
     t.string   "remark"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
 
   create_table "companies", force: :cascade do |t|
-    t.string   "name_zh",                   null: false
-    t.string   "name_en",                   null: false
-    t.string   "ein",                       null: false
-    t.string   "phone",                     null: false
-    t.string   "address",                   null: false
-    t.string   "chairman_name",             null: false
-    t.string   "chairman_passport",         null: false
-    t.string   "chairman_email",            null: false
-    t.string   "cfo_name",                  null: false
-    t.string   "cfo_passport",              null: false
-    t.string   "cfo_email",                 null: false
-    t.string   "ceo_name",                  null: false
-    t.string   "ceo_passport",              null: false
-    t.string   "ceo_email",                 null: false
-    t.string   "accounting_name",           null: false
-    t.string   "accounting_passport",       null: false
-    t.string   "accounting_email",          null: false
-    t.string   "registered_agent_name",     null: false
-    t.string   "registered_agent_passport", null: false
-    t.string   "registered_agent_email",    null: false
-    t.string   "us_account_bank",           null: false
-    t.string   "us_account_num",            null: false
-    t.string   "us_account_name",           null: false
-    t.string   "us_account_bank_addr",      null: false
-    t.string   "cn_account_bank",           null: false
-    t.string   "cn_account_num",            null: false
-    t.string   "cn_account_name",           null: false
-    t.string   "cn_account_bank_addr",      null: false
-    t.string   "tw_account_bank",           null: false
-    t.string   "tw_account_num",            null: false
-    t.string   "tw_account_name",           null: false
-    t.string   "tw_account_bank_addr",      null: false
-    t.date     "date_establish",            null: false
-    t.date     "date_accounting",           null: false
-    t.decimal  "fund",                      null: false
-    t.integer  "currency",                  null: false
-    t.string   "stock_class",               null: false
-    t.decimal  "stock_price",               null: false
-    t.decimal  "stock_num",                 null: false
+    t.string   "name_zh"
+    t.string   "name_en"
+    t.string   "ein"
+    t.string   "phone"
+    t.string   "address"
+    t.string   "chairman_name"
+    t.string   "chairman_passport"
+    t.string   "chairman_email"
+    t.string   "cfo_name"
+    t.string   "cfo_passport"
+    t.string   "cfo_email"
+    t.string   "ceo_name"
+    t.string   "ceo_passport"
+    t.string   "ceo_email"
+    t.string   "accounting_name"
+    t.string   "accounting_passport"
+    t.string   "accounting_email"
+    t.string   "registered_agent_name"
+    t.string   "registered_agent_passport"
+    t.string   "registered_agent_email"
+    t.string   "us_account_bank"
+    t.string   "us_account_num"
+    t.string   "us_account_name"
+    t.string   "us_account_bank_addr"
+    t.string   "cn_account_bank"
+    t.string   "cn_account_num"
+    t.string   "cn_account_name"
+    t.string   "cn_account_bank_addr"
+    t.string   "tw_account_bank"
+    t.string   "tw_account_num"
+    t.string   "tw_account_name"
+    t.string   "tw_account_bank_addr"
+    t.date     "date_establish"
+    t.date     "date_accounting"
+    t.decimal  "fund"
+    t.integer  "currency"
+    t.string   "stock_class"
+    t.decimal  "stock_price"
+    t.decimal  "stock_num"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
   end
 
   create_table "stockholders", force: :cascade do |t|
-    t.string   "name_zh",          null: false
-    t.string   "name_en",          null: false
-    t.boolean  "is21",             null: false
+    t.string   "name_zh"
+    t.string   "name_en"
+    t.boolean  "is21"
     t.string   "representative"
-    t.string   "passport",         null: false
-    t.string   "country",          null: false
-    t.string   "phone",            null: false
-    t.string   "wechat",           null: false
-    t.string   "address",          null: false
-    t.string   "email",            null: false
-    t.string   "account_bank",     null: false
-    t.string   "account_num",      null: false
-    t.string   "account_owner",    null: false
-    t.string   "account_owner_id", null: false
-    t.string   "copy_passport",    null: false
-    t.string   "copy_signature",   null: false
+    t.string   "passport"
+    t.string   "country"
+    t.string   "phone"
+    t.string   "wechat"
+    t.string   "address"
+    t.string   "email"
+    t.string   "account_bank"
+    t.string   "account_num"
+    t.string   "account_owner"
+    t.string   "account_owner_id"
+    t.string   "copy_passport"
+    t.string   "copy_signature"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
 
   create_table "stocks", force: :cascade do |t|
-    t.integer  "own_id",           null: false
-    t.boolean  "own_is_company",   null: false
-    t.integer  "stock_company_id", null: false
-    t.string   "stock_class",      null: false
-    t.decimal  "stock_num",        null: false
+    t.integer  "own_id"
+    t.boolean  "own_is_company"
+    t.integer  "stock_company_id"
+    t.string   "stock_class"
+    t.decimal  "stock_num"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
   end
 
   create_table "transactions", force: :cascade do |t|
-    t.integer  "seller_id",         null: false
-    t.boolean  "seller_is_company", null: false
-    t.integer  "buyer_id",          null: false
-    t.boolean  "buyer_is_company",  null: false
-    t.integer  "stock_company_id",  null: false
-    t.string   "stock_class",       null: false
-    t.date     "stock_issued_date", null: false
-    t.decimal  "fund",              null: false
-    t.integer  "currency",          null: false
-    t.date     "date_paid",         null: false
-    t.decimal  "stock_price",       null: false
-    t.decimal  "stock_num",         null: false
-    t.date     "date_signed",       null: false
+    t.integer  "seller_id"
+    t.boolean  "seller_is_company"
+    t.integer  "buyer_id"
+    t.boolean  "buyer_is_company"
+    t.integer  "stock_company_id"
+    t.string   "stock_class"
+    t.date     "stock_issued_date"
+    t.decimal  "fund"
+    t.integer  "currency"
+    t.date     "date_paid"
+    t.decimal  "stock_price"
+    t.decimal  "stock_num"
+    t.date     "date_signed"
     t.string   "contract_0"
     t.string   "contract_1"
     t.string   "contract_2"
@@ -125,14 +125,14 @@ ActiveRecord::Schema.define(version: 20160228065653) do
     t.string   "contract_7"
     t.string   "contract_8"
     t.string   "contract_9"
-    t.boolean  "contract_0_needed", null: false
-    t.boolean  "contract_1_needed", null: false
-    t.boolean  "contract_2_needed", null: false
-    t.boolean  "contract_3_needed", null: false
-    t.boolean  "contract_4_needed", null: false
-    t.boolean  "contract_5_needed", null: false
-    t.boolean  "contract_6_needed", null: false
-    t.boolean  "contract_7_needed", null: false
+    t.boolean  "contract_0_needed"
+    t.boolean  "contract_1_needed"
+    t.boolean  "contract_2_needed"
+    t.boolean  "contract_3_needed"
+    t.boolean  "contract_4_needed"
+    t.boolean  "contract_5_needed"
+    t.boolean  "contract_6_needed"
+    t.boolean  "contract_7_needed"
     t.date     "send_buyer"
     t.date     "send_seller"
     t.string   "remark"

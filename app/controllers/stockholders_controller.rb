@@ -8,17 +8,27 @@ class StockholdersController < ApplicationController
   
   # POST /stockholders
   def create
+    @stockholder = Stockholder.new( stockholder_params )
+    #@stockholder.save
+    
+    redirect_to root_path
+    #redirect_to stockholder_url( @stockholder )
+  end
+  
+  # GET /stockholders/new
+  def new
+    @stockholder = Stockholder.new
   end
   
   # GET /stockholders/:id
   def show
-    @stockholder = Stockholder.find(params[:id])
+    @stockholder = Stockholder.find( params[:id] )
   end
   
   # PATCH /stockholders/:id
   def update
-    @stockholder = Stockholder.find(params[:id])
-    @stockholder.update(event_params)
+    @stockholder = Stockholder.find (params[:id] )
+    @stockholder.update( stockholder_params )
 
     redirect_to :action => :show, :id => @stockholder
   end
@@ -31,14 +41,18 @@ class StockholdersController < ApplicationController
     redirect_to :action => :index
   end
   
-  # GET /stockholders/new
-  def new
-    @stockholder = Stockholder.new
-  end
-  
   # GET /stockholders/:id/edit
   def edit
     @stockholder = Stockholder.find(params[:id])
   end
+  
+  private
+    def stockholder_params
+      params.require(:stockholder).permit(
+        :name_zh, :name_en, :is21, :representative,
+        :passport, :country, :phone, :wechat, :address, :email,
+        :account_bank, :account_num, :account_owner, :account_owner_id,
+        :copy_passport, :copy_signature)
+    end
   
 end
