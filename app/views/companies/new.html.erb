@@ -255,60 +255,44 @@
   
   <!-- 資本額 -->
   <div class="row">
-    <label class="col-sm-1 control-label">資本額</label>
-    <div class="col-sm-5">
-      <div class="input-group">
-        <%= f.text_field :fund , class: 'form-control' %>
-        <div class="input-group-btn">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">請選擇 <span class="caret"></span></button>
-          <ul class="dropdown-menu dropdown-menu-right">
-            <li><a href="#">台幣</a></li>
-            <li><a href="#">美元</a></li>
-            <li><a href="#">人民幣</a></li>
-          </ul>
+    <div class="col-sm-12">
+      <div class="panel panel-default">
+        <div class="panel-heading text-center">
+          <h3 class="panel-title">$$$</h3>
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <label class="col-sm-2 control-label">資本額</label>
+            <div class="col-sm-8">
+              <%= f.text_field :fund, class: 'form-control calculate-num', id: 'company_fund'%>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">每股面額</label>
+            <div class="col-sm-8">
+              <%= f.text_field :stock_price, class: 'form-control calculate-num', id: 'company_stock_price' %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">股票種類</label>
+            <div class="col-sm-2">
+                <%= f.select :currency, @stock_class_array, {}, { :class => 'form-control' } %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">幣別</label>
+            <div class="col-sm-2">
+                <%= f.select :currency, @currency_array, {}, { :class => 'form-control' } %>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-2 control-label">原始股數</label>
+            <div class="col-sm-2">
+               <input name="company[stock_num]" class="form-control" type="text" placeholder="交易股數" id="company_stock_num"readonly>
+            </div>
+          </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div class="row">
-    <label class="col-sm-1 control-label">每股面額</label>
-    <div class="col-sm-5">
-      <div class="input-group">
-        <%= f.text_field :stock_price , class: 'form-control' %>
-        <div class="input-group-btn">
-          <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">請選擇 <span class="caret"></span></button>
-          <ul class="dropdown-menu dropdown-menu-right">
-            <li><a href="#">台幣</a></li>
-            <li><a href="#">美元</a></li>
-            <li><a href="#">人民幣</a></li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  
-  <div class="row">
-    <label class="col-sm-1 control-label">股票類型</label>
-    <div class="col-sm-5">
-      <div class="dropdown">
-        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-          請選擇
-          <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-          <li><a href="#">A股</a></li>
-          <li><a href="#">B股</a></li>
-          <li><a href="#">股股股</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-  
-  
-   <div class="row">
-    <label class="col-sm-1 control-label">原始股數</label>
-    <div class="col-sm-5">
-        <h5>132</h5>
     </div>
   </div>
   

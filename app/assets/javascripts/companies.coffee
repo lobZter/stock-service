@@ -4,9 +4,15 @@
 
 
 $ ->
+  # Datetime picker format
   $('#datetimepicker1').datetimepicker({
      format: 'YYYY/MM/DD'
   });
   $('#datetimepicker2').datetimepicker({
      format: 'YYYY/MM/DD'
   });
+  
+  # Calculate stock num
+  $('input.calculate-num').change ->
+    $('#company_stock_num').val $('#company_fund').val()/$('#company_stock_price').val()
+    return
