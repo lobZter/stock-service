@@ -3,6 +3,7 @@ class StockholdersController < ApplicationController
   # GET /stockholders/index
   # GET /stockholders
   def index
+    @stockholders = Stockholder.all
   end
   
   # POST /stockholders
