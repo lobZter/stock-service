@@ -1,7 +1,7 @@
 class CreateCapitalIncreases < ActiveRecord::Migration
   def change
     create_table :capital_increases do |t|
-      t.integer :company_id, unsigned: true
+      t.integer :identity_id, unsigned: true
       t.string :class
       t.date :date_issued
       t.decimal :fund

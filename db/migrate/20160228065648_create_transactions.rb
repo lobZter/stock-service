@@ -2,10 +2,8 @@ class CreateTransactions < ActiveRecord::Migration
   def change
     create_table :transactions do |t|
       t.integer :seller_id, unsigned: true
-      t.boolean :seller_is_company
       t.integer :buyer_id, unsigned: true
-      t.boolean :buyer_is_company
-      t.integer :stock_company_id, unsigned: true
+      t.integer :company_id, unsigned: true
       t.string :stock_class
       t.date :stock_issued_date
       t.decimal :fund
