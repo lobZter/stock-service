@@ -8,11 +8,13 @@ class StockholdersController < ApplicationController
   
   # POST /stockholders
   def create
-    @stockholder = Stockholder.new( stockholder_params )
-    #@stockholder.save
-    
-    redirect_to root_path
-    #redirect_to stockholder_url( @stockholder )
+    @stockholder = Stockholder.new stockholder_params
+    if @stockholder.save
+      redirect_to root_path
+      #redirect_to stockholder_url( @stockholder )
+    else
+      render 'new'
+    end
   end
   
   # GET /stockholders/new

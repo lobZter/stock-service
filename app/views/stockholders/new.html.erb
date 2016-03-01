@@ -36,14 +36,15 @@
         <%= f.text_field :representative, class: "form-control", placeholder: "請輸入代理人姓名" %>
         <span class="help-block">若未成年請填寫此欄</span>
       </div>
-
-      <button type="button" class="btn btn-default">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 上傳護照影本
-      </button>
-      <button type="button" class="btn btn-default">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 上傳簽名頁影本
-      </button>
-
+      
+      <div class="form-group">
+        <label for="stockholder_copy_passport">上傳護照影本</label>
+        <%= f.file_field :copy_passport, class: "filestyle", "data-buttonText": "選擇檔案", "data-buttonBefore": "true" %>
+      </div>
+      <div class="form-group">
+        <label for="stockholder_copy_signature">上傳簽名頁影本</label>
+        <%= f.file_field :copy_signature, class: "filestyle", "data-buttonText": "選擇檔案", "data-buttonBefore": "true" %>
+      </div>
     </div>
   </div>
   

@@ -1,0 +1,20 @@
+<table class="table">
+  <thead>
+    <tr>
+   	  <th>中文姓名</th>
+   	  <th>英文姓名</th>
+   	  <th>護照號碼</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @stockholders.each do |stockholder| %>
+      <tr>
+     	  <td>
+     	    <%= link_to stockholder.name_zh, stockholder_path(stockholder) %>
+     	  </td>
+     	  <td><%= stockholder.name_en %></td>
+     	  <td><%= stockholder.passport %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

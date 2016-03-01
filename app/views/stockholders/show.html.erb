@@ -1,1 +1,11 @@
-<h1>show</h1>
+<h2><%= @stockholder.name_zh %> <%= @stockholder.name_en %></h2>
+<%= image_tag @stockholder.copy_passport.to_s %>
+
+<table class="table">
+  <% for attribute in @stockholder.attributes.except("id, name_zh, name_en").keys %>
+    <tr>
+      <th><%= attribute %></th>
+      <td><%= @stockholder.attributes[attribute] %></td>
+    </tr>
+  <% end %>
+</table>
