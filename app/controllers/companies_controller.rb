@@ -32,7 +32,7 @@ class CompaniesController < ApplicationController
     end
     
     def create
-        @company = Company.new(user_params)    # Not the final implementation!
+        @company = Company.new(user_params) 
         if @company.save
           redirect_to root_path
         else

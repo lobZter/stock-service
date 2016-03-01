@@ -11,10 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160228065653) do
+ActiveRecord::Schema.define(version: 20160301153446) do
 
   create_table "capital_increases", force: :cascade do |t|
-    t.integer  "company_id"
+    t.integer  "identity_id"
     t.string   "class"
     t.date     "date_issued"
     t.decimal  "fund"
@@ -70,6 +70,13 @@ ActiveRecord::Schema.define(version: 20160228065653) do
     t.datetime "updated_at",                null: false
   end
 
+  create_table "identities", force: :cascade do |t|
+    t.integer  "stockholder_id"
+    t.integer  "company_id"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
   create_table "stockholders", force: :cascade do |t|
     t.string   "name_zh"
     t.string   "name_en"
@@ -92,21 +99,18 @@ ActiveRecord::Schema.define(version: 20160228065653) do
   end
 
   create_table "stocks", force: :cascade do |t|
-    t.integer  "own_id"
-    t.boolean  "own_is_company"
-    t.integer  "stock_company_id"
+    t.integer  "identity_id"
+    t.integer  "company_id"
     t.string   "stock_class"
     t.decimal  "stock_num"
-    t.datetime "created_at",       null: false
-    t.datetime "updated_at",       null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "transactions", force: :cascade do |t|
     t.integer  "seller_id"
-    t.boolean  "seller_is_company"
     t.integer  "buyer_id"
-    t.boolean  "buyer_is_company"
-    t.integer  "stock_company_id"
+    t.integer  "company_id"
     t.string   "stock_class"
     t.date     "stock_issued_date"
     t.decimal  "fund"

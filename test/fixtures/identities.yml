@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  stockholder_id: 1
+  company_id: 1
+
+two:
+  stockholder_id: 1
+  company_id: 1
