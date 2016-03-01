@@ -11,11 +11,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160301153446) do
+ActiveRecord::Schema.define(version: 20160301164638) do
 
   create_table "capital_increases", force: :cascade do |t|
     t.integer  "identity_id"
-    t.string   "class"
     t.date     "date_issued"
     t.decimal  "fund"
     t.integer  "currency"
@@ -24,6 +23,7 @@ ActiveRecord::Schema.define(version: 20160301153446) do
     t.string   "remark"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.string   "stock_class"
   end
 
   create_table "companies", force: :cascade do |t|

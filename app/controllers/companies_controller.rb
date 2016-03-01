@@ -32,7 +32,7 @@ class CompaniesController < ApplicationController
     end
     
     def create
-        @company = Company.new(user_params) 
+        @company = Company.new(company_params) 
         if @company.save
           redirect_to root_path
         else
@@ -41,7 +41,7 @@ class CompaniesController < ApplicationController
     end
     
     private
-    def user_params
+    def company_params
         params.require(:company).permit(:name_zh, :name_en, :ein, :phone, :address, :chairman_name, :chairman_passport, :chairman_email, :cfo_name, :cfo_passport,
                                         :cfo_email, :ceo_name, :ceo_passport, :ceo_email, :accounting_name, :accounting_passport, :accounting_email, :registered_agent_name,
                                         :registered_agent_passport, :registered_agent_email, :us_account_bank, :us_account_num, :us_account_name, :us_account_bank_addr,
