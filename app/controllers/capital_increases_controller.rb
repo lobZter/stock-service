@@ -9,6 +9,7 @@ class CapitalIncreasesController < ApplicationController
   # POST /capital_increases
   def create
     @capital_increase = CapitalIncrease.create( capital_increase_params )
+
     redirect_to root_path
   end
   
