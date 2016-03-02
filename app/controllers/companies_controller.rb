@@ -32,8 +32,14 @@ class CompaniesController < ApplicationController
     end
     
     def create
-        @company = Company.new(company_params) 
-        if @company.save
+        
+        @company = Company.create(company_params)
+   
+        puts @company.inspect
+        @identity = Identity.new(:company_id => @company.id, :stockholder_id => nil)
+        
+        if @company.save and @identity.save
+          
           redirect_to root_path
         else
           render 'new'

@@ -5,4 +5,8 @@ Rails.application.routes.draw do
   resources :capital_increases
   resources :transactions
   resources :stocks
+  resources :identities do 
+    resources :companies
+  end
+  
 end
