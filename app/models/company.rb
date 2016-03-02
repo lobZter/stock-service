@@ -1,3 +1,3 @@
 class Company < ActiveRecord::Base
-  has_one :identities
+  has_one :identity
 end
