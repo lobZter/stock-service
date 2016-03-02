@@ -13,6 +13,6 @@ $ ->
   });
   
   # Calculate stock num
-  $('input.calculate-num').change ->
+  $('input.auto-calculate').change ->
     $('#company_stock_num').val $('#company_fund').val()/$('#company_stock_price').val()
     return
