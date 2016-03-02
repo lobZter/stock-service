@@ -2,7 +2,7 @@ class CompaniesController < ApplicationController
     def new
         @company = Company.new
         @currency_array = [["USD", 1], ["RMB", 2], ["NTD", 3]]
-        @stock_class_array = [["A股", 1], ["B股", 2], ["大屁股", 3]]
+        @stock_class_array = Stock.types
         
         @company_hash = {'Chinese' => :name_zh,
                         'English' => :name_en,
