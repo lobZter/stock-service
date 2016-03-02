@@ -1,0 +1,122 @@
+<h2><strong><%= @company.name_zh %> <%= @company.name_en %></strong></h2>
+
+<div class="well">
+
+  <table class="table">
+    <col width="150">
+    <thead>
+      <th class="caption_style">公司資料</th>
+    </thead>
+    <tbody>
+      <tr>
+        <th>稅號</th>
+        <td><%= @company.ein %></td>
+      </tr>
+      <tr>
+        <th>電話</th>
+        <td><%= @company.phone %></td>
+      </tr>
+      <tr>
+        <th>地址</th>
+        <td><%= @company.address %></td>
+      </tr>
+      <tr>
+        <th>成立日期</th>
+        <td><%= @company.date_establish %></td>
+      </tr>
+      <tr>
+        <th>年度會計日</th>
+        <td><%= @company.date_accounting %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="margin-top-40"><strong>負責人員</strong></h3>
+    
+  <table class="table">
+    <col width="150">
+    <col width="190">
+    <col width="190">
+    <col width="190">
+    <col width="190">
+    <col width="190">
+    <thead>
+      <th class="caption_style"></th>
+      <th class="caption_style">董事長</th>
+      <th class="caption_style">財務長</th>
+      <th class="caption_style">執行長</th>
+      <th class="caption_style">會計師事務所</th>
+      <th class="caption_style">Registered Agent</th>
+    </thead>
+    <tbody>
+      <tr>
+        <th>姓名</th>
+        <td><%= @company.chairman_name %></td>
+        <td><%= @company.cfo_name %></td>
+        <td><%= @company.ceo_name %></td>
+        <td><%= @company.accounting_name %></td>
+        <td><%= @company.registered_agent_name %></td>
+        
+      </tr>
+      <tr>
+        <th>護照號碼</th>
+        <td><%= @company.chairman_passport %></td>
+        <td><%= @company.cfo_passport %></td>
+        <td><%= @company.ceo_passport %></td>
+        <td><%= @company.accounting_passport %></td>
+        <td><%= @company.registered_agent_passport %></td>
+      </tr>
+      <tr>
+        <th>電子郵件</th>
+        <td><%= @company.chairman_email %></td>
+        <td><%= @company.cfo_email %></td>
+        <td><%= @company.ceo_email %></td>
+        <td><%= @company.accounting_email %></td>
+        <td><%= @company.registered_agent_email %></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3 class="margin-top-40"><strong>匯款帳戶資訊</strong></h3>
+
+  <table class="table">
+    <col width="150">
+    <col width="316">
+    <col width="316">
+    <col width="316">
+    <thead>
+      <th class="caption_style"></th>
+      <th class="caption_style">美金銀行</th>
+      <th class="caption_style">人民幣銀行</th>
+      <th class="caption_style">新台幣銀行</th>
+    </thead>
+    <tbody>
+      <tr>
+        <th>銀行名稱</th>
+        <td><%= @company.us_account_bank %></td>
+        <td><%= @company.cn_account_bank %></td>
+        <td><%= @company.tw_account_bank %></td>
+      </tr>
+      <tr>
+        <th>帳號</th>
+        <td><%= @company.us_account_num %></td>
+        <td><%= @company.cn_account_num %></td>
+        <td><%= @company.tw_account_num %></td>
+      </tr>
+      <tr>
+        <th>戶名</th>
+        <td><%= @company.us_account_name %></td>
+        <td><%= @company.cn_account_name %></td>
+        <td><%= @company.tw_account_name %></td>
+      </tr>
+      <tr>
+        <th>銀行地址</th>
+        <td><%= @company.us_account_bank_addr %></td>
+        <td><%= @company.cn_account_bank_addr %></td>
+        <td><%= @company.tw_account_bank_addr %></td>
+      </tr>
+    </tbody>
+  </table>
+      
+</div>
+

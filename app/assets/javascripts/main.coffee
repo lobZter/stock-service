@@ -11,7 +11,7 @@ $ ->
 
 
   $('#company_input').change ->
-    val = $('#stockholder_input').val()
+    val = $('#company_input').val()
     url = 'companies/' + $('#company_list [value="' + val + '"]').data('value')
     $('#company_search_btn').attr 'href', url
     return
