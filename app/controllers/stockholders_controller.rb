@@ -1,4 +1,5 @@
 class StockholdersController < ApplicationController
+  before_action :set_stockholder, :only => [:show, :edit, :update, :destroy]
   
   # GET /stockholders/index
   # GET /stockholders
@@ -10,8 +11,8 @@ class StockholdersController < ApplicationController
   def create
     @stockholder = Stockholder.new stockholder_params
     if @stockholder.save
-      redirect_to root_path
-      #redirect_to stockholder_url( @stockholder )
+      #redirect_to root_path
+      redirect_to stockholder_path( @stockholder )
     else
       render 'new'
     end
@@ -22,39 +23,39 @@ class StockholdersController < ApplicationController
     @stockholder = Stockholder.new
   end
   
-  # GET /stockholders/:id
-  def show
-    @stockholder = Stockholder.find( params[:id] )
+  # GET /stockholders/:id/edit
+  def edit
   end
   
-  # PATCH /stockholders/:id
+  # GET /stockholders/:id
+  def show
+  end
+  
+  # PUT /stockholders/:id
   def update
-    @stockholder = Stockholder.find (params[:id] )
-    @stockholder.update( stockholder_params )
+    @stockholder.update(stockholder_params)
 
-    redirect_to :action => :show, :id => @stockholder
+    redirect_to stockholder_path( @stockholder )
   end
   
   # DELETE /stockholders/:id
   def destroy
-    @stockholder = Stockholder.find(params[:id])
     @stockholder.destroy
   
-    redirect_to :action => :index
-  end
-  
-  # GET /stockholders/:id/edit
-  def edit
-    @stockholder = Stockholder.find(params[:id])
+    redirect_to root_path
   end
   
   private
-    def stockholder_params
-      params.require(:stockholder).permit(
-        :name_zh, :name_en, :is21, :representative,
-        :passport, :country, :phone, :wechat, :address, :email,
-        :account_bank, :account_num, :account_owner, :account_owner_id,
-        :copy_passport, :copy_signature)
-    end
+  def set_stockholder
+    @stockholder = Stockholder.find(params[:id])
+  end
+  
+  def stockholder_params
+    params.require(:stockholder).permit(
+      :name_zh, :name_en, :is21, :representative,
+      :passport, :country, :phone, :wechat, :address, :email,
+      :account_bank, :account_num, :account_owner, :account_owner_id,
+      :copy_passport, :copy_signature)
+  end
   
 end
