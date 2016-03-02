@@ -9,13 +9,16 @@ class StockholdersController < ApplicationController
   
   # POST /stockholders
   def create
-    @stockholder = Stockholder.new stockholder_params
-    if @stockholder.save
-      #redirect_to root_path
-      redirect_to stockholder_path( @stockholder )
-    else
-      render 'new'
-    end
+    @stockholder = Stockholder.create(stockholder_params)
+    @identity = Identity.create(:company_id => nil, :stockholder_id => @stockholder.id)
+    
+    redirect_to root_path
+    
+    #if @stockholder.save
+    #  redirect_to stockholder_path(@stockholder)
+    #else
+    #  render 'new'
+    #end
   end
   
   # GET /stockholders/new

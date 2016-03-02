@@ -5,15 +5,16 @@
     <div class="panel-body">
       
       <div class="form-group">
-        <label for="transaction_buyer_id">買方</label>
-        <select id="transaction_buyer_id" class="form-control" form="transaction_form" name="transaction[buyer_id]">
-        </select>
-      </div>
-      
-      <div class="form-group">
-        <label for="transaction_seller_id">賣方</label>
-        <select id="transaction_seller_id" class="form-control" form="transaction_form" name="transaction[seller_id]">
-        </select>
+        <div class="row">
+          <div class="col-md-6">
+            <label for="transaction_buyer_id">買方</label>
+            <%= f.select :buyer_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh, s.identity.id]}), {}, {class: "form-control"} %>
+          </div>
+          <div class="col-md-6">
+            <label for="transaction_seller_id">賣方</label>
+            <%= f.select :seller_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh, s.identity.id]}), {}, {class: "form-control"} %>
+          </div>
+        </div>
       </div>
       
       <div class="form-group">
@@ -42,7 +43,7 @@
         <div class="row">
           <div class="col-md-2">
             <%= f.label :fund, "投資金額" %>
-            <%= f.text_field :fund, class: "form-control" %>
+            <%= f.text_field :fund, class: "form-control auto-calculate" %>
           </div>
           <div class="col-md-2">
             <%= f.label :currency, "幣別" %>
@@ -55,7 +56,7 @@
         <div class="row">
           <div class="col-md-2">
             <label>交易金額</label>
-            <input class="form-control" type="text" placeholder="交易金額" readonly>
+            <input id="transaction_money" class="form-control auto-calculate" type="text" placeholder="交易金額" readonly>
           </div>
           <div class="col-md-2">
             <label>認定幣別</label>
@@ -63,7 +64,12 @@
           </div>
           <div class="col-md-2">
             <%= f.label :date_paid, "匯率轉換日" %>
-            <%= f.select :date_paid, @currency_array, {}, { :class => 'form-control' } %>
+            <div class="input-group date" id="transaction_datetimepicker1">
+              <%= f.text_field :date_paid , class: "form-control" %>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
           </div>
           <div class="col-md-2">
             <label>匯率</label>
@@ -76,11 +82,11 @@
         <div class="row">
           <div class="col-md-2">
             <%= f.label :stock_price, "每股價格" %>
-            <%= f.text_field :stock_price, class: "form-control" %>
+            <%= f.text_field :stock_price, class: "form-control auto-calculate" %>
           </div>
           <div class="col-md-2">
             <label>交易股數</label>
-            <input name="transaction[stock_num]" class="form-control" type="text" placeholder="交易股數" readonly>
+            <%= f.text_field :stock_num, {class: "form-control", placeholder: "交易股數", readonly: true} %>
           </div>
         </div>
       </div>
