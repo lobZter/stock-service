@@ -1,11 +1,80 @@
-<h2><%= @stockholder.name_zh %> <%= @stockholder.name_en %></h2>
-<%= image_tag @stockholder.copy_passport.to_s %>
+<h2><strong><%= @stockholder.name_zh %> <%= @stockholder.name_en %></strong></h2>
 
-<table class="table">
-  <% for attribute in @stockholder.attributes.except("id, name_zh, name_en").keys %>
-    <tr>
-      <th><%= attribute %></th>
-      <td><%= @stockholder.attributes[attribute] %></td>
-    </tr>
-  <% end %>
-</table>
+
+<div class="well">
+  <div class="row">
+    <div class="col-md-7">
+      <table class="table">
+        <caption>基本資料</caption>
+        <col width="250">
+        <tr>
+          <th>是否成年</th>
+          <td></td>
+        </tr>
+        <tr>
+          <th>護照號碼</th>
+          <td><%= @stockholder.passport %></td>
+        </tr>
+        <tr>
+          <th>國籍</th>
+          <td><%= @stockholder.country %></td>
+        </tr>
+      </table>
+        
+      <table class="table">
+        <caption>聯絡方式</caption>
+        <col width="250">
+        <tr>
+          <th>電話</th>
+          <td><%= @stockholder.phone %></td>
+        </tr>
+        <tr>
+          <th>微信</th>
+          <td><%= @stockholder.wechat %></td>
+        </tr>
+        <tr>
+          <th>郵寄地址</th>
+          <td><%= @stockholder.address %></td>
+        </tr>
+        <tr>
+          <th>電子信箱</th>
+          <td><%= @stockholder.email %></td>
+        </tr>
+      </table>
+      
+      <table class="table">
+        <caption>匯款帳號</caption>
+        <col width="250">
+        <tr>
+          <th>匯出銀行</th>
+          <td><%= @stockholder.account_bank %></td>
+        </tr>
+        <tr>
+          <th>帳號</th>
+          <td><%= @stockholder.account_num %></td>
+        </tr>
+        <tr>
+          <th>戶名</th>
+          <td><%= @stockholder.account_owner %></td>
+        </tr>
+        <tr>
+          <th>身分證件號</th>
+          <td><%= @stockholder.account_owner_id %></td>
+        </tr>
+      </table>
+    </div>
+    
+    <div class="col-md-5">
+      <table class="table">
+        <caption>護照影本</caption>
+        <tr><td><%= image_tag @stockholder.copy_passport.to_s, height: "300", width: "400", alt: "護照影本" %></td></tr>
+      </table>
+      <table class="table">
+        <caption>簽名頁影本</caption>
+        <tr><td><%= image_tag @stockholder.copy_signature.to_s, height: "300", width: "400", alt: "簽名頁影本" %></td></tr>
+      </table>
+      
+    </div>
+  </div>
+</div>
+
