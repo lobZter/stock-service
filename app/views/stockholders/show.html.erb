@@ -9,7 +9,27 @@
         <col width="250">
         <tr>
           <th>是否成年</th>
-          <td></td>
+          <td>
+            <% if @stockholder.is21? %>
+              <input type="checkbox" id="is21" checked disabled readonly> 成年</input>
+              &nbsp;&nbsp;&nbsp;
+              <input type="checkbox" id="isnt21" disabled readonly> 未成年</input>
+            <% else %>
+              <input type="checkbox" id="is21" disabled readonly> 成年</input>
+              &nbsp;&nbsp;&nbsp;
+              <input type="checkbox" id="isnt21" checked disabled readonly> 未成年</input>
+            <% end %>
+          </td>
+        </tr>
+        <tr>
+          <td>法定代理人</td>
+          <td>
+            <% if @stockholder.representative? %>
+              <%= @stockholder.representative %>
+            <% else %>
+              N/A
+            <% end %>
+          </td>
         </tr>
         <tr>
           <th>護照號碼</th>
