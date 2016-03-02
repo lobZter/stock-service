@@ -8,13 +8,7 @@
       <div class="row">
         <div class="col-sm-4">
           <label>公司名稱</label>
-          <select class="form-control">
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-          </select>
+          <%= f.select :identity_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} ), {}, {:class => 'form-control'} %>
         </div>
       </div>
     </div>
@@ -26,16 +20,20 @@
           <%= f.select :currency, options_for_select([['NTD', 1], ['USD', 2], ['RMB', 3]]), {}, {:class => 'form-control'} %>
         </div>
         <div class="col-sm-2">
+          <label>股票類型</label>          
+          <%= f.select :stock_class, options_for_select([['A股', 1], ['屁股', 2], ['C股', 3]]), {}, {:class => 'form-control'} %>
+        </div>
+        <div class="col-sm-2">
           <label>金額</label>
-          <%= f.text_field :fund, {class: 'form-control', placeholder: "減資請填負數"} %>
+          <%= f.text_field :fund, {class: 'form-control auto-calculate', placeholder: "減資請填負數"} %>
         </div>
         <div class="col-sm-2">
           <label>每股面額</label>
-          <%= f.text_field :stock_price, {class: 'form-control'} %>
+          <%= f.text_field :stock_price, {class: 'form-control auto-calculate'} %>
         </div>
         <div class="col-sm-2">
           <label>本次總股數</label>
-          <%= f.text_field :fund, {class: 'form-control', readonly: true} %>
+          <%= f.text_field :stock_num, {class: 'form-control', readonly: true} %>
         </div>
       </div>
     </div>
