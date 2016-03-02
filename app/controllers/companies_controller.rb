@@ -4,7 +4,7 @@ class CompaniesController < ApplicationController
     def new
         @company = Company.new
         @currency_array = [["USD", 1], ["RMB", 2], ["NTD", 3]]
-        @stock_class_array = [["A股", 1], ["B股", 2], ["大屁股", 3]]
+        @stock_class_array = Stock.types
         
         @company_hash = {'Chinese' => :name_zh,
                         'English' => :name_en,
@@ -36,6 +36,10 @@ class CompaniesController < ApplicationController
     def create
         @company = Company.create(company_params)
         @identity = Identity.create(:company_id => @company.id, :stockholder_id => nil)
+        
+        puts "HEREHEREHEREHEREHEREHERE"
+        puts params["company"]["stock_class"]
+        @stock = Stock.create(:identity_id => @identity.id, :company_id => @company.id, :stock_class => params["company"]["stock_class"], :stock_num => params["company"]["stock_num"])
         redirect_to root_path
     end
     

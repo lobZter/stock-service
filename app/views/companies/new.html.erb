@@ -264,19 +264,19 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">資本額</label>
             <div class="col-sm-8">
-              <%= f.text_field :fund, class: 'form-control calculate-num', id: 'company_fund'%>
+              <%= f.text_field :fund, class: 'form-control auto-calculate'%>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">每股面額</label>
             <div class="col-sm-8">
-              <%= f.text_field :stock_price, class: 'form-control calculate-num', id: 'company_stock_price' %>
+              <%= f.text_field :stock_price, class: 'form-control auto-calculate' %>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">股票種類</label>
             <div class="col-sm-2">
-                <%= f.select :currency, @stock_class_array, {}, { :class => 'form-control' } %>
+                <%= f.select :stock_class, @stock_class_array, {}, { :class => 'form-control' } %>
             </div>
           </div>
           <div class="form-group">
@@ -288,7 +288,7 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">原始股數</label>
             <div class="col-sm-2">
-               <input name="company[stock_num]" class="form-control" type="text" placeholder="交易股數" id="company_stock_num"readonly>
+              <%= f.text_field :stock_num, {class: 'form-control', readonly: true} %>
             </div>
           </div>
         </div>
