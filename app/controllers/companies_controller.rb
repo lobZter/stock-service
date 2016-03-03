@@ -44,6 +44,7 @@ class CompaniesController < ApplicationController
     end
     
     def show
+      @currency_array = [nil, "USD 美金", "RMB 人民幣", "NTD 新台幣"]
     end
     
     private
