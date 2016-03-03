@@ -1,4 +1,6 @@
 class CompaniesController < ApplicationController
+    before_action :set_company, :only => [:show, :edit, :update, :destroy]
+  
     def new
         @company = Company.new
         @currency_array = [["USD", 1], ["RMB", 2], ["NTD", 3]]
@@ -39,10 +41,16 @@ class CompaniesController < ApplicationController
         puts params["company"]["stock_class"]
         @stock = Stock.create(:identity_id => @identity.id, :company_id => @company.id, :stock_class => params["company"]["stock_class"], :stock_num => params["company"]["stock_num"])
         redirect_to root_path
-        
+    end
+    
+    def show
     end
     
     private
+    def set_company
+        @company = Company.find(params[:id])
+    end
+    
     def company_params
         params.require(:company).permit(:name_zh, :name_en, :ein, :phone, :address, :chairman_name, :chairman_passport, :chairman_email, :cfo_name, :cfo_passport,
                                         :cfo_email, :ceo_name, :ceo_passport, :ceo_email, :accounting_name, :accounting_passport, :accounting_email, :registered_agent_name,
