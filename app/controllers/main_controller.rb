@@ -7,7 +7,7 @@ class MainController < ApplicationController
     
     def check_login
         puts params
-        if params["account"] == "admin" and params["password"] == "00000000"
+        if params["account"] == "asd" and params["password"] == "asd"
             session[:name] = "admin"
             session[:is_admin] = true
             session[:is_login] = true
