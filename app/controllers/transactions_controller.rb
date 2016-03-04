@@ -1,5 +1,14 @@
 class TransactionsController < ApplicationController
+  before_action :set_transactions, :only => :index
+  layout 'fluid_application', :only => :index
   
+  
+  # GET /transactions
+  # GET /transactions/index
+  def index
+
+  end
+ 
   # GET /transactions/new
   def new
     @transaction = Transaction.new
@@ -9,8 +18,14 @@ class TransactionsController < ApplicationController
     @stockholders = Stockholder.all
   end
   
-   # POST /transactions
+  # POST /transactions
   def create
+  end
+  
+  private
+  
+  def set_transactions
+    @transactions = Transaction.all
   end
   
 end
