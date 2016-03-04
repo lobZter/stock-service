@@ -1,31 +1,42 @@
 <%= form_for @capital_increase do |f| %>
 
 <div class="panel panel-default">
-  <div class="panel-heading">新增公司增資</div>
+  <div class="panel-heading">公司增資</div>
   <div class="panel-body">
+    
+    <!--<div class="btn-group" data-toggle="buttons">-->
+    <!--  <label class="btn btn-default active">-->
+    <!--    <input type="radio" name="capital_increase[is_increase]" id="is_increase" autocomplete="off" checked> 增資-->
+    <!--  </label>-->
+    <!--  <label class="btn btn-default">-->
+    <!--    <input type="radio" name="capital_increase[is_increase]" id="is_decrease" autocomplete="off"> 減資-->
+    <!--  </label>-->
+    <!--</div><-->
 
     <div class="form-group">
-      <div class="row">
+      <div class="row no-margin-top">
         <div class="col-sm-4">
           <label>公司名稱</label>
           <%= f.select :identity_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} ), {}, {:class => 'form-control'} %>
         </div>
+        <div class="col-sm-4">
+          <label>股票類型</label>
+          <input type="text" id="capital_increase_stock_class" name="capital_increase[stock_class]" class="form-control" list="stock_class_list" >
+          <datalist id="stock_class_list">
+          </datalist>
+        </div>
       </div>
     </div>
-    
+
     <div class="form-group">
       <div class="row">
         <div class="col-sm-2">
-          <label>幣別</label>          
-          <%= f.select :currency, options_for_select([['NTD', 1], ['USD', 2], ['RMB', 3]]), {}, {:class => 'form-control'} %>
-        </div>
-        <div class="col-sm-2">
-          <label>股票類型</label>          
-          <%= f.select :stock_class, options_for_select([['A股', 1], ['屁股', 2], ['C股', 3]]), {}, {:class => 'form-control'} %>
-        </div>
-        <div class="col-sm-2">
           <label>金額</label>
           <%= f.text_field :fund, {class: 'form-control auto-calculate', placeholder: "減資請填負數"} %>
+        </div>
+        <div class="col-sm-2">
+          <label>幣別</label>          
+          <%= f.select :currency, @currency_array, {}, {:class => 'form-control'} %>
         </div>
         <div class="col-sm-2">
           <label>每股面額</label>
@@ -33,19 +44,23 @@
         </div>
         <div class="col-sm-2">
           <label>本次總股數</label>
-          <%= f.text_field :stock_num, {class: 'form-control', readonly: true} %>
+          <%= f.text_field :stock_num, {class: 'form-control'} %>
         </div>
       </div>
     </div>
     
     <div class="form-group">
-        <label>生效日期</label>
-        <div class='input-group date' id='capital_increases_datetimepicker1'>
-          <%= f.text_field :date_issued , class: 'form-control' %>
-          <span class="input-group-addon">
-              <span class="glyphicon glyphicon-calendar"></span>
-          </span>
+      <div class="row no-margin-top">
+        <div class="col-md-4">
+          <label>生效日期</label>
+          <div class='input-group date' id='capital_increases_datetimepicker1'>
+            <%= f.text_field :date_issued , class: 'form-control' %>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
         </div>
+      </div>
     </div>
 
     <div class="form-group">
@@ -58,4 +73,5 @@
     </div>
   </div>
 </div>
+
 <% end %>

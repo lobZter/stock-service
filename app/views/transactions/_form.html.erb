@@ -5,7 +5,7 @@
     <div class="panel-body">
       
       <div class="form-group">
-        <div class="row">
+        <div class="row no-margin-top">
           <div class="col-md-6">
             <label for="transaction_buyer_id">買方</label>
             <%= f.select :buyer_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh, s.identity.id]}), {}, {class: "form-control"} %>

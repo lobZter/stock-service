@@ -9,7 +9,11 @@ class CapitalIncreasesController < ApplicationController
   # POST /capital_increases
   def create
     @capital_increase = CapitalIncrease.create( capital_increase_params )
-
+    # @stock = Stock.create(:identity_id => params["capital_increase"]["identity_id"],
+    #                       :company_id => Identity.find(params["capital_increase"]["identity_id"]).company_id,
+    #                       :stock_class => params["capital_increase"]["stock_class"],
+    #                       :stock_num => params["capital_increase"]["stock_num"])
+    
     redirect_to root_path
   end
   
@@ -17,12 +21,7 @@ class CapitalIncreasesController < ApplicationController
   def new
     @capital_increase = CapitalIncrease.new
     @companies = Company.all
-
-    @companies.each do |c|
-      puts c.identity.id
-      
-    end
-    #print @companies.map { |c| [c.name_zh, c.identity.id] } 
+    @currency_array = [["USD", 1], ["RMB", 2], ["NTD", 3]]
   end
   
   # # GET /capital_increases/:id
@@ -54,6 +53,6 @@ class CapitalIncreasesController < ApplicationController
   private
     def capital_increase_params
       params.require(:capital_increase).permit(:identity_id, :date_issued, :fund, :currency,
-                     :stock_price, :stock_num, :remark, :created_at, :updated_at, :stock_class)
+          :stock_price, :stock_num, :remark, :created_at, :updated_at, :stock_class)
     end
 end
