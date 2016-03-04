@@ -1,4 +1,5 @@
 class IdentitiesController < ApplicationController
+  
   def show
     @identity = Identity.find(params[:id])
     

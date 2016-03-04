@@ -25,7 +25,7 @@ class TransactionsController < ApplicationController
         :contract_0_needed, :contract_1_needed, :contract_2_needed, :contract_3_needed, 
         :contract_4_needed, :contract_5_needed, :contract_6_needed, :contract_7_needed, 
         :send_buyer, :send_seller, :remark, :remark_contract,
-        :fund_original, :currency_original, :exchange_rate)
+        :fund_original, :currency_original, :exchange_rate, :stock)
   end
   
 end

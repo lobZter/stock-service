@@ -3,14 +3,12 @@ Rails.application.routes.draw do
   get   'login'  => 'main#login'
   post  'login'  => 'main#check_login'
   get   'logout' => 'main#logout'
-  get   '/stocks/class' => 'stocks#stock_class'
   resources :stockholders
   resources :companies
   resources :capital_increases
   resources :transactions
-  resources :stocks
   resources :identities do 
-    resources :companies
+    resources :stocks, :only => [:index]
   end
   
 end

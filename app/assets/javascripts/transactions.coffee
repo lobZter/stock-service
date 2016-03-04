@@ -25,7 +25,20 @@ $ ->
     # Stock number
     $('#transaction_stock_num').val($('#transaction_money').val()/$('#transaction_stock_price').val())
     return
-    
-  $('#transaction_buyer_id').change ->
-    
+
+  $('#transaction_seller_id').change ->
+    i_id = $('#transaction_seller_id').val()
+    url = '/identities/' + i_id + '/stocks'
+    $.get url, (data, status) ->
+      stocks = JSON.parse(data)
+      i = 0
+      while i < Object.keys(stocks).length
+        val = stocks[i].company_name + '/' + stocks[i].stock_class + '/' + stocks[i].date_issued
+        $('#transaction_stock').append '<option value="' + val + '">' + val + '</option>'
+        i++
+      return
     return
+
+
+
+

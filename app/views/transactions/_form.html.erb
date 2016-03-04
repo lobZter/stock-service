@@ -6,35 +6,18 @@
       
       <div class="form-group">
         <div class="row no-margin-top">
-          <div class="col-md-6">
+          <div class="col-md-4">
             <%= f.label :buyer_id, "買方" %>
             <%= f.select :buyer_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh, s.identity.id]}), {}, {class: "form-control"} %>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <%= f.label :seller_id, "賣方" %>
             <%= f.select :seller_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh, s.identity.id]}), {}, {class: "form-control"} %>
           </div>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <div class="row">
           <div class="col-md-4">
-            <%= f.label :stock_company_id, "發行公司" %>
-            <select id="transaction_stock_company_id" class="form-control" form="transaction_form" name="transaction[stock_company_id]">
-            </select>
-          </div>
-          
-          <div class="col-md-4">
-            <%= f.label :stock_class, "股票類別" %>
-            <select id="transaction_stock_class" class="form-control" form="transaction_form" name="transaction[stock_class]">
-            </select>
-          </div>
-          
-          <div class="col-md-4">
-            <%= f.label :stock_issued_date, "發行日期" %>
-            <select id="transaction_stock_issued_date" class="form-control" form="transaction_form" name="transaction[stock_issued_date]">
-            </select>
+            <%= f.label :stock, "股票" %>
+            <select class="form-control" name="transaction[stock]" id="transaction_stock"></select>
+            <span class="help-block no-margin-bottom">發行公司/股票類別/發行日期</span>
           </div>
         </div>
       </div>
