@@ -32,6 +32,7 @@ class StockholdersController < ApplicationController
   
   # GET /stockholders/:id
   def show
+    @stocks = Stock.where("identity_id= ?", Stockholder.find(params[:id]).identity.id)
   end
   
   # PUT /stockholders/:id

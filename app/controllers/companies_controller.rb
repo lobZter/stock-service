@@ -46,14 +46,14 @@ class CompaniesController < ApplicationController
   
   private
   def set_company
-      @company = Company.find(params[:id])
+    @company = Company.find(params[:id])
   end
     
   def company_params
-      params.require(:company).permit(:name_zh, :name_en, :ein, :phone, :address, :chairman_name, :chairman_passport, :chairman_email, :cfo_name, :cfo_passport,
-                                      :cfo_email, :ceo_name, :ceo_passport, :ceo_email, :accounting_name, :accounting_passport, :accounting_email, :registered_agent_name,
-                                      :registered_agent_passport, :registered_agent_email, :us_account_bank, :us_account_num, :us_account_name, :us_account_bank_addr,
-                                      :cn_account_bank, :cn_account_num, :cn_account_name, :cn_account_bank_addr, :tw_account_bank, :tw_account_num, :tw_account_name,
-                                      :tw_account_bank_addr, :date_establish, :date_accounting, :fund, :currency, :stock_class, :stock_price, :stock_num)
+    params.require(:company).permit(:name_zh, :name_en, :ein, :phone, :address, :chairman_name, :chairman_passport, :chairman_email, :cfo_name, :cfo_passport,
+                                    :cfo_email, :ceo_name, :ceo_passport, :ceo_email, :accounting_name, :accounting_passport, :accounting_email, :registered_agent_name,
+                                    :registered_agent_passport, :registered_agent_email, :us_account_bank, :us_account_num, :us_account_name, :us_account_bank_addr,
+                                    :cn_account_bank, :cn_account_num, :cn_account_name, :cn_account_bank_addr, :tw_account_bank, :tw_account_num, :tw_account_name,
+                                    :tw_account_bank_addr, :date_establish, :date_accounting, :fund, :currency, :stock_class, :stock_price, :stock_num)
   end
 end
