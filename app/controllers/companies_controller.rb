@@ -35,7 +35,20 @@ class CompaniesController < ApplicationController
   def create
     @company = Company.create(company_params)
     @identity = Identity.create(:company_id => @company.id, :stockholder_id => nil)
-    @stock = Stock.create(:identity_id => @identity.id, :company_id => @company.id, :stock_class => params["company"]["stock_class"], :stock_num => params["company"]["stock_num"])
+    @capital_increase = Capital_increase.create(
+      :identity_id => @company.identity_id,
+      :stock_class => @company.stock_class,
+      :date_issued => @company.date_establish,
+      :fund => @company.fund,
+      :currency => @company.currency,
+      :stock_price => @company.stock_price,
+      :stock_num => @company.stock_num)
+    @stock = Stock.create(
+      :identity_id => @capital_increase.identity_id,
+      :company_id => @company.id,
+      :stock_class => @capital_increase.stock_class,
+      :date_issued => @capital_increase.date_issued,
+      :stock_num => @capital_increase.stock_num)
     
     redirect_to root_path
   end
