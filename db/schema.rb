@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160301164638) do
+ActiveRecord::Schema.define(version: 20160304202354) do
 
   create_table "capital_increases", force: :cascade do |t|
     t.integer  "identity_id"
@@ -68,6 +68,7 @@ ActiveRecord::Schema.define(version: 20160301164638) do
     t.decimal  "stock_num"
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
+    t.integer  "identity_id"
   end
 
   create_table "identities", force: :cascade do |t|
@@ -96,6 +97,7 @@ ActiveRecord::Schema.define(version: 20160301164638) do
     t.string   "copy_signature"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
+    t.integer  "identity_id"
   end
 
   create_table "stocks", force: :cascade do |t|

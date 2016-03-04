@@ -12,13 +12,10 @@ class StockholdersController < ApplicationController
     @stockholder = Stockholder.create(stockholder_params)
     @identity = Identity.create(:company_id => nil, :stockholder_id => @stockholder.id)
     
-    redirect_to root_path
+    @stockholder.identity_id = @identity.id
+    @stockholder.save
     
-    #if @stockholder.save
-    #  redirect_to stockholder_path(@stockholder)
-    #else
-    #  render 'new'
-    #end
+    redirect_to root_path
   end
   
   # GET /stockholders/new

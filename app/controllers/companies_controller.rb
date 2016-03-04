@@ -37,8 +37,9 @@ class CompaniesController < ApplicationController
         @company = Company.create(company_params)
         @identity = Identity.create(:company_id => @company.id, :stockholder_id => nil)
         
-        puts "HEREHEREHEREHEREHEREHERE"
-        puts params["company"]["stock_class"]
+        @company.identity_id = @identity.id
+        @company.save
+        
         @stock = Stock.create(:identity_id => @identity.id, :company_id => @company.id, :stock_class => params["company"]["stock_class"], :stock_num => params["company"]["stock_num"])
         redirect_to root_path
     end
