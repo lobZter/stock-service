@@ -1,7 +1,7 @@
 <h2><strong><%= @stockholder.name_zh %> <%= @stockholder.name_en %></strong></h2>
 
 <div class="well">
-  <div class="row">
+  <div class="row no-margin-top">
     <div class="col-md-6">
       <table class="table">
         <caption>基本資料</caption>
@@ -94,8 +94,25 @@
     </div>
     
     <div class="col-md-6">
-      
-      
+      <h3><strong>持有股票</strong></h3>
+      <table class="table table-hover">
+        <thead>
+          <th>發行公司</th>
+          <th>類別</th>
+          <th>持有股數</th>
+        </thead>
+        <% if @stocks.size == 0 %>
+          <tr><td colspan="3">無資料</td></tr>
+        <% else %>
+          <% @stocks.each do |s| %>
+            <tr>
+              <td>s.company_id</td>
+              <td>s.stock_class</td>
+              <td>s.stock_num</td>
+            </tr>
+          <% end %>
+        <% end %>
+      </table>
     </div>
   </div>
 </div>

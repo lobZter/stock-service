@@ -7,11 +7,21 @@ $ ->
   $('#transaction_datetimepicker1').datetimepicker({
      format: 'YYYY/MM/DD'
   });
+  
+  $('#transaction_datetimepicker2').datetimepicker({
+     format: 'YYYY/MM/DD'
+  });
+  
+  $('#transaction_datetimepicker3').datetimepicker({
+     format: 'YYYY/MM/DD'
+  });
+    
+  $('#transaction_datetimepicker4').datetimepicker({
+     format: 'YYYY/MM/DD'
+  });
 
   # Calculate 
   $('input.auto-calculate').change ->
-    # Apply to exchange rate
-    $('#transaction_money').val($('#transaction_fund').val()*$('#transaction_exchange_rate').val())
     # Stock number
     $('#transaction_stock_num').val($('#transaction_money').val()/$('#transaction_stock_price').val())
     return

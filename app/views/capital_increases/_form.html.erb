@@ -16,43 +16,17 @@
     <div class="form-group">
       <div class="row no-margin-top">
         <div class="col-sm-4">
-          <label>公司名稱</label>
+          <%= f.label :identity_id, "公司名稱" %>
           <%= f.select :identity_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} ), {}, {:class => 'form-control'} %>
         </div>
         <div class="col-sm-4">
-          <label>股票類型</label>
-          <input type="text" id="capital_increase_stock_class" name="capital_increase[stock_class]" class="form-control" list="stock_class_list" >
+          <%= f.label :stock_class, "股票類型" %>
+          <%= f.text_field :stock_class, {class: "form-control", list: "stock_class_list"} %>
           <datalist id="stock_class_list">
           </datalist>
         </div>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <div class="row">
-        <div class="col-sm-2">
-          <label>金額</label>
-          <%= f.text_field :fund, {class: 'form-control auto-calculate', placeholder: "減資請填負數"} %>
-        </div>
-        <div class="col-sm-2">
-          <label>幣別</label>          
-          <%= f.select :currency, @currency_array, {}, {:class => 'form-control'} %>
-        </div>
-        <div class="col-sm-2">
-          <label>每股面額</label>
-          <%= f.text_field :stock_price, {class: 'form-control auto-calculate'} %>
-        </div>
-        <div class="col-sm-2">
-          <label>本次總股數</label>
-          <%= f.text_field :stock_num, {class: 'form-control'} %>
-        </div>
-      </div>
-    </div>
-    
-    <div class="form-group">
-      <div class="row no-margin-top">
         <div class="col-md-4">
-          <label>生效日期</label>
+          <%= f.label :date_issued, "生效日期" %>
           <div class='input-group date' id='capital_increases_datetimepicker1'>
             <%= f.text_field :date_issued , class: 'form-control' %>
             <span class="input-group-addon">
@@ -64,7 +38,28 @@
     </div>
 
     <div class="form-group">
-      <label>備註</label>
+      <div class="row">
+        <div class="col-sm-2">
+          <%= f.label :fund, "金額" %>
+          <%= f.text_field :fund, {class: 'form-control auto-calculate', placeholder: "減資請填負數"} %>
+        </div>
+        <div class="col-sm-2">
+          <%= f.label :currency, "認定幣別" %>
+          <%= f.select :currency, @currency_array, {}, {:class => 'form-control'} %>
+        </div>
+        <div class="col-sm-2">
+          <%= f.label :stock_price, "每股面額" %>
+          <%= f.text_field :stock_price, {class: 'form-control auto-calculate'} %>
+        </div>
+        <div class="col-sm-2">
+          <%= f.label :stock_num, "本次總股數" %>
+          <%= f.text_field :stock_num, {class: 'form-control'} %>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <%= f.label :remark, "備註" %>
       <%= f.text_area :remark, {class: 'form-control', rows: 5} %>
     </div>
 

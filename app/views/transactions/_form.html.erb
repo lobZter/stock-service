@@ -7,11 +7,11 @@
       <div class="form-group">
         <div class="row no-margin-top">
           <div class="col-md-6">
-            <label for="transaction_buyer_id">買方</label>
+            <%= f.label :buyer_id, "買方" %>
             <%= f.select :buyer_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh, s.identity.id]}), {}, {class: "form-control"} %>
           </div>
           <div class="col-md-6">
-            <label for="transaction_seller_id">賣方</label>
+            <%= f.label :seller_id, "賣方" %>
             <%= f.select :seller_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh, s.identity.id]}), {}, {class: "form-control"} %>
           </div>
         </div>
@@ -20,19 +20,19 @@
       <div class="form-group">
         <div class="row">
           <div class="col-md-4">
-            <label for="transaction_stock_company_id">發行公司</label>
+            <%= f.label :stock_company_id, "發行公司" %>
             <select id="transaction_stock_company_id" class="form-control" form="transaction_form" name="transaction[stock_company_id]">
             </select>
           </div>
           
           <div class="col-md-4">
-            <label for="transaction_stock_class">股票類別</label>
+            <%= f.label :stock_class, "股票類別" %>
             <select id="transaction_stock_class" class="form-control" form="transaction_form" name="transaction[stock_class]">
             </select>
           </div>
           
           <div class="col-md-4">
-            <label for="transaction_stock_issued_date">發行日期</label>
+            <%= f.label :stock_issued_date, "發行日期" %>
             <select id="transaction_stock_issued_date" class="form-control" form="transaction_form" name="transaction[stock_issued_date]">
             </select>
           </div>
@@ -42,12 +42,12 @@
       <div class="form-group">
         <div class="row">
           <div class="col-md-2">
-            <%= f.label :fund, "投資金額" %>
-            <%= f.text_field :fund, class: "form-control auto-calculate" %>
+            <%= f.label :fund_original, "投資金額" %>
+            <%= f.text_field :fund_original, class: "form-control" %>
           </div>
           <div class="col-md-2">
-            <%= f.label :currency, "幣別" %>
-            <%= f.select :currency, @currency_array, {}, { :class => 'form-control' } %>
+            <%= f.label :currency_original, "幣別" %>
+            <%= f.select :currency_original, @currency_array, {}, { class: 'form-control' } %>
           </div>
         </div>
       </div>
@@ -55,12 +55,14 @@
       <div class="form-group">
         <div class="row">
           <div class="col-md-2">
-            <label>交易金額</label>
-            <input id="transaction_money" class="form-control auto-calculate" type="text" placeholder="交易金額" readonly>
+            <%= f.label :fund, "交易金額" %>
+            <%= f.text_field :fund, class: "form-control" %>
+            <span class="help-block no-margin-bottom">投資金額 * 匯率</span>
           </div>
           <div class="col-md-2">
-            <label>認定幣別</label>
-            <input class="form-control" type="text" placeholder="好像要AJAX" readonly>
+            <%= f.label :currency, "認定幣別" %>
+            <%= f.text_field :currency, {class: "form-control", readonly: true} %>
+            <span class="help-block no-margin-bottom">由股票發行公司決定</span>
           </div>
           <div class="col-md-2">
             <%= f.label :date_paid, "匯率轉換日" %>
@@ -72,8 +74,8 @@
             </div>
           </div>
           <div class="col-md-2">
-            <label>匯率</label>
-            <input class="form-control" type="text" placeholder="匯率...." readonly>
+            <%= f.label :exchange_rate, "匯率" %>
+            <%= f.text_field :exchange_rate, class: "form-control" %>
           </div>
         </div>
       </div>
@@ -85,83 +87,135 @@
             <%= f.text_field :stock_price, class: "form-control auto-calculate" %>
           </div>
           <div class="col-md-2">
-            <label>交易股數</label>
-            <%= f.text_field :stock_num, {class: "form-control", placeholder: "交易股數", readonly: true} %>
+            <%= f.label :stock_num, "交易股數" %>
+            <%= f.text_field :stock_num, class: "form-control" %>
           </div>
         </div>
       </div>
       
       <div class="form-group">
-        <label for="transaction_remark">備註</label>
-        <textarea name="transaction[remark]" form="transaction_form" id="transaction_remark" class="form-control" rows="5">備註...</textarea>
+        <div class="row">
+          <div class="col-md-4">
+            <%= f.label :date_signed, "簽約日" %>
+            <div class="input-group date" id="transaction_datetimepicker2">
+              <%= f.text_field :date_signed , class: "form-control" %>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <%= f.label :remark, "備註" %>
+        <textarea name="transaction[remark]" form="transaction_form" id="transaction_remark" class="form-control" rows="5"></textarea>
       </div>
       
     </div>
   </div>
   
   <div class="panel panel-default">
-    <div class="panel-heading">和約</div>
+    <div class="panel-heading">和約上傳區</div>
     <div class="panel-body">
-      <div class="form-group">
-        <label>
-          <%= f.check_box :contract_0_needed, checked: true %> 意向書
-        </label>
-        <%= f.file_field :contract_0, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+      <div class="row no-margin-top">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>
+              <%= f.check_box :contract_0_needed, checked: true %> 意向書
+            </label>
+            <%= f.file_field :contract_0, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+          </div>
+          <div class="form-group">
+            <label>
+              <%= f.check_box :contract_1_needed, checked: true  %> Regular S
+            </label>
+            <%= f.file_field :contract_1, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+          </div>
+          <div class="form-group">
+            <label>
+              <%= f.check_box :contract_2_needed, checked: true  %> 中文股份買賣合約-美金
+            </label>
+            <%= f.file_field :contract_2, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+          </div>
+          <div class="form-group">
+            <label>
+              <%= f.check_box :contract_3_needed, checked: true  %> 中文股份買賣合約-美金
+            </label>
+            <%= f.file_field :contract_3, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="form-group">
+            <label>
+              <%= f.check_box :contract_4_needed, checked: true  %> Share Purchase Agreement
+            </label>
+            <%= f.file_field :contract_4, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+          </div>
+          <div class="form-group">
+            <label>
+              <%= f.check_box :contract_5_needed, checked: true  %> W-8 Ben
+            </label>
+            <%= f.file_field :contract_5, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+          </div>
+          <div class="form-group">
+            <label>
+              <%= f.check_box :contract_6_needed, checked: true  %> 換股協議書
+            </label>
+            <%= f.file_field :contract_6, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+          </div>
+          <div class="form-group">
+            <label>
+              <%= f.check_box :contract_7_needed, checked: true  %> 聲明書
+            </label>
+            <%= f.file_field :contract_7, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+          </div>
+        </div>
       </div>
+      
       <div class="form-group">
-        <label>
-          <%= f.check_box :contract_1_needed, checked: true  %> Regular S
-        </label>
-        <%= f.file_field :contract_1, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+        <%= f.label :remark_contract, "合約備註" %>
+        <textarea name="transaction[remark_contract]" form="transaction_form" id="transaction_remark_contract" class="form-control" rows="5"></textarea>
       </div>
+    </div>
+  </div>
+      
+      
+  <div class="panel panel-default">
+    <div class="panel-heading">郵寄資料上傳</div>
+    <div class="panel-body">   
+    
       <div class="form-group">
-        <label>
-          <%= f.check_box :contract_2_needed, checked: true  %> 中文股份買賣合約-美金
-        </label>
-        <%= f.file_field :contract_2, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-      </div>
-      <div class="form-group">
-        <label>
-          <%= f.check_box :contract_3_needed, checked: true  %> 中文股份買賣合約-美金
-        </label>
-        <%= f.file_field :contract_3, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-      </div>
-      <div class="form-group">
-        <label>
-          <%= f.check_box :contract_4_needed, checked: true  %> Share Purchase Agreement
-        </label>
-        <%= f.file_field :contract_4, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-      </div>
-      <div class="form-group">
-        <label>
-          <%= f.check_box :contract_5_needed, checked: true  %> W-8 Ben
-        </label>
-        <%= f.file_field :contract_5, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-      </div>
-      <div class="form-group">
-        <label>
-          <%= f.check_box :contract_6_needed, checked: true  %> 換股協議書
-        </label>
-        <%= f.file_field :contract_6, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-      </div>
-      <div class="form-group">
-        <label>
-          <%= f.check_box :contract_7_needed, checked: true  %> 聲明書
-        </label>
-        <%= f.file_field :contract_7, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-      </div>
-      <div class="form-group">
-        <label for="stockholder_contract_8">郵寄地址證明</label>
+        <%= f.label :contract_8, "郵寄地址證明" %>
         <%= f.file_field :contract_8, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
       </div>
       <div class="form-group">
-        <label for="stockholder_contract_9">銀行水單</label>
+        <%= f.label :contract_9, "銀行水單" %>
         <%= f.file_field :contract_9, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
       </div>
       
       <div class="form-group">
-        <label for="transaction_remark">備註</label>
-        <textarea name="transaction[remark]" form="transaction_form" id="transaction_remark" class="form-control" rows="5">備註...</textarea>
+        <div class="row">
+          <div class="col-md-4">
+            <%= f.label :send_buyer, "合約郵寄日期 - 買方" %>
+            <div class="input-group date" id="transaction_datetimepicker3">
+              <%= f.text_field :send_buyer , class: "form-control" %>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+            <span class="help-block no-margin-bottom">填寫寄送日期，未寄送請留白</span>
+          </div>
+          <div class="col-md-4">
+            <%= f.label :send_seller, "合約郵寄日期 - 賣方" %>
+            <div class="input-group date" id="transaction_datetimepicker4">
+              <%= f.text_field :send_seller , class: "form-control" %>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

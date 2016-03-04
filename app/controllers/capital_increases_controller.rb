@@ -32,6 +32,9 @@ class CapitalIncreasesController < ApplicationController
   # POST /capital_increases
   def create
     @capital_increase = CapitalIncrease.create( capital_increase_params )
+    
+    # TODO validation
+    
     # @stock = Stock.create(:identity_id => params["capital_increase"]["identity_id"],
     #                       :company_id => Identity.find(params["capital_increase"]["identity_id"]).company_id,
     #                       :stock_class => params["capital_increase"]["stock_class"],

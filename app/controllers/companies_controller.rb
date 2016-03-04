@@ -35,7 +35,20 @@ class CompaniesController < ApplicationController
   def create
     @company = Company.create(company_params)
     @identity = Identity.create(:company_id => @company.id, :stockholder_id => nil)
-    @stock = Stock.create(:identity_id => @identity.id, :company_id => @company.id, :stock_class => params["company"]["stock_class"], :stock_num => params["company"]["stock_num"])
+    @capital_increase = Capital_increase.create(
+      :identity_id => @company.identity_id,
+      :stock_class => @company.stock_class,
+      :date_issued => @company.date_establish,
+      :fund => @company.fund,
+      :currency => @company.currency,
+      :stock_price => @company.stock_price,
+      :stock_num => @company.stock_num)
+    @stock = Stock.create(
+      :identity_id => @capital_increase.identity_id,
+      :company_id => @company.id,
+      :stock_class => @capital_increase.stock_class,
+      :date_issued => @capital_increase.date_issued,
+      :stock_num => @capital_increase.stock_num)
     
     redirect_to root_path
   end
@@ -46,14 +59,14 @@ class CompaniesController < ApplicationController
   
   private
   def set_company
-      @company = Company.find(params[:id])
+    @company = Company.find(params[:id])
   end
     
   def company_params
-      params.require(:company).permit(:name_zh, :name_en, :ein, :phone, :address, :chairman_name, :chairman_passport, :chairman_email, :cfo_name, :cfo_passport,
-                                      :cfo_email, :ceo_name, :ceo_passport, :ceo_email, :accounting_name, :accounting_passport, :accounting_email, :registered_agent_name,
-                                      :registered_agent_passport, :registered_agent_email, :us_account_bank, :us_account_num, :us_account_name, :us_account_bank_addr,
-                                      :cn_account_bank, :cn_account_num, :cn_account_name, :cn_account_bank_addr, :tw_account_bank, :tw_account_num, :tw_account_name,
-                                      :tw_account_bank_addr, :date_establish, :date_accounting, :fund, :currency, :stock_class, :stock_price, :stock_num)
+    params.require(:company).permit(:name_zh, :name_en, :ein, :phone, :address, :chairman_name, :chairman_passport, :chairman_email, :cfo_name, :cfo_passport,
+                                    :cfo_email, :ceo_name, :ceo_passport, :ceo_email, :accounting_name, :accounting_passport, :accounting_email, :registered_agent_name,
+                                    :registered_agent_passport, :registered_agent_email, :us_account_bank, :us_account_num, :us_account_name, :us_account_bank_addr,
+                                    :cn_account_bank, :cn_account_num, :cn_account_name, :cn_account_bank_addr, :tw_account_bank, :tw_account_num, :tw_account_name,
+                                    :tw_account_bank_addr, :date_establish, :date_accounting, :fund, :currency, :stock_class, :stock_price, :stock_num)
   end
 end
