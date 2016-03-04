@@ -1,6 +1,9 @@
 Rails.application.routes.draw do
   root 'main#index'
-  get '/stocks/class', to: 'stocks#stock_class'
+  get   'login'  => 'main#login'
+  post  'login'  => 'main#check_login'
+  get   'logout' => 'main#logout'
+  get   '/stocks/class' => 'stocks#stock_class'
   resources :stockholders
   resources :companies
   resources :capital_increases

@@ -1,0 +1,22 @@
+<table class="table">
+  <tr>
+    <th>公司名稱</th>
+    <th>幣別</th> 
+    <th>股票類型</th>
+    <th>金額</th>
+    <th>每股面額</th> 
+    <th>股數</th>
+    <th>日期</th>
+  </tr>
+  <% @capital_increases.each do |c_i|%>
+    <tr>    
+      <td><%= @companies_name[c_i["identity_id"]] %></td>
+      <td><%= c_i["currency"] %></td> 
+      <td><%= c_i["stock_class"] %></td>
+      <td><%= c_i["fund"] %></td>
+      <td><%= c_i["stock_price"] %></td> 
+      <td><%= c_i["stock_num"] %></td>
+      <td><%= c_i["date_issued"] %></td>
+    </tr>
+  <% end %>
+</table>

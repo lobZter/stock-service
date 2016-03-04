@@ -2,9 +2,32 @@ class CapitalIncreasesController < ApplicationController
   
   # # GET /capital_increases/index
   # # GET /capital_increases
-  # def index
-  #   @capital_increases = CapitalIncrease.all
-  # end
+  def index
+    @capital_increases = CapitalIncrease.all
+    @identities_id = CapitalIncrease.uniq.pluck(:identity_id)
+    # puts "DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG"
+    # puts @identities_id
+    # puts "DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG"
+    @companies_name = {}
+    @identities_id.each do |identity_id|
+      @identity = Identity.find(identity_id)
+      @company = Company.find(@identity.company_id)
+      
+      @companies_name[identity_id] = @company.name_zh
+    end
+    
+    
+      # puts "DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG"
+      # puts companies_name
+      # puts "DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG"
+    
+    # @identities = Identity.where.not(:company_id => nil)
+    # @companies = @identities.map { |i| Company.find(i.company_id) }
+    
+    # @capital_increases.each do |c_i|
+    #   if c_i
+    # end
+  end
   
   # POST /capital_increases
   def create
