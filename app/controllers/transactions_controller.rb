@@ -2,11 +2,10 @@ class TransactionsController < ApplicationController
   before_action :set_transactions, :only => :index
   layout 'fluid_application', :only => :index
   
-  
   # GET /transactions
   # GET /transactions/index
   def index
-
+    puts @transactions.length
   end
  
   # GET /transactions/new

@@ -32,9 +32,14 @@ class CompaniesController < ApplicationController
     ]
   end
     
+
   def create
     @company = Company.create(company_params)
     @identity = Identity.create(:company_id => @company.id, :stockholder_id => nil)
+    
+    @company.identity_id = @identity.id
+    @company.save
+    
     @capital_increase = Capital_increase.create(
       :identity_id => @company.identity_id,
       :stock_class => @company.stock_class,
@@ -49,7 +54,7 @@ class CompaniesController < ApplicationController
       :stock_class => @capital_increase.stock_class,
       :date_issued => @capital_increase.date_issued,
       :stock_num => @capital_increase.stock_num)
-    
+
     redirect_to root_path
   end
     
