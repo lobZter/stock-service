@@ -44,12 +44,13 @@
           <%= f.text_field :fund, {class: 'form-control auto-calculate', placeholder: "減資請填負數"} %>
         </div>
         <div class="col-sm-2">
-          <%= f.label :currency, "認定幣別" %>
-          <%= f.select :currency, @currency_array, {}, {:class => 'form-control'} %>
-        </div>
-        <div class="col-sm-2">
           <%= f.label :stock_price, "每股面額" %>
           <%= f.text_field :stock_price, {class: 'form-control auto-calculate'} %>
+        </div>
+        <div class="col-sm-2">
+          <%= f.label :currency, "認定幣別" %>
+          <%= f.text_field :currency, {class: 'form-control', readonly: true} %>
+          <span class="help-block no-margin-bottom">由股票發行公司決定</span>
         </div>
         <div class="col-sm-2">
           <%= f.label :stock_num, "本次總股數" %>

@@ -5,7 +5,30 @@ currency =
   
 stocks = undefined
 
+setCurrency = ->
+  index = $("#transaction_stock").prop('selectedIndex')
+  $('.currency').val(currency[stocks[index].company_currency])
+  $('#transaction_currency').val(stocks[index].company_currency)
+
+setStock = ->
+  i_id = $('#transaction_seller_id').val()
+  url = '/identities/' + i_id + '/stocks'
+  
+  $('#transaction_stock').empty();
+  $.get url, (data, status) ->
+    stocks = JSON.parse(data)
+    i = 0
+    while i < Object.keys(stocks).length
+      val = '{"id":'+stocks[i].id+',"company_id":'+stocks[i].company_id+',"stock_class":"'+stocks[i].stock_class+'","date_issued":"'+stocks[i].date_issued+'"}'
+      show = stocks[i].company_name + ' / ' + stocks[i].stock_class + ' / ' + stocks[i].date_issued
+  
+      $('#transaction_stock').append "<option value=\'" + val + "\'>" + show + '</option>'
+      i++
+    setCurrency()
+  return
+
 $ ->
+  # setStock()
 
   # Datetime picker format
   $('#transaction_datetimepicker1').datetimepicker({
@@ -33,27 +56,11 @@ $ ->
     return
     
   $('#transaction_seller_id').change ->
-    i_id = $('#transaction_seller_id').val()
-    url = '/identities/' + i_id + '/stocks'
-    $.get url, (data, status) ->
-      stocks = JSON.parse(data)
-      $('.currency').val(currency[stocks[0].company_currency])
-      $('#transaction_currency').val(stocks[0].company_currency)
-      
-      $('#transaction_stock').empty();
-      i = 0
-      while i < Object.keys(stocks).length
-        val = '{"company_id":'+stocks[i].company_id+',"stock_class":"'+stocks[i].stock_class+'","date_issued":"'+stocks[i].date_issued+'"}'
-        show = stocks[i].company_name + '/' + stocks[i].stock_class + '/' + stocks[i].date_issued
-        
-        $('#transaction_stock').append "<option value=\'" + val + "\'>" + show + '</option>'
-        i++
-      return
+    setStock()
     return
 
   $('#transaction_stock').change ->
-    # original currency 
-    index = $("#transaction_stock").prop('selectedIndex')
-    $('.currency').val(currency[stocks[index].company_currency])
-    $('#transaction_currency').val(stocks[index].company_currency)
+    setCurrency()
+    return
+    
 

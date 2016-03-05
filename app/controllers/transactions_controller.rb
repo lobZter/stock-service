@@ -19,10 +19,38 @@ class TransactionsController < ApplicationController
   
   # POST /transactions
   def create
-    hash = JSON.parse params[:transaction][:stock]
+    # TODO validation
+    stock_hash = JSON.parse params[:transaction][:stock]
+    stock_id = stock_hash.delete("id")
+    @seller_stock = Stock.find(stock_id)
+    @buyer_stock = Stock.where("company_id=?", stock_hash["company_id"]).where("stock_class=?", stock_hash["stock_class"]).where("date_issued=?", stock_hash["date_issued"])
     
-    @transaction = Transaction.create( hash.merge!(transaction_params) )
-
+    # check stock_num validation
+    if @seller_stock.stock_num >= params[:transaction][:stock_num].to_f
+      # create transaction
+      @transaction = Transaction.create(stock_hash.merge(transaction_params))
+      if @transaction.date_signed <= Date.today
+      # if Date.strptime(@transaction.date_signed, "%Y-%m-%d") <= Date.today
+        if @buyer_stock.size == 0
+          # create stock for buyer
+          @buyer_stock = Stock.create(stock_hash.merge({"identity_id"=>@transaction.buyer_id, "stock_num"=>@transaction.stock_num}))
+        else
+          # update stock for buyer
+          @buyer_stock = @buyer_stock[0]
+          stock_num = @buyer_stock.stock_num + @transaction.stock_num
+          @buyer_stock.update({"stock_num"=>stock_num})
+        end
+        if @seller_stock.stock_num - @transaction.stock_num == 0
+          # delete stock for seller
+          @seller_stock.destroy
+        else
+          #update stock for seller
+          stock_num = @seller_stock.stock_num - @transaction.stock_num
+          @seller_stock.update({"stock_num"=>stock_num})
+        end
+      end
+    end
+    
     redirect_to root_path
   end
   
