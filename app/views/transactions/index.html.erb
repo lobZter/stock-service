@@ -17,36 +17,36 @@
    	  <th>W8BEN</th>
    	  <th>換股協議</th>
    	  <th>聲明書</th>
-   	  <th>合約記買方</th>
-   	  <th>合約記賣方</th>
+   	  <th>合約寄買方</th>
+   	  <th>合約寄賣方</th>
    	  <th>編輯</th>
     </tr>
   </thead>
   <tbody>
     <% @transactions.each do |t| %>
     <tr>
-   	  <td>A公司</td>
-   	  <td>Maroon5</td>
-   	  <td>Asia Training</td>
-   	  <td>優先股</td>
-   	  <td>200</td>
-   	  <td>4</td>
-   	  <td>ntd</td>
-   	  <td>2014-10-21</td>
+   	  <td><%= @identity_names[t.buyer_id]%></td>
+   	  <td><%= @identity_names[t.seller_id]%></td>
+   	  <td><%= @company_names[t.company_id] %></td>
+   	  <td><%= t.stock_class %></td>
+   	  <td><%= t.stock_num %></td>
+   	  <td><%= t.stock_price %></td>
+   	  <td><%= t.currency %></td>
+   	  <td><%= t.date_issued %></td>
    	  
-   	  <td><span class="glyphicon glyphicon-ok" ></span></td>
-   	  <td><span class="glyphicon glyphicon-minus" ></span></td>
-   	  <td><span class="glyphicon glyphicon-remove" ></span></td>
-   	  <td><span class="glyphicon glyphicon-ok" ></span></td>
-   	  <td><span class="glyphicon glyphicon-minus" ></span></td>
-   	  <td><span class="glyphicon glyphicon-ok" ></span></td>
-   	  <td><span class="glyphicon glyphicon-remove" ></span></td>
-   	  <td><span class="glyphicon glyphicon-minus" ></span></td>
+   	  <td><%= status_check(t.contract_0_needed, t.contract_0?) %></td>
+   	  <td><%= status_check(t.contract_1_needed, t.contract_1?) %></td>
+   	  <td><%= status_check(t.contract_2_needed, t.contract_2?) %></td>
+   	  <td><%= status_check(t.contract_3_needed, t.contract_3?) %></td>
+   	  <td><%= status_check(t.contract_4_needed, t.contract_4?) %></td>
+   	  <td><%= status_check(t.contract_5_needed, t.contract_5?) %></td>
+   	  <td><%= status_check(t.contract_6_needed, t.contract_6?) %></td>
+   	  <td><%= status_check(t.contract_7_needed, t.contract_7?) %></td>
+
+   	  <td><%= t.send_buyer %></td> 
+   	  <td><%= t.send_seller %></td>
    	  
-   	  <td>2014-10-21</td> 
-   	  <td>2014-10-21</td>
-   	  
-   	  <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
+   	  <td><%= link_to 'Edit', edit_transaction_path(t), class: "btn btn-primary btn-xs" %></td>
     </tr>
     <% end %>
   </tbody>

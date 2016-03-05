@@ -1,21 +1,31 @@
 class TransactionsController < ApplicationController
   before_action :set_transactions, :only => :index
+  before_action :set_data, :only => [:new, :edit]
   layout 'fluid_application', :only => :index
   
   # GET /transactions
   # GET /transactions/index
   def index
-    puts @transactions.length
+    @identity_names = Hash.new
+    @company_names = Hash.new
+    @transactions.each do |t|
+      set_identity_name(t.seller_id)
+      set_identity_name(t.buyer_id)
+      set_company_name(t.company_id)
+    end                                
   end
  
   # GET /transactions/new
   def new
     @transaction = Transaction.new
-    @currency_array = [["USD", 1], ["RMB", 2], ["NTD", 3]]
-    
-    @companies = Company.all
-    @stockholders = Stockholder.all
   end
+  
+  # GET /transactions/:id
+  def edit
+    @transaction = Transaction.find(params[:id])
+
+  end
+  
   
   # POST /transactions
   def create
@@ -27,6 +37,13 @@ class TransactionsController < ApplicationController
   end
   
   private
+  
+  def set_data
+    @currency_array = Currency.types
+    @companies = Company.all
+    @stockholders = Stockholder.all
+  end
+  
   def transaction_params
     params.require(:transaction).permit( :seller_id, :buyer_id,
         :fund, :currency, :date_paid, :stock_price, :stock_num, :date_signed,
@@ -38,10 +55,29 @@ class TransactionsController < ApplicationController
         :fund_original, :currency_original, :exchange_rate, :stock).except(:stock)
   end
   
-  private
-  
   def set_transactions
     @transactions = Transaction.all
+  end
+  
+  def set_identity_name(identity_id)
+    if !@identity_names.has_key?(identity_id)
+      @identity = Identity.find(identity_id)
+      if @identity.company.nil? 
+        @identity_names[identity_id] = @identity.stockholder.name_zh
+      else @identity.stockholder.nil? 
+        @identity_names[identity_id] = @identity.company.name_zh
+      end
+    else 
+      return
+    end
+  end
+  
+  def set_company_name(company_id)
+    if !@company_names.has_key?(company_id)
+      @company_names[company_id] = Company.find(company_id).name_zh
+    else 
+      return
+    end
   end
   
 end
