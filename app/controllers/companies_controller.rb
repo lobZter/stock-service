@@ -36,10 +36,8 @@ class CompaniesController < ApplicationController
   def create
     @company = Company.create(company_params)
     @identity = Identity.create(:company_id => @company.id, :stockholder_id => nil)
-
     @company.identity_id = @identity.id
     @company.save
-    
     @capital_increase = CapitalIncrease.create(
       :identity_id => @identity.id,
       :stock_class => @company.stock_class,

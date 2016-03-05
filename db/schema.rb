@@ -115,7 +115,7 @@ ActiveRecord::Schema.define(version: 20160304202354) do
     t.integer  "buyer_id"
     t.integer  "company_id"
     t.string   "stock_class"
-    t.date     "stock_issued_date"
+    t.date     "date_issued"
     t.decimal  "fund"
     t.integer  "currency"
     t.date     "date_paid"

@@ -33,8 +33,10 @@ $ ->
       stocks = JSON.parse(data)
       i = 0
       while i < Object.keys(stocks).length
-        val = stocks[i].company_name + '/' + stocks[i].stock_class + '/' + stocks[i].date_issued
-        $('#transaction_stock').append '<option value="' + val + '">' + val + '</option>'
+        val = '{"company_id":'+stocks[i].company_id+',"stock_class":"'+stocks[i].stock_class+'","date_issued":"'+stocks[i].date_issued+'"}'
+        show = stocks[i].company_name + '/' + stocks[i].stock_class + '/' + stocks[i].date_issued
+        $('#transaction_stock').empty();
+        $('#transaction_stock').append "<option value=\'" + val + "\'>" + show + '</option>'
         i++
       return
     return

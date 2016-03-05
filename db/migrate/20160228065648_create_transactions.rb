@@ -5,7 +5,7 @@ class CreateTransactions < ActiveRecord::Migration
       t.integer :buyer_id, unsigned: true
       t.integer :company_id, unsigned: true
       t.string :stock_class
-      t.date :stock_issued_date
+      t.date :date_issued
       t.decimal :fund
       t.integer :currency, unsigned: true
       t.date :date_paid
