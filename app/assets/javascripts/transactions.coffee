@@ -25,9 +25,9 @@ $ ->
   });
 
   # Calculate 
-  $('input.auto-calculate').change ->
+  $('.auto-calculate').change ->
     # Stock number
-    $('#transaction_stock_num').val($('#transaction_money').val()/$('#transaction_stock_price').val())
+    $('#transaction_stock_num').val($('#transaction_fund').val()/$('#transaction_stock_price').val())
     # Transaction money
     $('#transaction_fund').val($('#transaction_fund_original').val()/$('#transaction_exchange_rate').val())
     return
@@ -40,11 +40,12 @@ $ ->
       $('.currency').val(currency[stocks[0].company_currency])
       $('#transaction_currency').val(stocks[0].company_currency)
       
+      $('#transaction_stock').empty();
       i = 0
       while i < Object.keys(stocks).length
         val = '{"company_id":'+stocks[i].company_id+',"stock_class":"'+stocks[i].stock_class+'","date_issued":"'+stocks[i].date_issued+'"}'
         show = stocks[i].company_name + '/' + stocks[i].stock_class + '/' + stocks[i].date_issued
-        $('#transaction_stock').empty();
+        
         $('#transaction_stock').append "<option value=\'" + val + "\'>" + show + '</option>'
         i++
       return
