@@ -17,12 +17,13 @@
    	  <th>W8BEN</th>
    	  <th>換股協議</th>
    	  <th>聲明書</th>
-   	  <th>買</th>
-   	  <th>賣</th>
+   	  <th>合約記買方</th>
+   	  <th>合約記賣方</th>
    	  <th>編輯</th>
     </tr>
   </thead>
   <tbody>
+    <% @transactions.each do |t| %>
     <tr>
    	  <td>A公司</td>
    	  <td>Maroon5</td>
@@ -42,58 +43,11 @@
    	  <td><span class="glyphicon glyphicon-remove" ></span></td>
    	  <td><span class="glyphicon glyphicon-minus" ></span></td>
    	  
-   	  <td><input type="checkbox" id="blankCheckbox" value="option1"></td>
-   	  <td><input type="checkbox" id="blankCheckbox" value="option1"></td>
-   	  
-   	  <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-    </tr>
-    <tr>
-   	  <td>A公司</td>
-   	  <td>Maroon5</td>
-   	  <td>Asia Training</td>
-   	  <td>優先股</td>
-   	  <td>200</td>
-   	  <td>4</td>
-   	  <td>ntd</td>
+   	  <td>2014-10-21</td> 
    	  <td>2014-10-21</td>
    	  
-   	  <td><span class="glyphicon glyphicon-ok" ></span></td>
-   	  <td><span class="glyphicon glyphicon-minus" ></span></td>
-   	  <td><span class="glyphicon glyphicon-remove" ></span></td>
-   	  <td><span class="glyphicon glyphicon-ok" ></span></td>
-   	  <td><span class="glyphicon glyphicon-minus" ></span></td>
-   	  <td><span class="glyphicon glyphicon-ok" ></span></td>
-   	  <td><span class="glyphicon glyphicon-remove" ></span></td>
-   	  <td><span class="glyphicon glyphicon-minus" ></span></td>
-   	  
-   	  <td><input type="checkbox" id="blankCheckbox" value="option1"></td>
-   	  <td><input type="checkbox" id="blankCheckbox" value="option1"></td>
-   	  
    	  <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
     </tr>
-    <tr>
-   	  <td>A公司</td>
-   	  <td>Maroon5</td>
-   	  <td>Asia Training</td>
-   	  <td>優先股</td>
-   	  <td>200</td>
-   	  <td>4</td>
-   	  <td>ntd</td>
-   	  <td>2014-10-21</td>
-   	  
-   	  <td><span class="glyphicon glyphicon-ok" ></span></td>
-   	  <td><span class="glyphicon glyphicon-minus" ></span></td>
-   	  <td><span class="glyphicon glyphicon-remove" ></span></td>
-   	  <td><span class="glyphicon glyphicon-ok" ></span></td>
-   	  <td><span class="glyphicon glyphicon-minus" ></span></td>
-   	  <td><span class="glyphicon glyphicon-ok" ></span></td>
-   	  <td><span class="glyphicon glyphicon-remove" ></span></td>
-   	  <td><span class="glyphicon glyphicon-minus" ></span></td>
-   	  
-   	  <td><input type="checkbox" id="blankCheckbox" value="option1"></td>
-   	  <td><input type="checkbox" id="blankCheckbox" value="option1"></td>
-   	  
-   	  <td><button type="button" class="btn btn-primary btn-xs">Edit</button></td>
-    </tr>
+    <% end %>
   </tbody>
 </table>

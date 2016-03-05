@@ -1,5 +1,5 @@
 <%= form_for @transaction, html: { id: :transaction_form } do |f| %>
-
+  <%= f.hidden_field :currency %>
   <div class="panel panel-default">
     <div class="panel-heading">交易明細</div>
     <div class="panel-body">
@@ -26,7 +26,7 @@
         <div class="row">
           <div class="col-md-2">
             <%= f.label :fund_original, "投資金額" %>
-            <%= f.text_field :fund_original, class: "form-control" %>
+            <%= f.text_field :fund_original, class: "form-control auto-calculate" %>
           </div>
           <div class="col-md-2">
             <%= f.label :currency_original, "幣別" %>
@@ -44,7 +44,7 @@
           </div>
           <div class="col-md-2">
             <%= f.label :currency, "認定幣別" %>
-            <%= f.text_field :currency, {class: "form-control", readonly: true} %>
+            <input type="text" class="form-control currency" readonly>
             <span class="help-block no-margin-bottom">由股票發行公司決定</span>
           </div>
           <div class="col-md-2">
@@ -58,7 +58,7 @@
           </div>
           <div class="col-md-2">
             <%= f.label :exchange_rate, "匯率" %>
-            <%= f.text_field :exchange_rate, class: "form-control" %>
+            <%= f.text_field :exchange_rate, class: "form-control auto-calculate" %>
           </div>
         </div>
       </div>
@@ -68,6 +68,11 @@
           <div class="col-md-2">
             <%= f.label :stock_price, "每股價格" %>
             <%= f.text_field :stock_price, class: "form-control auto-calculate" %>
+          </div>
+          <div class="col-md-2">
+            <%= f.label :currency, "認定幣別" %>
+            <input type="text" class="form-control currency" readonly>
+            <span class="help-block no-margin-bottom">由股票發行公司決定</span>
           </div>
           <div class="col-md-2">
             <%= f.label :stock_num, "交易股數" %>
@@ -202,7 +207,7 @@
       </div>
     </div>
   </div>
-  
+
   <%= f.submit "完成", class: "btn btn-default btn-primary col-md-12"%>
 
 <% end %>
