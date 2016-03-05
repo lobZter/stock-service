@@ -16,17 +16,7 @@ class CapitalIncreasesController < ApplicationController
       @companies_name[identity_id] = @company.name_zh
     end
     
-    
-      # puts "DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG"
-      # puts companies_name
-      # puts "DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG"
-    
-    # @identities = Identity.where.not(:company_id => nil)
-    # @companies = @identities.map { |i| Company.find(i.company_id) }
-    
-    # @capital_increases.each do |c_i|
-    #   if c_i
-    # end
+
   end
   
   # POST /capital_increases
@@ -35,10 +25,11 @@ class CapitalIncreasesController < ApplicationController
     
     # TODO validation
     
-    # @stock = Stock.create(:identity_id => params["capital_increase"]["identity_id"],
-    #                       :company_id => Identity.find(params["capital_increase"]["identity_id"]).company_id,
-    #                       :stock_class => params["capital_increase"]["stock_class"],
-    #                       :stock_num => params["capital_increase"]["stock_num"])
+    @stock = Stock.create(:identity_id => params["capital_increase"]["identity_id"],
+                          :company_id => Identity.find(params["capital_increase"]["identity_id"]).company_id,
+                          :stock_class => params["capital_increase"]["stock_class"],
+                          :stock_num => params["capital_increase"]["stock_num"],
+                          :date_issued => params["capital_increase"]["date_issued"])
     
     redirect_to root_path
   end
