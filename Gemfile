@@ -32,6 +32,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
+
 # Bootstrap
 gem 'bootstrap-sass', '~> 3.3.0'
 
@@ -39,11 +40,14 @@ gem 'bootstrap-sass', '~> 3.3.0'
 gem 'momentjs-rails', '>= 2.9.0'
 gem 'bootstrap3-datetimepicker-rails', '~> 4.17.37'
 
-# file upload
+# File upload
 gem 'carrierwave'
 
-# bootstrap file upload button
+# Bootstrap file upload button
 gem 'bootstrap-filestyle-rails'
+
+# Daily Task
+gem 'whenever'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
