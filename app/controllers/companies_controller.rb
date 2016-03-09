@@ -45,7 +45,8 @@ class CompaniesController < ApplicationController
       :fund => @company.fund,
       :currency => @company.currency,
       :stock_price => @company.stock_price,
-      :stock_num => @company.stock_num)
+      :stock_num => @company.stock_num,
+      :stock_checked => true)
     @stock = Stock.create(
       :identity_id => @capital_increase.identity_id,
       :company_id => @company.id,
