@@ -2,10 +2,10 @@
 
 <div class="well">
   <div class="row no-margin-top">
-    <div class="col-md-6">
+    <div class="col-md-4">
       <table class="table">
-        <caption>基本資料</caption>
-        <col width="250">
+        <h3><strong>基本資料</strong></h3>
+        <col width="120">
         <tr>
           <th>是否成年</th>
           <td>
@@ -41,8 +41,8 @@
       </table>
         
       <table class="table">
-        <caption>聯絡方式</caption>
-        <col width="250">
+        <h3><strong>聯絡方式</strong></h3>
+        <col width="120">
         <tr>
           <th>電話</th>
           <td><%= @stockholder.phone %></td>
@@ -62,8 +62,8 @@
       </table>
       
       <table class="table">
-        <caption>匯款帳號</caption>
-        <col width="250">
+        <h3><strong>匯款帳號</strong></h3>
+        <col width="120">
         <tr>
           <th>匯出銀行</th>
           <td><%= @stockholder.account_bank %></td>
@@ -83,17 +83,17 @@
       </table>
       
       <table class="table">
-        <caption>護照影本</caption>
-        <tr><td><%= image_tag @stockholder.copy_passport.to_s, height: "300", width: "400", alt: "護照影本" %></td></tr>
+        <h3><strong>護照影本</strong></h3>
+        <tr><td><%= image_tag @stockholder.copy_passport.to_s, height: "270", width: "360", alt: "護照影本" %></td></tr>
       </table>
       
       <table class="table">
-        <caption>簽名頁影本</caption>
-        <tr><td><%= image_tag @stockholder.copy_signature.to_s, height: "300", width: "400", alt: "簽名頁影本" %></td></tr>
+        <h3><strong>簽名頁影本</strong></h3>
+        <tr><td><%= image_tag @stockholder.copy_signature.to_s, height: "270", width: "360", alt: "簽名頁影本" %></td></tr>
       </table>
     </div>
     
-    <div class="col-md-6">
+    <div class="col-md-8">
       <h3><strong>持有股票</strong></h3>
       <table class="table table-hover">
         <thead>
@@ -122,7 +122,19 @@
           <th>股票類型</th>
           <th>交易股數</th>
         </thead>
-        
+        <% if @transactions.size == 0 %>
+          <tr><td colspan="5">無資料</td></tr>
+        <% else %>
+          <% @transactions.each do |t| %>
+            <tr>
+              <td><%= t[:buyer_name] %></td>
+              <td><%= t[:seller_name] %></td>
+              <td><%= t[:company_name] %></td>
+              <td><%= t[:stock_class] %></td>
+              <td><%= t[:stock_num] %></td>
+            </tr>
+          <% end %>
+        <% end %>
       </table>
     </div>
   </div>

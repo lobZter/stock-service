@@ -2,21 +2,11 @@ class IdentitiesController < ApplicationController
   
   def show
     @identity = Identity.find(params[:id])
+    @identity.self_detail
     
-    if @identity.stockholder_id == nil
-      @company = Company.find(@identity[:company_id])
-      
-      respond_to do |format|
-        format.html { render :json => @company}
-        format.json { render :json => @company}
-      end
-    elsif @identity.company_id == nil
-      @stockholder = Stockholder.find(@identity[:stockholder_id])
-      
-      respond_to do |format|
-        format.html { render :json => @stockholder}
-        format.json { render :json => @stockholder}
-      end
+    respond_to do |format|
+      format.html { render :json => @identity.self_detail}
+      format.json { render :json => @identity.self_detail}
     end
   end
 end

@@ -142,6 +142,74 @@
       </tr>
     </tbody>
   </table>
+  
+  <h3 class="margin-top-40"><strong>持有股票</strong></h3>
+  <table class="table table-hover">
+    <thead>
+      <th>發行公司</th>
+      <th>類別</th>
+      <th>持有股數</th>
+    </thead>
+    <% if @stocks.size == 0 %>
+      <tr><td colspan="3">無資料</td></tr>
+    <% else %>
+      <% @stocks.each do |s| %>
+        <tr>
+          <td><%= s[:company_name] %></td>
+          <td><%= s[:stock_class] %></td>
+          <td><%= s[:stock_num] %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+  
+  <h3 class="margin-top-40"><strong>近期交易</strong></h3>
+  <table class="table table-hover">
+    <thead>
+      <th>買方</th>
+      <th>賣方</th>
+      <th>股票公司</th>
+      <th>股票類型</th>
+      <th>交易股數</th>
+    </thead>
+    <% if @transactions.size == 0 %>
+      <tr><td colspan="5">無資料</td></tr>
+    <% else %>
+      <% @transactions.each do |t| %>
+        <tr>
+          <td><%= t[:buyer_name] %></td>
+          <td><%= t[:seller_name] %></td>
+          <td><%= t[:company_name] %></td>
+          <td><%= t[:stock_class] %></td>
+          <td><%= t[:stock_num] %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
+    
+  <h3 class="margin-top-40"><strong>近期增資</strong></h3>
+  <table class="table table-hover">
+    <thead>
+      <th>股票類型</th>
+      <th>生效日期</th>
+      <th>金額</th>
+      <th>每股面額</th>
+      <th>總股數</th>
+    </thead>
+    <% if @capital_increases.size == 0 %>
+      <tr><td colspan="5">無資料</td></tr>
+    <% else %>
+      <% @capital_increases.each do |t| %>
+        <tr>
+          <td><%= t[:stock_class] %></td>
+          <td><%= t[:date_issued] %></td>
+          <td><%= t[:fund] %></td>
+          <td><%= t[:stock_price] %></td>
+          <td><%= t[:stock_num] %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
       
 </div>
 

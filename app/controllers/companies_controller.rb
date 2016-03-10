@@ -59,6 +59,10 @@ class CompaniesController < ApplicationController
     
   def show
     @currency_array = [nil, "USD 美金", "RMB 人民幣", "NTD 新台幣"]
+    @identity = @company.identity
+    @stocks = @identity.stock_detail
+    @transactions = @identity.recent_transactions
+    @capital_increases = @identity.recent_capital_increase
   end
   
   private

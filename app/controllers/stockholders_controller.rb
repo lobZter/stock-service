@@ -31,22 +31,20 @@ class StockholdersController < ApplicationController
   def show
     @identity = @stockholder.identity
     @stocks = @identity.stock_detail
-    # @transactions = @identity.recent_transactions
-    # puts @transactions
-    
+    @transactions = @identity.recent_transactions
   end
   
   # PUT /stockholders/:id
   def update
     @stockholder.update(stockholder_params)
-
+    
     redirect_to stockholder_path( @stockholder )
   end
   
   # DELETE /stockholders/:id
   def destroy
     @stockholder.destroy
-  
+    
     redirect_to root_path
   end
   

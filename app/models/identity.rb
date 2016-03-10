@@ -39,7 +39,12 @@ class Identity < ActiveRecord::Base
   end
   
   def recent_transactions
-    @transactions = Transaction.where("buyer_id=?", self.identity_id)
+    if self.stockholder_id == nil
+      id = self.company_id
+    else
+      id = self.stockholder_id
+    end
+    @transactions = Transaction.where("buyer_id=?", id)
     array = Array.new
     
     @transactions.each do |t|
@@ -48,25 +53,25 @@ class Identity < ActiveRecord::Base
       hash[:buyer_id] = t.buyer_id
       hash[:buyer_name] = Identity.find(t.buyer_id).self_detail.name_zh
       hash[:seller_id] = t.seller_id
-      hash[:seller_name] = Identity.find(t.seller_name).self_detail.name_zh
+      hash[:seller_name] = Identity.find(t.seller_id).self_detail.name_zh
       hash[:company_id] = t.company_id
-      hash[:company_name] = Identity.find(t.seller_name).self_detail.name_zh
+      hash[:company_name] = Identity.find(t.company_id).self_detail.name_zh
       hash[:stock_class] = t.stock_class
       hash[:date_issued] = t.date_issued
       hash[:stock_num] = t.stock_num
       hash[:date_signed] = t.date_signed
       array.push(hash)
     end
-    @transactions = Transaction.where("seller_id=?", self.identity_id)
+    @transactions = Transaction.where("seller_id=?", id)
     @transactions.each do |t|
       hash= Hash.new
       hash[:id] = t.id
       hash[:buyer_id] = t.buyer_id
       hash[:buyer_name] = Identity.find(t.buyer_id).self_detail.name_zh
       hash[:seller_id] = t.seller_id
-      hash[:seller_name] = Identity.find(t.seller_name).self_detail.name_zh
+      hash[:seller_name] = Identity.find(t.seller_id).self_detail.name_zh
       hash[:company_id] = t.company_id
-      hash[:company_name] = Identity.find(t.seller_name).self_detail.name_zh
+      hash[:company_name] = Identity.find(t.company_id).self_detail.name_zh
       hash[:stock_class] = t.stock_class
       hash[:date_issued] = t.date_issued
       hash[:stock_num] = t.stock_num
