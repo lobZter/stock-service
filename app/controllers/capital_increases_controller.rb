@@ -21,15 +21,16 @@ class CapitalIncreasesController < ApplicationController
   
   # POST /capital_increases
   def create
-    @capital_increase = CapitalIncrease.create( capital_increase_params )
+    @capital_increase = CapitalIncrease.create(capital_increase_params )
+    @capital_increase.stock_checked = false
+    @capital_increase.save
     
     # TODO validation
-    
-    @stock = Stock.create(:identity_id => params["capital_increase"]["identity_id"],
-                          :company_id => Identity.find(params["capital_increase"]["identity_id"]).company_id,
-                          :stock_class => params["capital_increase"]["stock_class"],
-                          :stock_num => params["capital_increase"]["stock_num"],
-                          :date_issued => params["capital_increase"]["date_issued"])
+    # @stock = Stock.create(:identity_id => params["capital_increase"]["identity_id"],
+    #                       :company_id => Identity.find(params["capital_increase"]["identity_id"]).company_id,
+    #                       :stock_class => params["capital_increase"]["stock_class"],
+    #                       :stock_num => params["capital_increase"]["stock_num"],
+    #                       :date_issued => params["capital_increase"]["date_issued"])
     
     redirect_to root_path
   end

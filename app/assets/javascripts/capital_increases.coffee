@@ -12,7 +12,11 @@ setCurrency = ->
     $('#capital_increase_currency').val(currency[company.currency])
   
 $ ->
+<<<<<<< HEAD
   # setCurrency()
+=======
+  setCurrency()
+>>>>>>> 2cc9bc8acda680a3a5ed999e34df6a18246be6d9
   
   # Datetime picker format
   $('#capital_increases_datetimepicker1').datetimepicker({

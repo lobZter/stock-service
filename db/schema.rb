@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160304202354) do
+ActiveRecord::Schema.define(version: 20160309041409) do
 
   create_table "capital_increases", force: :cascade do |t|
     t.integer  "identity_id"
@@ -21,9 +21,10 @@ ActiveRecord::Schema.define(version: 20160304202354) do
     t.decimal  "stock_price"
     t.decimal  "stock_num"
     t.string   "remark"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.string   "stock_class"
+    t.boolean  "stock_checked"
   end
 
   create_table "companies", force: :cascade do |t|
@@ -69,6 +70,11 @@ ActiveRecord::Schema.define(version: 20160304202354) do
     t.datetime "created_at",                null: false
     t.datetime "updated_at",                null: false
     t.integer  "identity_id"
+  end
+
+  create_table "currencies", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "identities", force: :cascade do |t|
