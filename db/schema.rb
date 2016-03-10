@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160309041409) do
+ActiveRecord::Schema.define(version: 20160310183835) do
 
   create_table "capital_increases", force: :cascade do |t|
     t.integer  "identity_id"
@@ -155,6 +155,7 @@ ActiveRecord::Schema.define(version: 20160309041409) do
     t.decimal  "fund_original"
     t.integer  "currency_original"
     t.float    "exchange_rate"
+    t.boolean  "stock_checked"
   end
 
 end

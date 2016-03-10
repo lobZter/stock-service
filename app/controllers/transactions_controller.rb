@@ -42,8 +42,10 @@ class TransactionsController < ApplicationController
     if @seller_stock.stock_num >= params[:transaction][:stock_num].to_f
       # create transaction
       @transaction = Transaction.create(stock_hash.merge(transaction_params))
+      @transaction.stock_checked = false
+      # seems there is a bug here
+      # only update stock for today and previous
       if @transaction.date_signed <= Date.today
-      # if Date.strptime(@transaction.date_signed, "%Y-%m-%d") <= Date.today
         if @buyer_stock.size == 0
           # create stock for buyer
           @buyer_stock = Stock.create(stock_hash.merge({"identity_id"=>@transaction.buyer_id, "stock_num"=>@transaction.stock_num}))
@@ -61,7 +63,9 @@ class TransactionsController < ApplicationController
           stock_num = @seller_stock.stock_num - @transaction.stock_num
           @seller_stock.update({"stock_num"=>stock_num})
         end
+          @transaction.stock_checked = true
       end
+      @transaction.save
     end
     
     redirect_to root_path

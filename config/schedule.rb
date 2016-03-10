@@ -18,5 +18,6 @@
 # end
 
 every 5.minutes do
-  rake 'stock:update_capital_increases', :environment => 'development' 
+  rake 'stock:update_capital_increases', :environment => 'development'
+  rake 'stock:update_trsacctions', :environment => 'development'
 end
