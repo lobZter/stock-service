@@ -106,9 +106,9 @@
         <% else %>
           <% @stocks.each do |s| %>
             <tr>
-              <td>s.company_id</td>
-              <td>s.stock_class</td>
-              <td>s.stock_num</td>
+              <td><%= s.company_id %></td>
+              <td><%= s.stock_class %></td>
+              <td><%= s.stock_num %></td>
             </tr>
           <% end %>
         <% end %>

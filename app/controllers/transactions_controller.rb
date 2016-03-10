@@ -33,7 +33,10 @@ class TransactionsController < ApplicationController
     stock_hash = JSON.parse params[:transaction][:stock]
     stock_id = stock_hash.delete("id")
     @seller_stock = Stock.find(stock_id)
-    @buyer_stock = Stock.where("company_id=?", stock_hash["company_id"]).where("stock_class=?", stock_hash["stock_class"]).where("date_issued=?", stock_hash["date_issued"])
+    @buyer_stock = Stock.where("company_id=?", stock_hash["company_id"])
+      .where("stock_class=?", stock_hash["stock_class"])
+      .where("date_issued=?", stock_hash["date_issued"])
+      .where("identity_id=?", params[:transaction][:buyer_id])
     
     # check stock_num validation
     if @seller_stock.stock_num >= params[:transaction][:stock_num].to_f
