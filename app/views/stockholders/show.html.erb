@@ -106,12 +106,23 @@
         <% else %>
           <% @stocks.each do |s| %>
             <tr>
-              <td><%= s.company_id %></td>
-              <td><%= s.stock_class %></td>
-              <td><%= s.stock_num %></td>
+              <td><%= s[:company_name] %></td>
+              <td><%= s[:stock_class] %></td>
+              <td><%= s[:stock_num] %></td>
             </tr>
           <% end %>
         <% end %>
+      </table>
+      <h3><strong>近期交易</strong></h3>
+      <table class="table table-hover">
+        <thead>
+          <th>買方</th>
+          <th>賣方</th>
+          <th>股票公司</th>
+          <th>股票類型</th>
+          <th>交易股數</th>
+        </thead>
+        
       </table>
     </div>
   </div>

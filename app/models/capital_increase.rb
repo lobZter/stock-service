@@ -1,3 +1,3 @@
 class CapitalIncrease < ActiveRecord::Base
-  belongs_to :identities
+  belongs_to :identity
 end

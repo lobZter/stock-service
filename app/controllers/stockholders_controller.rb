@@ -29,7 +29,11 @@ class StockholdersController < ApplicationController
   
   # GET /stockholders/:id
   def show
-    @stocks = Stock.where("identity_id= ?", Stockholder.find(params[:id]).identity.id)
+    @identity = @stockholder.identity
+    @stocks = @identity.stock_detail
+    # @transactions = @identity.recent_transactions
+    # puts @transactions
+    
   end
   
   # PUT /stockholders/:id

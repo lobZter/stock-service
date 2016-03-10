@@ -1,5 +1,4 @@
 class Transaction < ActiveRecord::Base
-  belongs_to :identities
   
   mount_uploader :contract_0, ContractUploader
   mount_uploader :contract_1, ContractUploader
