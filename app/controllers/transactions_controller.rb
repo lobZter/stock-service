@@ -52,8 +52,8 @@ class TransactionsController < ApplicationController
       redirect_to root_path
     else
       set_data()
-      if @transaction.errors.messages.has_key? :stock_num_error
-        flash.now[:error] = @transaction.errors.messages[:stock_num_error][0]
+      if @transaction.errors.messages[:stock_num][0] == "交易股數大於賣方擁有股數"
+        flash.now[:error] = @transaction.errors.messages[:stock_num][0]
       end
       render :action => :new
     end

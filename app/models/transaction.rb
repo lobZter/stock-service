@@ -35,7 +35,7 @@ class Transaction < ActiveRecord::Base
       seller_stock_num = seller_stock[0].stock_num
     end
     if self.stock_num != nil && self.stock_num > seller_stock_num
-      self.errors.add(:stock_num_error, "交易股數大於賣方擁有股數")
+      self.errors.add(:stock_num, "交易股數大於賣方擁有股數")
     end
   end
   

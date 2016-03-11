@@ -10,17 +10,29 @@
         <div class="form-group">
           <label class="col-sm-2 control-label">中文名稱</label>
           <div class="col-sm-3">
-             <%= f.text_field :name_zh, class: 'form-control' %>
+            <% if @company.new_record? %>
+              <%= f.text_field :name_zh, class: 'form-control' %>
+            <% else %>
+              <%= f.text_field :name_zh, {class: 'form-control', readonly: true} %>
+            <% end %>
           </div>
           <label class="col-sm-2 control-label">英文名稱</label>
           <div class="col-sm-3">
-             <%= f.text_field :name_en, class: 'form-control' %>
+            <% if @company.new_record? %>
+              <%= f.text_field :name_en, class: 'form-control' %>
+            <% else %>
+              <%= f.text_field :name_en, {class: 'form-control', readonly: true} %>
+            <% end %>
           </div>
         </div>
         <div class="form-group">
           <label class="col-sm-2 control-label">公司稅號</label>
           <div class="col-sm-8">
-             <%= f.text_field :ein, class: 'form-control' %>
+            <% if @company.new_record? %>
+              <%= f.text_field :ein, class: 'form-control' %>
+            <% else %>
+              <%= f.text_field :ein, {class: 'form-control', readonly: true} %>
+            <% end %>
           </div>
         </div>
         <div class="form-group">
@@ -230,12 +242,18 @@
     <div class="col-sm-8">
       <div class="form-group">
         <label class="col-sm-2 control-label">公司成立日期</label>
-        <div class='input-group date' id='datetimepicker1'>
-          <%= f.text_field :date_establish , class: 'form-control' %>
-          <span class="input-group-addon">
-              <span class="glyphicon glyphicon-calendar"></span>
-          </span>
-        </div>
+        <% if @company.new_record? %>
+          <div class='input-group date' id='datetimepicker1'>
+            <%= f.text_field :date_establish , class: 'form-control' %>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+        <% else %>
+          <div class="input-group">
+            <%= f.text_field :date_establish , {class: 'form-control', readonly: true} %>
+          </div>
+        <% end %>
       </div>
     </div>
   </div>
@@ -264,25 +282,41 @@
           <div class="form-group">
             <label class="col-sm-2 control-label">資本額</label>
             <div class="col-sm-8">
-              <%= f.text_field :fund, class: 'form-control auto-calculate'%>
+              <% if @company.new_record? %>
+                <%= f.text_field :fund, class: 'form-control auto-calculate'%>
+              <% else %>
+                <%= f.text_field :fund, {class: 'form-control', readonly: true} %>
+              <% end %>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">每股面額</label>
             <div class="col-sm-8">
-              <%= f.text_field :stock_price, class: 'form-control auto-calculate' %>
+              <% if @company.new_record? %>
+                <%= f.text_field :stock_price, class: 'form-control auto-calculate'%>
+              <% else %>
+                <%= f.text_field :stock_price, {class: 'form-control', readonly: true} %>
+              <% end %>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">股票種類</label>
             <div class="col-sm-2">
-              <%= f.text_field :stock_class, class: 'form-control' %>
+              <% if @company.new_record? %>
+                <%= f.text_field :stock_class, class: 'form-control' %>
+              <% else %>
+                <%= f.text_field :stock_class, {class: 'form-control', readonly: true} %>
+              <% end %>
             </div>
           </div>
           <div class="form-group">
             <label class="col-sm-2 control-label">幣別</label>
             <div class="col-sm-2">
+              <% if @company.new_record? %>
                 <%= f.select :currency, @currency_array, {}, { :class => 'form-control' } %>
+              <% else %>
+                <%= f.text_field :currency, {class: 'form-control', readonly: true, value: @currency_array[@company.currency][0]} %>
+              <% end %>
             </div>
           </div>
           <div class="form-group">
