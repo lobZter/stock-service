@@ -39,12 +39,7 @@ class Identity < ActiveRecord::Base
   end
   
   def recent_transactions
-    if self.stockholder_id == nil
-      id = self.company_id
-    else
-      id = self.stockholder_id
-    end
-    @transactions = Transaction.where("buyer_id=?", id)
+    @transactions = Transaction.where("buyer_id=?", self.id)
     array = Array.new
     
     @transactions.each do |t|
@@ -62,7 +57,7 @@ class Identity < ActiveRecord::Base
       hash[:date_signed] = t.date_signed
       array.push(hash)
     end
-    @transactions = Transaction.where("seller_id=?", id)
+    @transactions = Transaction.where("seller_id=?", self.id)
     @transactions.each do |t|
       hash= Hash.new
       hash[:id] = t.id
