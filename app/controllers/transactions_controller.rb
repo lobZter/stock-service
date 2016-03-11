@@ -15,6 +15,46 @@ class TransactionsController < ApplicationController
       set_company_name(t.company_id)
     end                                
   end
+  
+  # POST /transactions
+  def create
+    stock_hash = JSON.parse params[:transaction][:stock]
+    stock_id = stock_hash.delete("id")
+    
+    @transaction = Transaction.new(stock_hash.merge(transaction_params).merge({"stock_checked"=>false}))
+    if @transaction.save
+      if @transaction.date_signed <= Date.today
+
+        @buyer_stock = Stock.where("company_id=?", @transaction.company_id)
+          .where("stock_class=?", @transaction.stock_class)
+          .where("date_issued=?", @transaction.date_issued)
+          .where("identity_id=?", @transaction.buyer_id)[0]
+        @seller_stock = Stock.find(stock_id)
+        
+        if @buyer_stock == nil
+          @buyer_stock = Stock.create(stock_hash.merge({"identity_id"=>@transaction.buyer_id, "stock_num"=>@transaction.stock_num}))
+        else
+          stock_num = @buyer_stock.stock_num + @transaction.stock_num
+          @buyer_stock.update({"stock_num"=>stock_num})
+        end
+        
+        if @seller_stock.stock_num - @transaction.stock_num == 0
+          @seller_stock.destroy
+        else
+          stock_num = @seller_stock.stock_num - @transaction.stock_num
+          @seller_stock.update({"stock_num"=>stock_num})
+        end
+        
+        @transaction.stock_checked = true
+        @transaction.save
+      end
+      
+      redirect_to root_path
+    else
+      set_data()
+      render :action => :new
+    end
+  end
  
   # GET /transactions/new
   def new
@@ -23,50 +63,6 @@ class TransactionsController < ApplicationController
   
   # GET /transactions/:id
   def edit
-  end
-  
-  # POST /transactions
-  def create
-    # TODO validation
-    stock_hash = JSON.parse params[:transaction][:stock]
-    stock_id = stock_hash.delete("id")
-    @seller_stock = Stock.find(stock_id)
-    @buyer_stock = Stock.where("company_id=?", stock_hash["company_id"])
-      .where("stock_class=?", stock_hash["stock_class"])
-      .where("date_issued=?", stock_hash["date_issued"])
-      .where("identity_id=?", params[:transaction][:buyer_id])
-    
-    # check stock_num validation
-    if @seller_stock.stock_num >= params[:transaction][:stock_num].to_f
-      # create transaction
-      @transaction = Transaction.create(stock_hash.merge(transaction_params))
-      @transaction.stock_checked = false
-      # seems there is a bug here
-      # only update stock for today and previous
-      if @transaction.date_signed <= Date.today
-        if @buyer_stock.size == 0
-          # create stock for buyer
-          @buyer_stock = Stock.create(stock_hash.merge({"identity_id"=>@transaction.buyer_id, "stock_num"=>@transaction.stock_num}))
-        else
-          # update stock for buyer
-          @buyer_stock = @buyer_stock[0]
-          stock_num = @buyer_stock.stock_num + @transaction.stock_num
-          @buyer_stock.update({"stock_num"=>stock_num})
-        end
-        if @seller_stock.stock_num - @transaction.stock_num == 0
-          # delete stock for seller
-          @seller_stock.destroy
-        else
-          #update stock for seller
-          stock_num = @seller_stock.stock_num - @transaction.stock_num
-          @seller_stock.update({"stock_num"=>stock_num})
-        end
-          @transaction.stock_checked = true
-      end
-      @transaction.save
-    end
-    
-    redirect_to root_path
   end
   
   # PUT /transactions/:id
@@ -81,11 +77,15 @@ class TransactionsController < ApplicationController
   # DELETE /transactions/:id
   def destroy
     @transaction.destroy
-    
     redirect_to root_path
   end
   
+  
+  
   private
+  def set_transaction
+    @transaction = Transaction.find(params[:id])
+  end
   
   def set_data
     @currency_array = Currency.types
@@ -103,11 +103,7 @@ class TransactionsController < ApplicationController
         :send_buyer, :send_seller, :remark, :remark_contract,
         :fund_original, :currency_original, :exchange_rate, :stock).except(:stock)
   end
-  
-  def set_transaction
-    @transaction = Transaction.find(params[:id])
-  end
-  
+
   def set_identity_name(identity_id)
     if !@identity_names.has_key?(identity_id)
       @identity = Identity.find(identity_id)

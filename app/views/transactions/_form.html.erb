@@ -1,3 +1,5 @@
+<%= render :partial => 'layouts/flush' %>
+
 <%= form_for @transaction, html: { id: :transaction_form } do |f| %>
   <%= f.hidden_field :currency %>
   <div class="panel panel-default">
