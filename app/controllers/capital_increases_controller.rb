@@ -16,16 +16,18 @@ class CapitalIncreasesController < ApplicationController
   
   # POST /capital_increases
   def create
-    @capital_increase = CapitalIncrease.new(capital_increase_params)
+    @capital_increase = CapitalIncrease.new(capital_increase_params.merge({"stock_checked"=>false}))
     if@capital_increase.save
-      @capital_increase.stock_checked = false
-      @capital_increase.save
-      # TODO validation
-      # @stock = Stock.create(:identity_id => params["capital_increase"]["identity_id"],
-      #   :company_id => Identity.find(params["capital_increase"]["identity_id"]).company_id,
-      #   :stock_class => params["capital_increase"]["stock_class"],
-      #   :stock_num => params["capital_increase"]["stock_num"],
-      #   :date_issued => params["capital_increase"]["date_issued"])
+      
+      if @capital_increase.date_issued <= Date.today
+        @stock = Stock.create(:identity_id => @capital_increase.identities_id,
+          :company_id => @capital_increase.identity.company_id,
+          :stock_class => @capital_increase.stock_class,
+          :stock_num => @capital_increase.stock_num,
+          :date_issued => @capital_increase.date_issued)
+        @capital_increase.stock_checked = true
+        @capital_increase.save
+      end
       redirect_to root_path
     else
       set_data()
