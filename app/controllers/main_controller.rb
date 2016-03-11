@@ -12,7 +12,7 @@ class MainController < ApplicationController
             session[:is_admin] = true
             session[:is_login] = true
             redirect_to controller: 'main', action: 'index'    
-        elsif params["account"] == "employee" and params["password"] == "12345678"
+        elsif params["account"] == "zxc" and params["password"] == "zxc"
             session[:name] = "employee"
             session[:is_admin] = false
             session[:is_login] = true
