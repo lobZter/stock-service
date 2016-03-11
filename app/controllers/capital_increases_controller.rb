@@ -43,6 +43,7 @@ class CapitalIncreasesController < ApplicationController
   def destroy
     @capital_increaser = capital_increaser.find(params[:id])
     @capital_increaser.destroy
+
     redirect_to capital_increases_path
   end
   
