@@ -10,15 +10,27 @@
         <div class="row no-margin-top">
           <div class="col-md-4">
             <%= f.label :buyer_id, "買方" %>
-            <%= f.select :buyer_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh, s.identity.id]}), {}, {class: "form-control"} %>
+            <% if @transaction.new_record? %>
+              <%= f.select :buyer_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh, s.identity.id]}), {}, {class: "form-control"} %>
+            <% else %>
+              <input class="form-control" value="<%= Identity.find(@transaction.buyer_id).self_detail.name_zh %>" readonly >
+            <% end %>
           </div>
           <div class="col-md-4">
             <%= f.label :seller_id, "賣方" %>
-            <%= f.select :seller_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh, s.identity.id]}), {}, {class: "form-control"} %>
-          </div>
+            <% if @transaction.new_record? %>
+              <%= f.select :seller_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh, s.identity.id]}), {}, {class: "form-control"} %>
+            <% else %>
+              <input class="form-control" value="<%= Identity.find(@transaction.seller_id).self_detail.name_zh %>" readonly >
+            <% end %>
+           </div>
           <div class="col-md-4">
             <%= f.label :stock, "股票" %>
-            <select class="form-control" name="transaction[stock]" id="transaction_stock"></select>
+            <% if @transaction.new_record? %>
+              <select class="form-control" name="transaction[stock]" id="transaction_stock"></select>
+            <% else %>
+              <input class="form-control" value="<%= Company.find(@transaction.company_id).name_zh %> / <%= @transaction.stock_class %> / <%= @transaction.date_issued %>" readonly >
+            <% end %>
             <span class="help-block no-margin-bottom">發行公司 / 股票類別 / 發行日期</span>
           </div>
         </div>
@@ -28,11 +40,19 @@
         <div class="row">
           <div class="col-md-2">
             <%= f.label :fund_original, "投資金額" %>
-            <%= f.text_field :fund_original, class: "form-control auto-calculate" %>
+            <% if @transaction.new_record? %>
+              <%= f.text_field :fund_original, class: "form-control auto-calculate" %>
+            <% else %>
+              <input class="form-control" value="<%= @transaction.fund_original %>" readonly >
+            <% end %>
           </div>
           <div class="col-md-2">
             <%= f.label :currency_original, "幣別" %>
-            <%= f.select :currency_original, @currency_array, {}, { class: 'form-control' } %>
+            <% if @transaction.new_record? %>
+              <%= f.select :currency_original, @currency_array, {}, { class: 'form-control' } %>
+            <% else %>
+              <input class="form-control" value="<%= @currency_array[@transaction.currency_original-1][0] %>" readonly >
+            <% end %>
           </div>
         </div>
       </div>
@@ -41,26 +61,42 @@
         <div class="row">
           <div class="col-md-2">
             <%= f.label :fund, "交易金額" %>
-            <%= f.text_field :fund, class: "form-control auto-calculate" %>
+            <% if @transaction.new_record? %>
+              <%= f.text_field :fund, class: "form-control auto-calculate" %>
+            <% else %>
+              <%= f.text_field :fund, {class: 'form-control', readonly: true} %>
+            <% end %>
             <span class="help-block no-margin-bottom">投資金額 / 匯率</span>
           </div>
           <div class="col-md-2">
             <%= f.label :currency, "認定幣別" %>
-            <input type="text" class="form-control currency" readonly>
+            <% if @transaction.new_record? %>
+              <input class="form-control currency" readonly>
+            <% else %>
+              <input class="form-control" value="<%= @currency_array[@transaction.currency-1][0] %>" readonly>
+            <% end %>
             <span class="help-block no-margin-bottom">由股票發行公司決定</span>
           </div>
           <div class="col-md-2">
             <%= f.label :date_paid, "匯率轉換日" %>
-            <div class="input-group date" id="transaction_datetimepicker1">
-              <%= f.text_field :date_paid , class: "form-control" %>
-              <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span>
-              </span>
-            </div>
+            <% if @transaction.new_record? %>
+              <div class="input-group date" id="transaction_datetimepicker1">
+                <%= f.text_field :date_paid , class: "form-control" %>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
+            <% else %>
+              <input class="form-control" value="<%= @transaction.date_paid %>" readonly>
+            <% end %>
           </div>
           <div class="col-md-2">
             <%= f.label :exchange_rate, "匯率" %>
-            <%= f.text_field :exchange_rate, {class: "form-control auto-calculate", value: 1} %>
+            <% if @transaction.new_record? %>
+              <%= f.text_field :exchange_rate, {class: "form-control auto-calculate", value: 1} %>
+            <% else %>
+              <input class="form-control" value="<%= @transaction.exchange_rate %>" readonly>
+            <% end %>
           </div>
         </div>
       </div>
@@ -69,16 +105,28 @@
         <div class="row">
           <div class="col-md-2">
             <%= f.label :stock_price, "每股價格" %>
-            <%= f.text_field :stock_price, class: "form-control auto-calculate" %>
+            <% if @transaction.new_record? %>
+              <%= f.text_field :stock_price, class: "form-control auto-calculate" %>
+            <% else %>
+              <input class="form-control" value="<%= @transaction.stock_price %>" readonly>
+            <% end %>
           </div>
           <div class="col-md-2">
             <%= f.label :currency, "認定幣別" %>
-            <input type="text" class="form-control currency" readonly>
+            <% if @transaction.new_record? %>
+              <input class="form-control currency" readonly>
+            <% else %>
+              <input class="form-control" value="<%= @currency_array[@transaction.currency-1][0] %>" readonly>
+            <% end %>
             <span class="help-block no-margin-bottom">由股票發行公司決定</span>
           </div>
           <div class="col-md-2">
             <%= f.label :stock_num, "交易股數" %>
-            <%= f.text_field :stock_num, class: "form-control" %>
+            <% if @transaction.new_record? %>
+              <%= f.text_field :stock_num, class: "form-control" %>
+            <% else %>
+              <input class="form-control" value="<%= @transaction.stock_num %>" readonly>
+            <% end %>
           </div>
         </div>
       </div>
@@ -87,12 +135,16 @@
         <div class="row">
           <div class="col-md-4">
             <%= f.label :date_signed, "簽約日" %>
-            <div class="input-group date" id="transaction_datetimepicker2">
-              <%= f.text_field :date_signed , class: "form-control" %>
-              <span class="input-group-addon">
-                  <span class="glyphicon glyphicon-calendar"></span>
-              </span>
-            </div>
+            <% if @transaction.new_record? %>
+              <div class="input-group date" id="transaction_datetimepicker2">
+                <%= f.text_field :date_signed , class: "form-control" %>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
+            <% else %>
+              <input class="form-control" value="<%= @transaction.date_signed %>" readonly>
+            <% end %>
           </div>
         </div>
       </div>

@@ -7,8 +7,8 @@ stocks = undefined
 
 setCurrency = ->
   index = $("#transaction_stock").prop('selectedIndex')
-  $('.currency').val(currency[stocks[index].company_currency])
-  $('#transaction_currency').val(stocks[index].company_currency)
+  $('.currency').val(currency[stocks[index].currency])
+  $('#transaction_currency').val(stocks[index].currency)
 
 setStock = ->
   i_id = $('#transaction_seller_id').val()
