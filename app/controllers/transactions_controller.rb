@@ -52,6 +52,9 @@ class TransactionsController < ApplicationController
       redirect_to root_path
     else
       set_data()
+      if @transaction.errors.messages.has_key? :stock_num_error
+        flash.now[:error] = @transaction.errors.messages[:stock_num_error][0]
+      end
       render :action => :new
     end
   end
