@@ -14,5 +14,5 @@ $ ->
   
   # Calculate stock num
   $('input.auto-calculate').change ->
-    $('#company_stock_num').val $('#company_fund').val()/$('#company_stock_price').val()
+    $('#company_stock_num').val  Math.floor($('#company_fund').val()/$('#company_stock_price').val())
     return
