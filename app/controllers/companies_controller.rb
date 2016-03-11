@@ -27,7 +27,11 @@ class CompaniesController < ApplicationController
       redirect_to company_path(@company)
     else
       set_data()
-      render :action => :new
+      flash[:error] = ""
+      @company.errors.messages.each do |attribute, error|
+        flash[:error] = flash[:error] + FLUSH_HASH[attribute] + ", "
+      end
+      redirect_to :action => :new
     end
   end
   
