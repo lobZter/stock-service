@@ -1,11 +1,12 @@
 class TransactionsController < ApplicationController
-  before_action :set_transactions, :only => :index
+  before_action :set_transaction, :only => [:edit, :update, :destroy]
   before_action :set_data, :only => [:new, :edit]
   layout 'fluid_application', :only => :index
   
   # GET /transactions
   # GET /transactions/index
   def index
+    @transactions = Transaction.all
     @identity_names = Hash.new
     @company_names = Hash.new
     @transactions.each do |t|
@@ -22,10 +23,7 @@ class TransactionsController < ApplicationController
   
   # GET /transactions/:id
   def edit
-    @transaction = Transaction.find(params[:id])
-
   end
-  
   
   # POST /transactions
   def create
@@ -71,6 +69,22 @@ class TransactionsController < ApplicationController
     redirect_to root_path
   end
   
+  # PUT /transactions/:id
+  def update
+    if @transaction.update(stockholder_params)
+      redirect_to stockholder_path
+    else
+      render :action => :edit
+    end
+  end
+  
+  # DELETE /transactions/:id
+  def destroy
+    @transaction.destroy
+    
+    redirect_to root_path
+  end
+  
   private
   
   def set_data
@@ -90,8 +104,8 @@ class TransactionsController < ApplicationController
         :fund_original, :currency_original, :exchange_rate, :stock).except(:stock)
   end
   
-  def set_transactions
-    @transactions = Transaction.all
+  def set_transaction
+    @transaction = Transaction.find(params[:id])
   end
   
   def set_identity_name(identity_id)

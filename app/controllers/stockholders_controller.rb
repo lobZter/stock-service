@@ -9,13 +9,15 @@ class StockholdersController < ApplicationController
   
   # POST /stockholders
   def create
-    @stockholder = Stockholder.create(stockholder_params)
-    @identity = Identity.create(:company_id => nil, :stockholder_id => @stockholder.id)
-    
-    @stockholder.identity_id = @identity.id
-    @stockholder.save
-    
-    redirect_to root_path
+    @stockholder = Stockholder.new(stockholder_params)
+    if @stockholder.save
+      @identity = Identity.create(:company_id => nil, :stockholder_id => @stockholder.id)
+      @stockholder.identity_id = @identity.id
+      @stockholder.save
+      redirect_to stockholder_path( @stockholder )
+    else
+      render :action => :new
+    end
   end
   
   # GET /stockholders/new
@@ -36,15 +38,16 @@ class StockholdersController < ApplicationController
   
   # PUT /stockholders/:id
   def update
-    @stockholder.update(stockholder_params)
-    
-    redirect_to stockholder_path( @stockholder )
+    if @stockholder.update(stockholder_params)
+      redirect_to stockholder_path(@stockholder)
+    else
+      render :action => :edit
+    end
   end
   
   # DELETE /stockholders/:id
   def destroy
     @stockholder.destroy
-    
     redirect_to root_path
   end
   

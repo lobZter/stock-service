@@ -6,7 +6,8 @@ class Company < ActiveRecord::Base
   validates_presence_of :name_zh, 
     :date_establish,
     :fund,
-    :currency,
+    :stock_price,
     :stock_class,
+    :currency,
     :stock_num
 end
