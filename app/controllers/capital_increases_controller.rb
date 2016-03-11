@@ -5,9 +5,6 @@ class CapitalIncreasesController < ApplicationController
   def index
     @capital_increases = CapitalIncrease.all
     @identities_id = CapitalIncrease.uniq.pluck(:identity_id)
-    # puts "DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG"
-    # puts @identities_id
-    # puts "DEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUGDEBUG"
     @companies_name = {}
     @identities_id.each do |identity_id|
       @identity = Identity.find(identity_id)
@@ -47,21 +44,21 @@ class CapitalIncreasesController < ApplicationController
   #   @capital_increaser = capital_increaser.find( params[:id] )
   # end
   
-  # # PATCH /capital_increases/:id
-  # def update
-  #   @capital_increaser = capital_increaser.find (params[:id] )
-  #   @capital_increaser.update( capital_increaser_params )
+  # PATCH /capital_increases/:id
+  def update
+    @capital_increaser = capital_increaser.find (params[:id] )
+    @capital_increaser.update( capital_increaser_params )
 
-  #   redirect_to :action => :show, :id => @capital_increaser
-  # end
+    redirect_to :action => :show, :id => @capital_increaser
+  end
   
-  # # DELETE /capital_increases/:id
-  # def destroy
-  #   @capital_increaser = capital_increaser.find(params[:id])
-  #   @capital_increaser.destroy
+  # DELETE /capital_increases/:id
+  def destroy
+    @capital_increaser = capital_increaser.find(params[:id])
+    @capital_increaser.destroy
   
-  #   redirect_to :action => :index
-  # end
+    redirect_to :action => :index
+  end
   
   # # GET /capital_increases/:id/edit
   # def edit
