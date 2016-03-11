@@ -27,6 +27,24 @@ setStock = ->
     setCurrency()
   return
 
+@setPreview = (input, id) ->
+  if input.files and input.files[0]
+    reader = new FileReader
+
+    reader.onload = (e) ->
+      $(id).attr 'src', e.target.result
+      return
+
+    reader.readAsDataURL input.files[0]
+  return
+
+
+@setModal = (image) ->
+  $('#enlarge_image').attr 'src', image.src
+  $('#image_modal').modal 'show'
+  return
+
+
 $ ->
   setStock()
 
@@ -62,5 +80,4 @@ $ ->
   $('#transaction_stock').change ->
     setCurrency()
     return
-    
 

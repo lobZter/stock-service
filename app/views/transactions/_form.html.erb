@@ -166,25 +166,25 @@
             <label>
             <%= f.check_box :contract_0_needed %> 意向書
             </label>
-            <%= f.file_field :contract_0, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+            <%= f.file_field :contract_0, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true", :onchange => "setPreview(this, '#contact_0_image');" %>
           </div>
           <div class="form-group">
             <label>
               <%= f.check_box :contract_1_needed %> Regular S
             </label>
-            <%= f.file_field :contract_1, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+            <%= f.file_field :contract_1, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true", :onchange => "setPreview(this, '#contact_1_image');" %>
           </div>
           <div class="form-group">
             <label>
               <%= f.check_box :contract_2_needed %> 中文股份買賣合約-美金
             </label>
-            <%= f.file_field :contract_2, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+            <%= f.file_field :contract_2, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true", :onchange => "setPreview(this, '#contact_2_image');" %>
           </div>
           <div class="form-group">
             <label>
               <%= f.check_box :contract_3_needed %> 中文股份買賣合約-美金
             </label>
-            <%= f.file_field :contract_3, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+            <%= f.file_field :contract_3, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true", :onchange => "setPreview(this, '#contact_3_image');" %>
           </div>
         </div>
         <div class="col-md-6">
@@ -192,25 +192,25 @@
             <label>
               <%= f.check_box :contract_4_needed %> Share Purchase Agreement
             </label>
-            <%= f.file_field :contract_4, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+            <%= f.file_field :contract_4, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true", :onchange => "setPreview(this, '#contact_4_image');" %>
           </div>
           <div class="form-group">
             <label>
               <%= f.check_box :contract_5_needed %> W-8 Ben
             </label>
-            <%= f.file_field :contract_5, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+            <%= f.file_field :contract_5, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true", :onchange => "setPreview(this, '#contact_5_image');" %>
           </div>
           <div class="form-group">
             <label>
               <%= f.check_box :contract_6_needed %> 換股協議書
             </label>
-            <%= f.file_field :contract_6, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+            <%= f.file_field :contract_6, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true", :onchange => "setPreview(this, '#contact_6_image');" %>
           </div>
           <div class="form-group">
             <label>
               <%= f.check_box :contract_7_needed %> 聲明書
             </label>
-            <%= f.file_field :contract_7, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+            <%= f.file_field :contract_7, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true", :onchange => "setPreview(this, '#contact_7_image');" %>
           </div>
         </div>
       </div>
@@ -222,6 +222,50 @@
     </div>
   </div>
       
+  <div class="panel panel-default">
+    <div class="panel-heading">圖片預覽區(點圖即可放大)</div>
+    <div class="panel-body">   
+      <div class="row">
+        <div class="col-sm-3">
+          <img class="img-responsive" id="contact_0_image" onclick="setModal(this);"/>
+        </div>
+        <div class="col-sm-3">
+          <img class="img-responsive" id="contact_1_image" onclick="setModal(this);"/>
+        </div>
+        <div class="col-sm-3">
+          <img class="img-responsive" id="contact_2_image" onclick="setModal(this);"/>
+        </div>
+        <div class="col-sm-3">
+          <img class="img-responsive" id="contact_3_image" onclick="setModal(this);"/>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-3">
+          <img class="img-responsive" id="contact_4_image" onclick="setModal(this);"/>
+        </div>
+        <div class="col-sm-3">
+          <img class="img-responsive" id="contact_5_image" onclick="setModal(this);"/>
+        </div>
+        <div class="col-sm-3">
+          <img class="img-responsive" id="contact_6_image" onclick="setModal(this);"/>
+        </div>
+        <div class="col-sm-3">
+          <img class="img-responsive" id="contact_7_image" onclick="setModal(this);"/>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal fade" id="image_modal" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          <img src="" id="enlarge_image" class="img-responsive">
+        </div>
+      </div>
+    </div>
+  </div>
       
   <div class="panel panel-default">
     <div class="panel-heading">郵寄資料上傳</div>
