@@ -7,6 +7,19 @@ class TransactionsController < ApplicationController
   # GET /transactions/index
   def index
     @transactions = Transaction.all
+    
+    if params[:set_not_completed]
+      @transactions = @transactions.filter_not_completed 
+    end
+    
+    if params[:set_completed]
+      @transactions = @transactions.filter_completed 
+    end
+    
+    
+    puts "-------"
+    puts Transaction.filter_completed
+    
     @identity_names = Hash.new
     @company_names = Hash.new
     @transactions.each do |t|
