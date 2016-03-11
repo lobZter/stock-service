@@ -28,7 +28,7 @@ setStock = ->
   return
 
 $ ->
-  # setStock()
+  setStock()
 
   # Datetime picker format
   $('#transaction_datetimepicker1').datetimepicker({

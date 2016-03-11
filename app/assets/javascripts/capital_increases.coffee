@@ -12,7 +12,7 @@ setCurrency = ->
     $('#capital_increase_currency').val(currency[company.currency])
   
 $ ->
-  # setCurrency()
+  setCurrency()
   
   # Datetime picker format
   $('#capital_increases_datetimepicker1').datetimepicker({

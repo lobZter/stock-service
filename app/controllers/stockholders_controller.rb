@@ -14,7 +14,7 @@ class StockholdersController < ApplicationController
       @identity = Identity.create(:company_id => nil, :stockholder_id => @stockholder.id)
       @stockholder.identity_id = @identity.id
       @stockholder.save
-      redirect_to stockholder_path( @stockholder )
+      redirect_to stockholder_path(@stockholder)
     else
       render :action => :new
     end
@@ -50,6 +50,7 @@ class StockholdersController < ApplicationController
     @stockholder.destroy
     redirect_to root_path
   end
+  
   
   private
   def set_stockholder
