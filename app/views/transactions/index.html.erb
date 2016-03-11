@@ -1,3 +1,15 @@
+<div class="row">
+  <div class="col-sm-1">
+    <%= link_to "未完成", transactions_path(:set_not_completed => 1), :class => "btn btn-default " %>
+  </div>
+  <div class="col-sm-1">
+    <%= link_to "已完成", transactions_path(:set_completed => 1), :class => "btn btn-default " %>
+  </div>
+  <div class="col-sm-1">
+    <%= link_to "全部", transactions_path, :class => "btn btn-default " %>
+  </div>
+</div>
+<div class="row">
 <table class="table table-bordered text-center">
   <thead>
     <tr>
@@ -51,3 +63,4 @@
     <% end %>
   </tbody>
 </table>
+</div>
