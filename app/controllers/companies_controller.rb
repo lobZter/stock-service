@@ -70,7 +70,7 @@ class CompaniesController < ApplicationController
   end
   
   def set_data
-    @currency_array = [["USD", 1], ["RMB", 2], ["NTD", 3]]
+    @currency_array = Currency.types
     @company_hash = {
       'Chinese' => :name_zh,
       'English' => :name_en,

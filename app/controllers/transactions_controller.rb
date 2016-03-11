@@ -70,8 +70,8 @@ class TransactionsController < ApplicationController
   
   # PUT /transactions/:id
   def update
-    if @transaction.update(stockholder_params)
-      redirect_to stockholder_path
+    if @transaction.update(transaction_params)
+      redirect_to transactions_path
     else
       render :action => :edit
     end
