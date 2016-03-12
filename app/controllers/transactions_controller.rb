@@ -66,8 +66,42 @@ class TransactionsController < ApplicationController
   
   # DELETE /transactions/:id
   def destroy
+    
+    buyer_stock = Stock.where("identity_id=?", @transaction.buyer_id)
+      .where("company_id=?", @transaction.company_id)
+      .where("stock_class=?", @transaction.stock_class)
+      .where("date_issued=?", @transaction.date_issued)[0]
+    
+    if buyer_stock.stock_num == @transaction.stock_num
+      buyer_stock.destroy
+    elsif buyer_stock.stock_num > @transaction.stock_num
+      stock_num = buyer_stock.stock_num - @transaction.stock_num
+      buyer_stock.update({:stock_num => stock_num})
+    else
+      flash[:errors] = "買方股票數量不合 無法刪除此交易"
+      redirect_to transactions_path
+      return
+    end
+    
+    seller_stock = Stock.where("identity_id=?", @transaction.seller_id)
+      .where("company_id=?", @transaction.company_id)
+      .where("stock_class=?", @transaction.stock_class)
+      .where("date_issued=?", @transaction.date_issued)[0]
+    
+    if seller_stock.nil?
+      Stock.create({
+        :dentity_id => @transaction.buyer_id,
+        :company_id => @transaction.company_id,
+        :stock_class => @transaction.stock_class,
+        :date_issued => @transaction.date_issued,
+        :stock_num => @transaction.stock_num})
+    else
+      stock_num = seller_stock.stock_num + @transaction.stock_num
+      seller_stock.update({:stock_num => stock_num})
+    end
+    
     @transaction.destroy
-    redirect_to root_path
+    redirect_to transactions_path
   end
   
   
