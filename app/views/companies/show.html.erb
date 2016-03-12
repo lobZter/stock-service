@@ -1,4 +1,15 @@
-<h2><strong><%= @company.name_zh %> <%= @company.name_en %></strong></h2>
+<div class="row" style="margin: 0px">
+  <div class="col-md-10">
+    <h2><strong><%= @company.name_zh %> <%= @company.name_en %></strong></h2>
+  </div>
+  <h2>
+    <%= link_to "修改", edit_company_path(@company), class: "btn btn-default col-md-1" %>
+  </h2>  
+  <h2>  
+    <%= button_to '刪除', company_path(@company), {method: "delete", class: "btn btn-default col-md-1"} %>
+  </h2>
+</div>
+
 
 <div class="well">
   <div class="row no-margin-top">

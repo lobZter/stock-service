@@ -15,7 +15,6 @@ class Company < ActiveRecord::Base
   
   private
   def readonly_field
-    self.errors.add(:identity_id, "identity_id can't be changed") if self.identity_id_changed?
     self.errors.add(:date_establish, "date_establish can't be changed") if self.date_establish_changed?
     self.errors.add(:fund, "fund can't be changed") if self.fund_changed?
     self.errors.add(:stock_price, "stock_price can't be changed") if self.stock_price_changed?
