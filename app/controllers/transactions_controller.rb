@@ -39,8 +39,10 @@ class TransactionsController < ApplicationController
       redirect_to root_path
     else
       set_data()
-      if @transaction.errors.messages[:stock_num][0] == "交易股數大於賣方擁有股數"
+      if @transaction.errors.messages.key?(:stock_num) && @transaction.errors.messages[:stock_num][0] == "交易股數大於賣方擁有股數"
         flash.now[:stock_num] = @transaction.errors.messages[:stock_num][0]
+      elsif @transaction.errors.messages.key?(:buyer_id) && @transaction.errors.messages[:buyer_id][0] == "賣方與買方相同"
+        flash.now[:buyer_id] = @transaction.errors.messages[:buyer_id][0]
       end
       render :action => :new
     end

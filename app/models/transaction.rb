@@ -45,9 +45,17 @@ class Transaction < ActiveRecord::Base
     :date_signed
   
   validate :check_stock_num
+  validate :check_buyer_seller
   validate :readonly_field, :on => :update
 
   private
+  def check_buyer_seller
+    return if seller_id.nil? or buyer_id.nil? or company_id.nil? or stock_class.nil? or date_issued.nil? or fund.nil? or currency.nil? or stock_price.nil? or stock_num.nil? or date_signed.nil?
+    if self.buyer_id == self.seller_id
+      self.errors.add(:buyer_id, "賣方與買方相同")
+      self.errors.add(:seller_id, "賣方與買方相同")
+    end
+  end
   def check_stock_num
     return if seller_id.nil? or buyer_id.nil? or company_id.nil? or stock_class.nil? or date_issued.nil? or fund.nil? or currency.nil? or stock_price.nil? or stock_num.nil? or date_signed.nil?
     seller_stock = Stock.where("company_id=?", self.company_id)
