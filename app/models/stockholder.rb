@@ -9,6 +9,7 @@ class Stockholder < ActiveRecord::Base
   
   validate :readonly_field, :on => :update
 
+  private
   def readonly_field
     self.errors.add(:identity_id, "identity_id can't be changed") if self.identity_id_changed?
   end
