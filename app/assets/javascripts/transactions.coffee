@@ -7,8 +7,8 @@ stocks = undefined
 
 setCurrency = ->
   index = $("#transaction_stock").prop('selectedIndex')
-  $('.currency').val(currency[stocks[index].company_currency])
-  $('#transaction_currency').val(stocks[index].company_currency)
+  $('.currency').val(currency[stocks[index].currency])
+  $('#transaction_currency').val(stocks[index].currency)
 
 setStock = ->
   i_id = $('#transaction_seller_id').val()
@@ -45,7 +45,7 @@ setStock = ->
   return
 
 
-$ ->
+$('body.transactions_new').ready ->
   setStock()
 
   # Datetime picker format
@@ -68,7 +68,7 @@ $ ->
   # Calculate 
   $('.auto-calculate').change ->
     # Stock number
-    $('#transaction_stock_num').val($('#transaction_fund').val()/$('#transaction_stock_price').val())
+    $('#transaction_stock_num').val(Math.floor($('#transaction_fund').val()/$('#transaction_stock_price').val()))
     # Transaction money
     $('#transaction_fund').val($('#transaction_fund_original').val()/$('#transaction_exchange_rate').val())
     return

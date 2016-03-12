@@ -63,3 +63,16 @@
     color: #a94442;
   }
 }
+
+.custom-list li {
+    display: block;
+}
+
+.custom-list li:before {
+    content: "\e014";
+    font-family: 'Glyphicons Halflings';
+    font-size: 9px;
+    float: left;
+    margin-top: 4px;
+    margin-left: -17px;
+}

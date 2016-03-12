@@ -16,21 +16,19 @@ class CapitalIncreasesController < ApplicationController
   
   # POST /capital_increases
   def create
-    @capital_increase = CapitalIncrease.new(capital_increase_params.merge({"stock_checked"=>false}))
+    @capital_increase = CapitalIncrease.new(capital_increase_params.merge({:stock_checked => false}))
     if@capital_increase.save
-      
-      if @capital_increase.date_issued <= Date.today
-        @stock = Stock.create(:identity_id => @capital_increase.identities_id,
-          :company_id => @capital_increase.identity.company_id,
-          :stock_class => @capital_increase.stock_class,
-          :stock_num => @capital_increase.stock_num,
-          :date_issued => @capital_increase.date_issued)
-        @capital_increase.stock_checked = true
-        @capital_increase.save
-      end
       redirect_to root_path
     else
       set_data()
+      puts @capital_increase.errors.messages.inspect
+      if @capital_increase.errors.messages.key?(:stock_num) && @capital_increase.errors.messages[:stock_num][0] == "減資失敗: 擁有股票數量不足"
+        flash.now[:stock_num] = @capital_increase.errors.messages[:stock_num][0]
+      elsif @capital_increase.errors.messages.key?(:stock_num) && @capital_increase.errors.messages[:stock_num][0] == "增資失敗: 股票數不可為零"
+        flash.now[:stock_num_zero] = @capital_increase.errors.messages[:stock_num][0]
+      elsif @capital_increase.errors.messages.key?(:stock_class) && @capital_increase.errors.messages[:stock_class][0] == "減資失敗: 未擁有此股"
+        flash.now[:stock_class] = @capital_increase.errors.messages[:stock_class][0]
+      end
       render :action => :new
     end
   end

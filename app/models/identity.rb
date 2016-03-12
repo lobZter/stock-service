@@ -29,7 +29,7 @@ class Identity < ActiveRecord::Base
       stock_hash[:identity_id] = s.identity_id
       stock_hash[:company_id] = s.company_id
       stock_hash[:company_name] = Company.find(s.company_id).name_zh
-      stock_hash[:company_currency] = Company.find(s.company_id).currency
+      stock_hash[:currency] = Company.find(s.company_id).currency
       stock_hash[:stock_class] = s.stock_class
       stock_hash[:date_issued] = s.date_issued
       stock_hash[:stock_num] = s.stock_num

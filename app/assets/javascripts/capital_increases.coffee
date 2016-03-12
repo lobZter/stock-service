@@ -8,10 +8,9 @@ setCurrency = ->
   url = '/identities/' + i_id
   $.get url, (data, status) ->
     company = JSON.parse(data)
-    console.log currency[company.currency]
     $('#capital_increase_currency').val(currency[company.currency])
   
-$ ->
+$('body.capital_increases_new').ready ->
   setCurrency()
   
   # Datetime picker format
@@ -20,7 +19,7 @@ $ ->
   });
 
   # Calculate 
-  $('auto-calculate').change ->
+  $('.auto-calculate').change ->
     # Stock number
     $('#capital_increase_stock_num').val($('#capital_increase_fund').val()/$('#capital_increase_stock_price').val())
     return

@@ -12,8 +12,7 @@ class StockholdersController < ApplicationController
     @stockholder = Stockholder.new(stockholder_params)
     if @stockholder.save
       @identity = Identity.create(:company_id => nil, :stockholder_id => @stockholder.id)
-      @stockholder.identity_id = @identity.id
-      @stockholder.save
+      @stockholder.update({:identity_id => @identity.id})
       redirect_to stockholder_path(@stockholder)
     else
       render :action => :new
