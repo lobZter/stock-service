@@ -48,6 +48,8 @@ setStock = ->
 $('body.transactions_new').ready ->
   setStock()
   
+  $(".transaction_select2").select2({theme: "bootstrap"});
+  
   # Datetime picker format
   $('#transaction_datetimepicker1').datetimepicker({
      format: 'YYYY/MM/DD'

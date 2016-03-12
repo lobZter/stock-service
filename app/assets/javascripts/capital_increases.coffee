@@ -14,8 +14,10 @@ setCurrency = ->
 $('body.capital_increases_new').ready ->
   setCurrency()
   
+  $(".capital_increase_select2").select2({theme: "bootstrap"});
+  
   # Datetime picker format
-  $('#capital_increases_datetimepicker1').datetimepicker({
+  $('#capital_increase_datetimepicker1').datetimepicker({
      format: 'YYYY/MM/DD'
   });
 

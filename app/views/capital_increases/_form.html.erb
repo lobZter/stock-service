@@ -18,7 +18,7 @@
       <div class="row no-margin-top">
         <div class="col-sm-4">
           <%= f.label :identity_id, "公司名稱" %>
-          <%= f.select :identity_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} ), {}, {:class => 'form-control'} %>
+          <%= f.select :identity_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} ), {}, {class: "form-control transaction_select2"} %>
         </div>
         <div class="col-sm-4">
           <%= f.label :stock_class, "股票類型" %>
@@ -28,7 +28,7 @@
         </div>
         <div class="col-md-4">
           <%= f.label :date_issued, "生效日期" %>
-          <div class='input-group date' id='capital_increases_datetimepicker1'>
+          <div class='input-group date' id='capital_increase_datetimepicker1'>
             <%= f.text_field :date_issued , class: 'form-control' %>
             <span class="input-group-addon">
                 <span class="glyphicon glyphicon-calendar"></span>

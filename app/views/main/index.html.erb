@@ -1,12 +1,11 @@
 <div class="row">
   <div class="col-sm-6">
     <div class="input-group">
-      <input type="text" id="stockholder_input" class="form-control" list="stockholder_list" placeholder="搜尋股東">
-      <datalist id="stockholder_list">
-        <% @stockholders.map{ |s| [s.name_zh, s.id]}.each do |name_zh, id| %>
-          <option data-value="<%= id %>" value="<%= name_zh %>"></option>
+      <select id="stockholder_input" class="form-control main_select2">
+        <% @stockholders.each do |s| %>
+          <option value="<%= s.id %>"><%= s.name_zh %></option>
         <% end %>
-      </datalist>
+      </select>
       <span class="input-group-btn">
         <a href="" id="stockholder_search_btn" class="btn btn-default">
           <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -16,12 +15,11 @@
   </div>
   <div class="col-sm-6">
     <div class="input-group">
-      <input type="text" id="company_input" class="form-control" list="company_list" placeholder="搜尋公司">
-      <datalist id="company_list">
-        <% @companies.map{ |c| [c.name_zh, c.id]}.each do |name_zh, id| %>
-          <option data-value="<%= id %>" value="<%= name_zh %>"></option>
+      <select id="company_input" class="form-control main_select2">
+        <% @companies.each do |c| %>
+          <option value="<%= c.id %>"><%= c.name_zh %></option>
         <% end %>
-      </datalist>
+      </select>
       <span class="input-group-btn">
         <a href="" id="company_search_btn" class="btn btn-default">
           <span class="glyphicon glyphicon-search" aria-hidden="true"></span>

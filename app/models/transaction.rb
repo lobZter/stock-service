@@ -67,12 +67,12 @@ class Transaction < ActiveRecord::Base
         .where("date_issued=?", self.date_issued)
         .where("identity_id=?", self.buyer_id)[0]
       if buyer_stock == nil
-        buyer_stock = Stock.create({
-          "identity_id"=>self.buyer_id,
-          "company_id"=>self.company_id,
-          "stock_class"=>self.stock_class,
-          "date_issued"=>self.date_issued,
-          "stock_num"=>self.stock_num})
+        Stock.create({
+          :identity_id => self.buyer_id,
+          :company_id => self.company_id,
+          :stock_class => self.stock_class,
+          :date_issued => self.date_issued,
+          :stock_num => self.stock_num})
       else
         stock_num = buyer_stock.stock_num + self.stock_num
         buyer_stock.update({:stock_num => stock_num})
