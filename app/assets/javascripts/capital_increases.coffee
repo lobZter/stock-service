@@ -4,6 +4,7 @@ currency =
   3: 'NTD'
   
 setCurrency = ->
+  
   i_id = $('#capital_increase_identity_id').val()
   url = '/identities/' + i_id
   $.get url, (data, status) ->
@@ -29,4 +30,4 @@ $('body.capital_increases_new').ready ->
     
     return
     
-  
+  return

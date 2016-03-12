@@ -47,7 +47,7 @@ setStock = ->
 
 $('body.transactions_new').ready ->
   setStock()
-
+  
   # Datetime picker format
   $('#transaction_datetimepicker1').datetimepicker({
      format: 'YYYY/MM/DD'
@@ -81,3 +81,4 @@ $('body.transactions_new').ready ->
     setCurrency()
     return
 
+  return

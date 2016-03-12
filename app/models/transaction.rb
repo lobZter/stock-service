@@ -49,6 +49,7 @@ class Transaction < ActiveRecord::Base
 
   private
   def check_stock_num
+    return if seller_id.nil? or buyer_id.nil? or company_id.nil? or stock_class.nil? or date_issued.nil? or fund.nil? or currency.nil? or stock_price.nil? or stock_num.nil? or date_signed.nil?
     seller_stock = Stock.where("company_id=?", self.company_id)
       .where("stock_class=?", self.stock_class)
       .where("date_issued=?", self.date_issued)

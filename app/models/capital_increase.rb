@@ -16,6 +16,7 @@ class CapitalIncrease < ActiveRecord::Base
   
   private
   def check_stock_num
+    return if stock_num.nil? or identity_id.nil? or stock_class.nil? or date_issued.nil? or fund.nil? or currency.nil? or stock_price.nil? or stock_num.nil?
     if self.stock_num < 0
       stock = Stock.where("company_id=?", self.identity.company_id)
         .where("stock_class=?", self.stock_class)
