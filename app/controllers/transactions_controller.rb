@@ -34,32 +34,26 @@ class TransactionsController < ApplicationController
     stock_hash = JSON.parse params[:transaction][:stock]
     stock_id = stock_hash.delete("id")
     
-    @transaction = Transaction.new(stock_hash.merge(transaction_params).merge({"stock_checked"=>false}))
+    @transaction = Transaction.new(stock_hash.merge(transaction_params))
     if @transaction.save
-      if @transaction.date_signed <= Date.today
-
-        @buyer_stock = Stock.where("company_id=?", @transaction.company_id)
-          .where("stock_class=?", @transaction.stock_class)
-          .where("date_issued=?", @transaction.date_issued)
-          .where("identity_id=?", @transaction.buyer_id)[0]
-        @seller_stock = Stock.find(stock_id)
-        
-        if @buyer_stock == nil
-          @buyer_stock = Stock.create(stock_hash.merge({"identity_id"=>@transaction.buyer_id, "stock_num"=>@transaction.stock_num}))
-        else
-          stock_num = @buyer_stock.stock_num + @transaction.stock_num
-          @buyer_stock.update({"stock_num"=>stock_num})
-        end
-        
-        if @seller_stock.stock_num - @transaction.stock_num == 0
-          @seller_stock.destroy
-        else
-          stock_num = @seller_stock.stock_num - @transaction.stock_num
-          @seller_stock.update({"stock_num"=>stock_num})
-        end
-        
-        @transaction.stock_checked = true
-        @transaction.save
+      @buyer_stock = Stock.where("company_id=?", @transaction.company_id)
+        .where("stock_class=?", @transaction.stock_class)
+        .where("date_issued=?", @transaction.date_issued)
+        .where("identity_id=?", @transaction.buyer_id)[0]
+      @seller_stock = Stock.find(stock_id)
+      
+      if @buyer_stock == nil
+        @buyer_stock = Stock.create(stock_hash.merge({"identity_id"=>@transaction.buyer_id, "stock_num"=>@transaction.stock_num}))
+      else
+        stock_num = @buyer_stock.stock_num + @transaction.stock_num
+        @buyer_stock.update({"stock_num"=>stock_num})
+      end
+      
+      if @seller_stock.stock_num - @transaction.stock_num == 0
+        @seller_stock.destroy
+      else
+        stock_num = @seller_stock.stock_num - @transaction.stock_num
+        @seller_stock.update({"stock_num"=>stock_num})
       end
       
       redirect_to root_path
