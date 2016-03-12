@@ -24,25 +24,27 @@ class Transaction < ActiveRecord::Base
   
   validate :check_stock_num
   
-  scope :filter_not_completed, -> { where(" ((contract_0_needed = ?) AND (contract_0 IS NULL)) OR
-                                            ((contract_1_needed = ?) AND (contract_1 IS NULL)) OR
-                                            ((contract_2_needed = ?) AND (contract_2 IS NULL)) OR
-                                            ((contract_3_needed = ?) AND (contract_3 IS NULL)) OR
-                                            ((contract_4_needed = ?) AND (contract_4 IS NULL)) OR
-                                            ((contract_5_needed = ?) AND (contract_5 IS NULL)) OR
-                                            ((contract_6_needed = ?) AND (contract_6 IS NULL)) OR
-                                            ((contract_7_needed = ?) AND (contract_7 IS NULL))",
-                                            true, true, true, true, true, true, true, true)}
+  scope :filter_not_completed, -> { where(
+    " ((contract_0_needed = ?) AND (contract_0 IS NULL)) OR
+      ((contract_1_needed = ?) AND (contract_1 IS NULL)) OR
+      ((contract_2_needed = ?) AND (contract_2 IS NULL)) OR
+      ((contract_3_needed = ?) AND (contract_3 IS NULL)) OR
+      ((contract_4_needed = ?) AND (contract_4 IS NULL)) OR
+      ((contract_5_needed = ?) AND (contract_5 IS NULL)) OR
+      ((contract_6_needed = ?) AND (contract_6 IS NULL)) OR
+      ((contract_7_needed = ?) AND (contract_7 IS NULL))",
+    true, true, true, true, true, true, true, true)}
   
-  scope :filter_completed, -> { where.not(" ((contract_0_needed = ?) AND (contract_0 IS NULL)) OR 
-                                            ((contract_1_needed = ?) AND (contract_1 IS NULL)) OR
-                                            ((contract_2_needed = ?) AND (contract_2 IS NULL)) OR
-                                            ((contract_3_needed = ?) AND (contract_3 IS NULL)) OR
-                                            ((contract_4_needed = ?) AND (contract_4 IS NULL)) OR
-                                            ((contract_5_needed = ?) AND (contract_5 IS NULL)) OR
-                                            ((contract_6_needed = ?) AND (contract_6 IS NULL)) OR
-                                            ((contract_7_needed = ?) AND (contract_7 IS NULL))",
-                                                true, true, true, true, true, true, true, true)}
+  scope :filter_completed, -> { where.not(
+    " ((contract_0_needed = ?) AND (contract_0 IS NULL)) OR 
+      ((contract_1_needed = ?) AND (contract_1 IS NULL)) OR
+      ((contract_2_needed = ?) AND (contract_2 IS NULL)) OR
+      ((contract_3_needed = ?) AND (contract_3 IS NULL)) OR
+      ((contract_4_needed = ?) AND (contract_4 IS NULL)) OR
+      ((contract_5_needed = ?) AND (contract_5 IS NULL)) OR
+      ((contract_6_needed = ?) AND (contract_6 IS NULL)) OR
+      ((contract_7_needed = ?) AND (contract_7 IS NULL))",
+    true, true, true, true, true, true, true, true)}
   
   private
   def check_stock_num

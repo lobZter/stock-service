@@ -3,7 +3,7 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 
-$ ->
+$('body.companies_new').ready ->
   # Datetime picker format
   $('#datetimepicker1').datetimepicker({
      format: 'YYYY/MM/DD'

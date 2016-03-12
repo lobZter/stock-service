@@ -45,7 +45,7 @@ setStock = ->
   return
 
 
-$ ->
+$('body.transactions_new').ready ->
   setStock()
 
   # Datetime picker format

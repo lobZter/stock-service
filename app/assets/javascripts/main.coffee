@@ -1,7 +1,7 @@
 # Place all the behaviors and hooks related to the matching controller here.
 # All this logic will automatically be available in application.js.
 # You can use CoffeeScript in this file: http://coffeescript.org/
-$ ->
+$('body.main_index').ready ->
   
   $('#stockholder_input').change ->
     val = $('#stockholder_input').val()

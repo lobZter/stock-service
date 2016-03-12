@@ -10,7 +10,7 @@ setCurrency = ->
     company = JSON.parse(data)
     $('#capital_increase_currency').val(currency[company.currency])
   
-$ ->
+$('body.capital_increases_new').ready ->
   setCurrency()
   
   # Datetime picker format
