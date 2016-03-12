@@ -1,3 +1,5 @@
+<%= render :partial => 'layouts/flash' %>
+
 <div class="row">
   <div class="col-sm-1">
     <%= link_to "未完成", transactions_path(:set_not_completed => 1), :class => "btn btn-default " %>
@@ -10,17 +12,13 @@
   </div>
 </div>
 <div class="row">
-<table class="table table-bordered text-center">
+<table class="table table-hover text-center">
   <thead>
     <tr>
    	  <th class="text-center">買方</th>
    	  <th class="text-center">賣方</th>
-   	  <th class="text-center">發行公司</th>
-   	  <th class="text-center">股票類型</th>
-   	  <th class="text-center">數量</th>
-      <th class="text-center">面額</th>
-      <th class="text-center">幣別</th>
-      <th class="text-center">日期</th>
+   	  <th class="text-center">股票</th>
+   	  <th class="text-center">股數</th>
       <th class="text-center">意向書</th>
       <th class="text-center">Regular S</th>
    	  <th class="text-center">USD合約</th>
@@ -32,6 +30,7 @@
    	  <th class="text-center">合約寄買方</th>
    	  <th class="text-center">合約寄賣方</th>
    	  <th class="text-center">編輯</th>
+   	  <th class="text-center">刪除</th>
     </tr>
   </thead>
   <tbody>
@@ -39,12 +38,8 @@
     <tr>
    	  <td><%= @identity_names[t.buyer_id]%></td>
    	  <td><%= @identity_names[t.seller_id]%></td>
-   	  <td><%= @company_names[t.company_id] %></td>
-   	  <td><%= t.stock_class %></td>
+   	  <td><%= @company_names[t.company_id] %> / <%= t.stock_class %> / <%= t.date_issued %></td>
    	  <td><%= t.stock_num %></td>
-   	  <td><%= t.stock_price %></td>
-   	  <td><%= t.currency %></td>
-   	  <td><%= t.date_issued %></td>
    	  
    	  <td><%= status_check(t.contract_0_needed, t.contract_0?) %></td>
    	  <td><%= status_check(t.contract_1_needed, t.contract_1?) %></td>
@@ -59,6 +54,7 @@
    	  <td><%= t.send_seller %></td>
    	  
    	  <td><%= link_to 'Edit', edit_transaction_path(t), class: "btn btn-primary btn-xs" %></td>
+   	  <td><%= button_to 'Del', transaction_path(t), {method: "delete", class: "btn btn-danger btn-xs", data: {confirm: "確定刪除?"}} %></td>
     </tr>
     <% end %>
   </tbody>
