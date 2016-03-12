@@ -68,7 +68,7 @@ $ ->
   # Calculate 
   $('.auto-calculate').change ->
     # Stock number
-    $('#transaction_stock_num').val($('#transaction_fund').val()/$('#transaction_stock_price').val())
+    $('#transaction_stock_num').val(Math.floor($('#transaction_fund').val()/$('#transaction_stock_price').val()))
     # Transaction money
     $('#transaction_fund').val($('#transaction_fund_original').val()/$('#transaction_exchange_rate').val())
     return

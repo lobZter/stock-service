@@ -49,14 +49,39 @@ class Transaction < ActiveRecord::Base
     seller_stock = Stock.where("company_id=?", self.company_id)
       .where("stock_class=?", self.stock_class)
       .where("date_issued=?", self.date_issued)
-      .where("identity_id=?", self.seller_id)
-    seller_stock_num = 0
-    if seller_stock[0] != nil
-      seller_stock_num = seller_stock[0].stock_num
-    end
-    if self.stock_num != nil && self.stock_num > seller_stock_num
+      .where("identity_id=?", self.seller_id)[0]
+    
+    if seller_stock == nil
+      self.errors.add(:stock_num, "賣方未擁有此股")
+    elsif self.stock_num == 0
+      self.errors.add(:stock_num, "交易股數不可為零")
+    elsif self.stock_num > seller_stock.stock_num
       self.errors.add(:stock_num, "交易股數大於賣方擁有股數")
+    else
+      buyer_stock = Stock.where("company_id=?", self.company_id)
+        .where("stock_class=?", self.stock_class)
+        .where("date_issued=?", self.date_issued)
+        .where("identity_id=?", self.buyer_id)[0]
+      if buyer_stock == nil
+        buyer_stock = Stock.create({
+          "identity_id"=>self.buyer_id,
+          "company_id"=>self.company_id,
+          "stock_class"=>self.stock_class,
+          "date_issued"=>self.date_issued,
+          "stock_num"=>self.stock_num})
+      else
+        stock_num = buyer_stock.stock_num + self.stock_num
+        buyer_stock.update({:stock_num => stock_num})
+      end
+      
+      if seller_stock.stock_num - self.stock_num == 0
+        seller_stock.destroy
+      else
+        stock_num = seller_stock.stock_num - self.stock_num
+        seller_stock.update({:stock_num => stock_num})
+      end
     end
+    
   end
 
 end
