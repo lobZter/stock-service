@@ -60,8 +60,9 @@ class TransactionsController < ApplicationController
     else
       set_data()
       if @transaction.errors.messages[:stock_num][0] == "交易股數大於賣方擁有股數"
-        flash.now[:error] = @transaction.errors.messages[:stock_num][0]
+        flash.now[:stock_num] = @transaction.errors.messages[:stock_num][0]
       end
+      
       render :action => :new
     end
   end

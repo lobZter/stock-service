@@ -1,5 +1,9 @@
-<% if flash[:error] %>
+<% if !flash.empty? %>
   <div class="alert alert-danger">
-    <p>Error: <strong><%= flash[:error] %></strong></p>
+    <ul class="custom-list">
+      <% flash.each do |key, value| %>
+        <li ><%= value %></li>
+      <% end %>
+    </ul>
   </div>
 <% end %>
