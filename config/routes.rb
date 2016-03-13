@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   get   'login'  => 'main#login'
   post  'login'  => 'main#check_login'
   get   'logout' => 'main#logout'
-  resources :stockholders, except: [:destory, :index]
+  resources :stockholders, except: [:destory]
   resources :companies, except: [:destory, :index]
   resources :capital_increases, except: [:show, :edit, :update]
   resources :transactions, except: [:show]

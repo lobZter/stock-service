@@ -1,5 +1,5 @@
 class StockholdersController < ApplicationController
-  before_action :set_stockholder, :only => [:show, :edit, :update, :destroy]
+  before_action :set_stockholder, :only => [:show, :edit, :update]
   
   # GET /stockholders/index
   # GET /stockholders
@@ -42,12 +42,6 @@ class StockholdersController < ApplicationController
     else
       render :action => :edit
     end
-  end
-  
-  # DELETE /stockholders/:id
-  def destroy
-    @stockholder.destroy
-    redirect_to root_path
   end
   
   

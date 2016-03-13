@@ -1,12 +1,9 @@
 <div class="row" style="margin: 0px">
-  <div class="col-md-10">
+  <div class="col-md-11">
     <h2><strong><%= @stockholder.name_zh %> <%= @stockholder.name_en %></strong></h2>
   </div>
   <h2>
     <%= link_to "修改", edit_stockholder_path(@stockholder), class: "btn btn-default col-md-1" %>
-  </h2>  
-  <h2>  
-    <%= button_to '刪除', stockholder_path(@stockholder), {method: "delete", class: "btn btn-default col-md-1", data: {confirm: "確定刪除?"}} %>
   </h2>
 </div>
 

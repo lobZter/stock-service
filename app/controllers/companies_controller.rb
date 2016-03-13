@@ -1,5 +1,5 @@
 class CompaniesController < ApplicationController
-  before_action :set_company, :only => [:show, :edit, :update, :destroy]
+  before_action :set_company, :only => [:show, :edit, :update]
   before_action :set_data, :only => [:new, :edit]
 
   def create
@@ -56,13 +56,7 @@ class CompaniesController < ApplicationController
       render :action => :edit
     end
   end
-  
-  # DELETE /companies/:id
-  def destroy
-    @company.destroy
-    redirect_to root_path
-  end
-  
+
   
   private
   def set_company
