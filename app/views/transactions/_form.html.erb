@@ -162,26 +162,32 @@
   <div class="panel panel-default">
     <div class="panel-heading">和約上傳區</div>
     <div class="panel-body">
-      <div class="row no-margin-top">
-        <div class="col-md-6">
+      <div class="row" style="margin-top: 0px">
+        <div class="col-md-3">
           <div class="form-group">
             <label>
             <%= f.check_box :contract_0_needed %> 意向書
             </label>
             <%= f.file_field :contract_0, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
           </div>
+        </div>
+        <div class="col-md-3">
           <div class="form-group">
             <label>
               <%= f.check_box :contract_1_needed %> Regular S
             </label>
             <%= f.file_field :contract_1, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
           </div>
+        </div>
+        <div class="col-md-3">
           <div class="form-group">
             <label>
               <%= f.check_box :contract_2_needed %> 中文股份買賣合約-美金
             </label>
             <%= f.file_field :contract_2, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
           </div>
+        </div>
+        <div class="col-md-3">
           <div class="form-group">
             <label>
               <%= f.check_box :contract_3_needed %> 中文股份買賣合約-人民幣
@@ -189,25 +195,87 @@
             <%= f.file_field :contract_3, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
           </div>
         </div>
-        <div class="col-md-6">
+      </div>
+      
+      <% if !(@transaction.new_record?) %>
+        <div class="row" style="margin-top: 0px">
+          <div class="col-md-3 vcenter" style="text-align:center">
+            <% if @transaction.contract_0.to_s != "" %>
+              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_0.to_s)) %>
+                <%= image_tag @transaction.contract_0.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
+              <% else %>
+                <a href="<%= @transaction.contract_0.to_s%>" target="_blank">
+                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
+                  <p style="color: #333333"><%= File.basename(@transaction.contract_0.to_s) %></p>  
+                </a>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="col-md-3 vcenter" style="text-align:center">
+            <% if @transaction.contract_1.to_s != "" %>
+              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_1.to_s)) %>
+                <%= image_tag @transaction.contract_1.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
+              <% else %>
+                <a href="<%= @transaction.contract_1.to_s%>" target="_blank">
+                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
+                  <p style="color: #333333"><%= File.basename(@transaction.contract_1.to_s) %></p>  
+                </a>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="col-md-3 vcenter" style="text-align:center">
+            <% if @transaction.contract_2.to_s != "" %>
+              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_2.to_s)) %>
+                <%= image_tag @transaction.contract_2.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
+              <% else %>
+                <a href="<%= @transaction.contract_2.to_s%>" target="_blank">
+                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
+                  <p style="color: #333333"><%= File.basename(@transaction.contract_2.to_s) %></p>  
+                </a>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="col-md-3 vcenter" style="text-align:center">
+            <% if @transaction.contract_3.to_s != "" %>
+              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_3.to_s)) %>
+                <%= image_tag @transaction.contract_3.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
+              <% else %>
+                <a href="<%= @transaction.contract_3.to_s%>" target="_blank">
+                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
+                  <p style="color: #333333"><%= File.basename(@transaction.contract_3.to_s) %></p>  
+                </a>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      
+      <div class="row">
+        <div class="col-md-3">
           <div class="form-group">
             <label>
               <%= f.check_box :contract_4_needed %> Share Purchase Agreement
             </label>
             <%= f.file_field :contract_4, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
           </div>
+        </div>
+        <div class="col-md-3">
           <div class="form-group">
             <label>
               <%= f.check_box :contract_5_needed %> W-8 Ben
             </label>
             <%= f.file_field :contract_5, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
           </div>
+        </div>
+        <div class="col-md-3">
           <div class="form-group">
             <label>
               <%= f.check_box :contract_6_needed %> 換股協議書
             </label>
             <%= f.file_field :contract_6, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
           </div>
+        </div>
+        <div class="col-md-3">
           <div class="form-group">
             <label>
               <%= f.check_box :contract_7_needed %> 聲明書
@@ -217,6 +285,59 @@
         </div>
       </div>
       
+      <% if !(@transaction.new_record?) %>
+        <div class="row" style="margin-top: 0px">
+          <div class="col-md-3" style="text-align:center">
+            <% if @transaction.contract_4.to_s != "" %>
+              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_4.to_s)) %>
+                <%= image_tag @transaction.contract_4.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
+              <% else %>
+                <a href="<%= @transaction.contract_4.to_s%>" target="_blank">
+                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
+                  <p style="color: #333333"><%= File.basename(@transaction.contract_4.to_s) %></p>
+                </a>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="col-md-3" style="text-align:center">
+            <% if @transaction.contract_5.to_s != "" %>
+              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_5.to_s)) %>
+                <%= image_tag @transaction.contract_5.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
+              <% else %>
+                <a href="<%= @transaction.contract_5.to_s%>" target="_blank">
+                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
+                  <p style="color: #333333"><%= File.basename(@transaction.contract_5.to_s) %></p>  
+                </a>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="col-md-3" style="text-align:center">
+            <% if @transaction.contract_6.to_s != "" %>
+              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_6.to_s)) %>
+                <%= image_tag @transaction.contract_6.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
+              <% else %>
+                <a href="<%= @transaction.contract_6.to_s%>" target="_blank">
+                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
+                  <p style="color: #333333"><%= File.basename(@transaction.contract_6.to_s) %></p>  
+                </a>
+              <% end %>
+            <% end %>
+          </div>
+          <div class="col-md-3" style="text-align:center">
+            <% if @transaction.contract_7.to_s != "" %>
+              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_7.to_s)) %>
+                <%= image_tag @transaction.contract_7.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
+              <% else %>
+                <a href="<%= @transaction.contract_7.to_s%>" target="_blank">
+                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
+                  <p style="color: #333333"><%= File.basename(@transaction.contract_7.to_s) %></p>  
+                </a>
+              <% end %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      
       <div class="form-group">
         <%= f.label :remark_contract, "合約備註" %>
         <textarea name="transaction[remark_contract]" form="transaction_form" id="transaction_remark_contract" class="form-control" rows="5"></textarea>
@@ -225,40 +346,6 @@
   </div>
   
   <% if !(@transaction.new_record?) %>
-    <div class="panel panel-default">
-      <div class="panel-heading">圖片預覽區(點圖即可放大)</div>
-      <div class="panel-body">
-        <div class="row">
-          <div class="col-sm-3">
-            <img class="img-responsive" id="contact_0_image" onclick="setModal(this);"/>
-          </div>
-          <div class="col-sm-3">
-            <img class="img-responsive" id="contact_1_image" onclick="setModal(this);"/>
-          </div>
-          <div class="col-sm-3">
-            <img class="img-responsive" id="contact_2_image" onclick="setModal(this);"/>
-          </div>
-          <div class="col-sm-3">
-            <img class="img-responsive" id="contact_3_image" onclick="setModal(this);"/>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-3">
-            <img class="img-responsive" id="contact_4_image" onclick="setModal(this);"/>
-          </div>
-          <div class="col-sm-3">
-            <img class="img-responsive" id="contact_5_image" onclick="setModal(this);"/>
-          </div>
-          <div class="col-sm-3">
-            <img class="img-responsive" id="contact_6_image" onclick="setModal(this);"/>
-          </div>
-          <div class="col-sm-3">
-            <img class="img-responsive" id="contact_7_image" onclick="setModal(this);"/>
-          </div>
-        </div>
-      </div>
-    </div>
-    
     <div class="modal fade" id="image_modal" role="dialog">
       <div class="modal-dialog" role="document">
         <div class="modal-content">

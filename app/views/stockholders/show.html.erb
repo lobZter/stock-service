@@ -94,7 +94,14 @@
         <% if @stockholder.copy_passport.to_s == "" %>
           <p>未上傳</p>
         <% else %>
-          <tr><td><%= image_tag @stockholder.copy_passport.to_s, {class: "img-responsive", height: "270", width: "360", alt: "護照影本", onclick: "setModal(this);"} %></td></tr>
+          <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@stockholder.copy_passport.to_s)) %>
+            <%= image_tag @stockholder.copy_passport.to_s, {class: "img-responsive", height: "270", width: "360", alt: "護照影本", onclick: "setModal(this);"} %>
+          <% else %>
+            <a href="<%= @stockholder.copy_passport.to_s%>" target="_blank">
+              <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
+              <p style="color: #333333"><%= File.basename(@@stockholder.copy_passport.to_s) %></p>  
+            </a>
+          <% end %>
         <% end %>      
       </table>
       
@@ -103,7 +110,14 @@
         <% if @stockholder.copy_signature.to_s == "" %>
           <p>未上傳</p>
         <% else %>
-          <tr><td><%= image_tag @stockholder.copy_signature.to_s, {class: "img-responsive", height: "270", width: "360", alt: "簽名頁影本", onclick: "setModal(this);"} %></td></tr>
+          <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@stockholder.copy_signature.to_s)) %>
+            <%= image_tag @stockholder.copy_signature.to_s, {class: "img-responsive", height: "270", width: "360", alt: "簽名頁影本", onclick: "setModal(this);"} %>
+          <% else %>
+            <a href="<%= @stockholder.copy_signature.to_s%>" target="_blank">
+              <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
+              <p style="color: #333333"><%= File.basename(@stockholder.copy_signature.to_s) %></p>  
+            </a>
+          <% end %>
         <% end %>
       </table>
     </div>
@@ -127,17 +141,19 @@
           <th>類別</th>
           <th>持有股數</th>
         </thead>
-        <% if @stocks.size == 0 %>
-          <tr><td colspan="3">無資料</td></tr>
-        <% else %>
-          <% @stocks.each do |s| %>
-            <tr>
-              <td><%= s[:company_name] %></td>
-              <td><%= s[:stock_class] %></td>
-              <td><%= s[:stock_num] %></td>
-            </tr>
+        <tbody>
+          <% if @stocks.size == 0 %>
+            <tr><td colspan="3">無資料</td></tr>
+          <% else %>
+            <% @stocks.each do |s| %>
+              <tr>
+                <td><%= s[:company_name] %></td>
+                <td><%= s[:stock_class] %></td>
+                <td><%= s[:stock_num] %></td>
+              </tr>
+            <% end %>
           <% end %>
-        <% end %>
+        </tbody>
       </table>
       <h3><strong>近期交易</strong></h3>
       <table class="table table-hover">
@@ -148,19 +164,21 @@
           <th>股票類型</th>
           <th>交易股數</th>
         </thead>
-        <% if @transactions.size == 0 %>
-          <tr><td colspan="5">無資料</td></tr>
-        <% else %>
-          <% @transactions.each do |t| %>
-            <tr>
-              <td><%= t[:buyer_name] %></td>
-              <td><%= t[:seller_name] %></td>
-              <td><%= t[:company_name] %></td>
-              <td><%= t[:stock_class] %></td>
-              <td><%= t[:stock_num] %></td>
-            </tr>
+        <tbody>
+          <% if @transactions.size == 0 %>
+            <tr><td colspan="5">無資料</td></tr>
+          <% else %>
+            <% @transactions.each do |t| %>
+              <tr>
+                <td><%= t[:buyer_name] %></td>
+                <td><%= t[:seller_name] %></td>
+                <td><%= t[:company_name] %></td>
+                <td><%= t[:stock_class] %></td>
+                <td><%= t[:stock_num] %></td>
+              </tr>
+            <% end %>
           <% end %>
-        <% end %>
+        </tbody>
       </table>
     </div>
   </div>
