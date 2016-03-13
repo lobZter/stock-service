@@ -42,16 +42,39 @@
             <%= f.label :fund_original, "投資金額" %>
             <% if @transaction.new_record? %>
               <%= f.text_field :fund_original, class: "form-control auto-calculate" %>
+            <% elsif @transaction.fund_original.nil? %>
+              <%= f.text_field :fund_original, class: "form-control" %>
             <% else %>
               <input class="form-control" value="<%= @transaction.fund_original %>" readonly >
             <% end %>
           </div>
           <div class="col-md-2">
             <%= f.label :currency_original, "幣別" %>
-            <% if @transaction.new_record? %>
+            <% if @transaction.new_record? or @transaction.currency_original.nil? %>
               <%= f.select :currency_original, @currency_array, {}, { class: 'form-control' } %>
             <% else %>
               <input class="form-control" value="<%= @currency_array[@transaction.currency_original-1][0] %>" readonly >
+            <% end %>
+          </div>
+          <div class="col-md-2">
+            <%= f.label :exchange_rate, "匯率" %>
+            <% if @transaction.new_record? %>
+              <%= f.text_field :exchange_rate, {class: "form-control auto-calculate", value: 1} %>
+            <% else %>
+              <%= f.text_field :exchange_rate, {class: "form-control"} %>
+            <% end %>
+          </div>
+          <div class="col-md-2">
+            <%= f.label :date_paid, "匯率轉換日" %>
+            <% if @transaction.new_record? or @transaction.date_paid.nil? %>
+              <div class="input-group date" id="transaction_datetimepicker1">
+                <%= f.text_field :date_paid , class: "form-control" %>
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
+            <% else %>
+              <input class="form-control" value="<%= @transaction.date_paid %>" readonly>
             <% end %>
           </div>
         </div>
@@ -76,27 +99,6 @@
               <input class="form-control" value="<%= @currency_array[@transaction.currency-1][0] %>" readonly>
             <% end %>
             <span class="help-block no-margin-bottom">由股票發行公司決定</span>
-          </div>
-          <div class="col-md-2">
-            <%= f.label :date_paid, "匯率轉換日" %>
-            <% if @transaction.new_record? %>
-              <div class="input-group date" id="transaction_datetimepicker1">
-                <%= f.text_field :date_paid , class: "form-control" %>
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-              </div>
-            <% else %>
-              <input class="form-control" value="<%= @transaction.date_paid %>" readonly>
-            <% end %>
-          </div>
-          <div class="col-md-2">
-            <%= f.label :exchange_rate, "匯率" %>
-            <% if @transaction.new_record? %>
-              <%= f.text_field :exchange_rate, {class: "form-control auto-calculate", value: 1} %>
-            <% else %>
-              <input class="form-control" value="<%= @transaction.exchange_rate %>" readonly>
-            <% end %>
           </div>
         </div>
       </div>

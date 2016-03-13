@@ -44,8 +44,8 @@ class Transaction < ActiveRecord::Base
     :stock_num,
     :date_signed
   
-  validate :check_stock_num
-  validate :check_buyer_seller
+  validate :check_stock_num, :on => :create
+  validate :check_buyer_seller, :on => :create
   validate :readonly_field, :on => :update
 
   private
@@ -95,7 +95,6 @@ class Transaction < ActiveRecord::Base
     end
   end
 
-  
   def readonly_field
     self.errors.add(:seller_id, "seller_id can't be changed") if self.seller_id_changed?
     self.errors.add(:buyer_id, "buyer_id can't be changed") if self.buyer_id_changed?
@@ -104,13 +103,9 @@ class Transaction < ActiveRecord::Base
     self.errors.add(:date_issued, "date_issued can't be changed") if self.date_issued_changed?
     self.errors.add(:fund, "fund can't be changed") if self.fund_changed?
     self.errors.add(:currency, "currency can't be changed") if self.currency_changed?
-    self.errors.add(:date_paid, "date_paid can't be changed") if self.date_paid_changed?
     self.errors.add(:stock_price, "stock_price can't be changed") if self.stock_price_changed?
     self.errors.add(:stock_num, "stock_num can't be changed") if self.stock_num_changed?
     self.errors.add(:date_signed, "date_signed can't be changed") if self.date_signed_changed?
-    self.errors.add(:fund_original, "fund_original can't be changed") if self.fund_original_changed?
-    self.errors.add(:currency_original, "currency_original can't be changed") if self.currency_original_changed?
-    self.errors.add(:exchange_rate, "exchange_rate can't be changed") if self.exchange_rate_changed?
   end
 
 end

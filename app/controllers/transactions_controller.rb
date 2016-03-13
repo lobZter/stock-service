@@ -62,6 +62,7 @@ class TransactionsController < ApplicationController
     if @transaction.update(transaction_params)
       redirect_to transactions_path
     else
+      set_data()
       render :action => :edit
     end
   end
