@@ -16,6 +16,10 @@ class TransactionsController < ApplicationController
       @transactions = @transactions.filter_completed 
     end
     
+    
+    puts "-------"
+    puts Transaction.filter_completed
+    
     @identity_names = Hash.new
     @company_names = Hash.new
     @transactions.each do |t|

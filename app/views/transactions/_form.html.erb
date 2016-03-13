@@ -206,7 +206,7 @@
               <% else %>
                 <a href="<%= @transaction.contract_0.to_s%>" target="_blank">
                   <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= File.basename(@transaction.contract_0.to_s) %></p>  
+                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_0.to_s)) %></p>  
                 </a>
               <% end %>
             <% end %>
@@ -218,7 +218,7 @@
               <% else %>
                 <a href="<%= @transaction.contract_1.to_s%>" target="_blank">
                   <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= File.basename(@transaction.contract_1.to_s) %></p>  
+                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_1.to_s)) %></p>  
                 </a>
               <% end %>
             <% end %>
@@ -230,7 +230,7 @@
               <% else %>
                 <a href="<%= @transaction.contract_2.to_s%>" target="_blank">
                   <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= File.basename(@transaction.contract_2.to_s) %></p>  
+                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_2.to_s)) %></p>  
                 </a>
               <% end %>
             <% end %>
@@ -242,7 +242,7 @@
               <% else %>
                 <a href="<%= @transaction.contract_3.to_s%>" target="_blank">
                   <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= File.basename(@transaction.contract_3.to_s) %></p>  
+                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_3.to_s)) %></p>  
                 </a>
               <% end %>
             <% end %>
@@ -294,7 +294,7 @@
               <% else %>
                 <a href="<%= @transaction.contract_4.to_s%>" target="_blank">
                   <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= File.basename(@transaction.contract_4.to_s) %></p>
+                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_4.to_s)) %></p>
                 </a>
               <% end %>
             <% end %>
@@ -306,7 +306,7 @@
               <% else %>
                 <a href="<%= @transaction.contract_5.to_s%>" target="_blank">
                   <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= File.basename(@transaction.contract_5.to_s) %></p>  
+                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_5.to_s)) %></p>  
                 </a>
               <% end %>
             <% end %>
@@ -318,7 +318,7 @@
               <% else %>
                 <a href="<%= @transaction.contract_6.to_s%>" target="_blank">
                   <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= File.basename(@transaction.contract_6.to_s) %></p>  
+                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_6.to_s)) %></p>  
                 </a>
               <% end %>
             <% end %>
@@ -330,7 +330,7 @@
               <% else %>
                 <a href="<%= @transaction.contract_7.to_s%>" target="_blank">
                   <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= File.basename(@transaction.contract_7.to_s) %></p>  
+                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_7.to_s)) %></p>  
                 </a>
               <% end %>
             <% end %>
