@@ -99,7 +99,7 @@
           <% else %>
             <a href="<%= @stockholder.copy_passport.to_s%>" target="_blank">
               <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-              <p style="color: #333333"><%= URI.decode(File.basename(@@stockholder.copy_passport.to_s)) %></p>  
+              <p style="color: #333333"><%= URI.decode(File.basename(@stockholder.copy_passport.to_s)) %></p>  
             </a>
           <% end %>
         <% end %>      
