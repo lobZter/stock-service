@@ -31,10 +31,15 @@ class TransactionsController < ApplicationController
   
   # POST /transactions
   def create
-    stock_hash = JSON.parse params[:transaction][:stock]
-    stock_hash.delete("id")
+    if params[:transaction].key?(:stock)
+      stock_hash = JSON.parse params[:transaction][:stock]
+      stock_hash.delete("id")
+      @transaction = Transaction.new(stock_hash.merge(transaction_params))
+    else
+      @transaction = Transaction.new(transaction_params)
+    end
     
-    @transaction = Transaction.new(stock_hash.merge(transaction_params))
+
     if @transaction.save
       redirect_to root_path
     else
