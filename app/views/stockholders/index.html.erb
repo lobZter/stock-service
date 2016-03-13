@@ -1,20 +1,29 @@
-<table class="table">
+<div class="row">
+<table class="table table-hover text-center">
   <thead>
     <tr>
-   	  <th>中文姓名</th>
-   	  <th>英文姓名</th>
-   	  <th>護照號碼</th>
+   	  <th class="text-center">中文姓名</th>
+   	  <th class="text-center">英文姓名</th>
+   	  <th class="text-center">護照號碼</th>
+   	  <th class="text-center">護照影本</th>
+      <th class="text-center">簽名頁影本</th>
+      <th class="text-center">資料</th>
+      <th class="text-center">編輯</th>
     </tr>
   </thead>
   <tbody>
-    <% @stockholders.each do |stockholder| %>
-      <tr>
-     	  <td>
-     	    <%= link_to stockholder.name_zh, stockholder_path(stockholder) %>
-     	  </td>
-     	  <td><%= stockholder.name_en %></td>
-     	  <td><%= stockholder.passport %></td>
-      </tr>
+    <% @stockholders.each do |s| %>
+    <tr>
+   	  <td><%= s.name_zh %></td>
+   	  <td><%= s.name_en %></td>
+   	  <td><%= s.passport %></td>
+   	  <td><%= check_exist(s.copy_passport?) %></td>
+   	  <td><%= check_exist(s.copy_signature?) %></td>
+   	  
+   	  <td><%= link_to "Info", stockholder_path(s) , class: "btn btn-primary btn-xs" %></td>
+   	  <td><%= link_to "Edit", edit_stockholder_path(s) , class: "btn btn-success btn-xs" %></td>
+   	  </tr>
     <% end %>
   </tbody>
 </table>
+</div>
