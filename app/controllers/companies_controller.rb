@@ -16,13 +16,9 @@ class CompaniesController < ApplicationController
         :currency => @company.currency,
         :stock_price => @company.stock_price,
         :stock_num => @company.stock_num,
-        :stock_checked => true)
-      @stock = Stock.create(
-        :identity_id => @capital_increase.identity_id,
-        :company_id => @company.id,
-        :stock_class => @capital_increase.stock_class,
-        :date_issued => @capital_increase.date_issued,
-        :stock_num => @capital_increase.stock_num)
+        :remark => "起始增資",
+        :stock_checked => false
+      )
 
       redirect_to company_path(@company)
     else
@@ -53,6 +49,9 @@ class CompaniesController < ApplicationController
       redirect_to company_path(@company)
     else
       set_data()
+      if @company.errors.messages.value?(["股票已變動, 無法更動起始資金資訊"])
+        flash.now[:errors] = "股票已變動, 無法更動起始資金資訊"
+      end
       render :action => :edit
     end
   end

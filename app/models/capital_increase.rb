@@ -11,7 +11,7 @@ class CapitalIncrease < ActiveRecord::Base
   
   validates_inclusion_of :stock_checked, :in => [true, false]
   
-  validate :check_stock_num
+  validate :check_stock_num, :on => :create
   validate :readonly_field, :on => :update
   
   private
@@ -53,6 +53,7 @@ class CapitalIncrease < ActiveRecord::Base
     self.errors.add(:currency, "currency can't be changed") if self.currency_changed?
     self.errors.add(:stock_price, "stock_price can't be changed") if self.stock_price_changed?
     self.errors.add(:stock_num, "stock_num can't be changed") if self.stock_num_changed?
+    self.errors.add(:remark, "remark can't be changed") if self.remark_changed?
   end
 
 end

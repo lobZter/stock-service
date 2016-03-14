@@ -81,11 +81,11 @@ class TransactionsController < ApplicationController
       .where("date_issued=?", @transaction.date_issued)[0]
     
     if buyer_stock.nil?
-      flash[:errors] = "買方剩餘股票數量不合 無法刪除此交易"
+      flash[:errors] = "買方剩餘股票數量不合, 無法刪除此交易"
       redirect_to transactions_path
       return
     elsif buyer_stock.stock_num < @transaction.stock_num
-      flash[:errors] = "買方剩餘股票數量不合 無法刪除此交易"
+      flash[:errors] = "買方剩餘股票數量不合, 無法刪除此交易"
       redirect_to transactions_path
       return
     elsif buyer_stock.stock_num > @transaction.stock_num
