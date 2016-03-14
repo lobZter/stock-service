@@ -1,4 +1,16 @@
 <div class="row">
+  <div class="col-md-1" style="display: table">
+    <%= link_to "全部", stockholders_path, {class: "btn btn-default", style: "display: table-cell"} %>
+  </div>
+    <div class="col-md-1" style="display: table">
+    <%= link_to "已完成", stockholders_path(:set_completed => 1), {class: "btn btn-default", style: "display: table-cell"} %>
+  </div>
+  <div class="col-md-1" style="display: table">
+    <%= link_to "未完成", stockholders_path(:set_not_completed => 1), {class: "btn btn-default", style: "display: table-cell"} %>
+  </div>
+</div>
+
+<div class="row">
 <table class="table table-hover text-center">
   <thead>
     <tr>

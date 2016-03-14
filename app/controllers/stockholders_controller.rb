@@ -5,6 +5,15 @@ class StockholdersController < ApplicationController
   # GET /stockholders
   def index
     @stockholders = Stockholder.all
+    
+    if params[:set_not_completed]
+      @stockholders = @stockholders.filter_not_completed
+    end
+    
+    if params[:set_completed]
+      @stockholders = @stockholders.filter_completed
+    end
+    
   end
   
   # POST /stockholders
