@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160311192008) do
+ActiveRecord::Schema.define(version: 20160314095829) do
 
   create_table "capital_increases", force: :cascade do |t|
     t.integer  "identity_id"
@@ -104,6 +104,7 @@ ActiveRecord::Schema.define(version: 20160311192008) do
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.integer  "identity_id"
+    t.string   "copy_mail_addr"
   end
 
   create_table "stocks", force: :cascade do |t|
@@ -137,7 +138,6 @@ ActiveRecord::Schema.define(version: 20160311192008) do
     t.string   "contract_6"
     t.string   "contract_7"
     t.string   "contract_8"
-    t.string   "contract_9"
     t.boolean  "contract_0_needed"
     t.boolean  "contract_1_needed"
     t.boolean  "contract_2_needed"

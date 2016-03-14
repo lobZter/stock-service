@@ -362,18 +362,15 @@
     <div class="panel-heading">郵寄資料上傳</div>
     <div class="panel-body">   
     
-      <div class="form-group">
-        <%= f.label :contract_8, "郵寄地址證明" %>
-        <%= f.file_field :contract_8, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-      </div>
-      <div class="form-group">
-        <%= f.label :contract_9, "銀行水單" %>
-        <%= f.file_field :contract_9, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-      </div>
-      
-      <div class="form-group">
-        <div class="row">
-          <div class="col-md-4">
+      <div class="row" style="margin-top: 0px">
+        <div class="col-md-4">
+          <div class="form-group">
+            <%= f.label :contract_8, "銀行水單" %>
+            <%= f.file_field :contract_8, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
             <%= f.label :send_buyer, "合約郵寄日期 - 買方" %>
             <div class="input-group date" id="transaction_datetimepicker3">
               <%= f.text_field :send_buyer , class: "form-control" %>
@@ -383,7 +380,9 @@
             </div>
             <span class="help-block no-margin-bottom">填寫寄送日期，未寄送請留白</span>
           </div>
-          <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+          <div class="form-group">
             <%= f.label :send_seller, "合約郵寄日期 - 賣方" %>
             <div class="input-group date" id="transaction_datetimepicker4">
               <%= f.text_field :send_seller , class: "form-control" %>
@@ -391,9 +390,27 @@
                   <span class="glyphicon glyphicon-calendar"></span>
               </span>
             </div>
+            <span class="help-block no-margin-bottom">填寫寄送日期，未寄送請留白</span>
           </div>
         </div>
       </div>
+      
+      <div class="row">
+        <div class="col-md-4" style="text-align:center">
+            <% if @transaction.contract_8.to_s != "" %>
+              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_8.to_s)) %>
+                <%= image_tag @transaction.contract_8.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
+              <% else %>
+                <a href="<%= @transaction.contract_8.to_s%>" target="_blank">
+                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
+                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_8.to_s)) %></p>  
+                </a>
+              <% end %>
+            <% end %>
+          </div>
+      </div>
+      
+      
     </div>
   </div>
 

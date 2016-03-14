@@ -9,7 +9,6 @@ class Transaction < ActiveRecord::Base
   mount_uploader :contract_6, ContractUploader
   mount_uploader :contract_7, ContractUploader
   mount_uploader :contract_8, ContractUploader
-  mount_uploader :contract_9, ContractUploader
   
   scope :filter_not_completed, -> { where(
     " ((contract_0_needed = ?) AND (contract_0 IS NULL)) OR

@@ -7,7 +7,7 @@
     <div class="input-group">
       <select id="stockholder_input" class="form-control main_select2">
         <% @stockholders.each do |s| %>
-          <option value="<%= s.id %>"><%= s.name_zh %></option>
+          <option value="<%= s.id %>"><%= s.name_zh %><%= s.name_en %> / <%= s.passport %></option>
         <% end %>
       </select>
       <span class="input-group-btn">

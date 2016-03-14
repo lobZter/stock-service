@@ -27,6 +27,7 @@
    	  <th class="text-center">W8BEN</th>
    	  <th class="text-center">換股協議</th>
    	  <th class="text-center">聲明書</th>
+   	  <th class="text-center">銀行水單</th>
    	  <th class="text-center">合約寄買方</th>
    	  <th class="text-center">合約寄賣方</th>
    	  <th class="text-center">編輯</th>
@@ -49,8 +50,9 @@
    	  <td><%= status_check(t.contract_5_needed, t.contract_5?) %></td>
    	  <td><%= status_check(t.contract_6_needed, t.contract_6?) %></td>
    	  <td><%= status_check(t.contract_7_needed, t.contract_7?) %></td>
+   	  <td><%= status_check(true, t.contract_7?) %></td>
 
-   	  <td><%= t.send_buyer %></td> 
+   	  <td><%= t.send_buyer %></td>
    	  <td><%= t.send_seller %></td>
    	  
    	  <td><%= link_to 'Edit', edit_transaction_path(t), class: "btn btn-success btn-xs" %></td>

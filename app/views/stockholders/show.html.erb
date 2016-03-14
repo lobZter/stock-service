@@ -2,9 +2,11 @@
   <div class="col-md-11">
     <h2><strong><%= @stockholder.name_zh %> <%= @stockholder.name_en %></strong></h2>
   </div>
+  <% if session[:is_admin] %>
   <h2>
     <%= link_to "修改", edit_stockholder_path(@stockholder), class: "btn btn-default col-md-1" %>
   </h2>
+  <% end %>
 </div>
 
 <div class="well">
@@ -116,6 +118,22 @@
             <a href="<%= @stockholder.copy_signature.to_s%>" target="_blank">
               <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
               <p style="color: #333333"><%= URI.decode(File.basename(@stockholder.copy_signature.to_s)) %></p>  
+            </a>
+          <% end %>
+        <% end %>
+      </table>
+      
+      <table class="table">
+        <h3><strong>郵寄地址影本</strong></h3>
+        <% if @stockholder.copy_signature.to_s == "" %>
+          <p>未上傳</p>
+        <% else %>
+          <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@stockholder.copy_mail_addr.to_s)) %>
+            <%= image_tag @stockholder.copy_mail_addr.to_s, {class: "img-responsive", height: "270", width: "360", alt: "簽名頁影本", onclick: "setModal(this);"} %>
+          <% else %>
+            <a href="<%= @stockholder.copy_mail_addr.to_s%>" target="_blank">
+              <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
+              <p style="color: #333333"><%= URI.decode(File.basename(@stockholder.copy_mail_addr.to_s)) %></p>  
             </a>
           <% end %>
         <% end %>
