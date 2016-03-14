@@ -19,14 +19,9 @@ class Company < ActiveRecord::Base
       
       @capital_increase = CapitalIncrease.where("identity_id=?", self.identity.id)
         .where("remark=?", "起始增資")[0]
-      
-      remaining_stock = Stock.where("company_id=?", self.id)
-        .where("stock_class=?", @capital_increase.stock_class)
-        .where("date_issued=?", @capital_increase.date_issued)
-        .where("identity_id=?", @capital_increase.identity_id)[0]
-      
-      if !remaining_stock.nil? && remaining_stock.stock_num == @capital_increase.stock_num
-        remaining_stock.destory
+        
+      if !@capital_increase.stock_checked
+        
         capital_increase.destory
         @capital_increase = CapitalIncrease.create(
           :identity_id => self.identity.id,
@@ -38,13 +33,36 @@ class Company < ActiveRecord::Base
           :stock_num => self.stock_num,
           :remark => "起始增資"
         )
-      else  
-        self.errors.add(:date_establish, "股票已變動, 無法更動起始資金資訊") if self.date_establish_changed?
-        self.errors.add(:fund, "股票已變動, 無法更動起始資金資訊") if self.fund_changed?
-        self.errors.add(:stock_price, "股票已變動, 無法更動起始資金資訊") if self.stock_price_changed?
-        self.errors.add(:stock_class, "股票已變動, 無法更動起始資金資訊") if self.stock_class_changed?
-        self.errors.add(:currency, "股票已變動, 無法更動起始資金資訊") if self.currency_changed?
-        self.errors.add(:stock_num, "股票已變動, 無法更動起始資金資訊") if self.stock_num_changed?
+        
+      else
+        
+        remaining_stock = Stock.where("company_id=?", self.id)
+          .where("stock_class=?", @capital_increase.stock_class)
+          .where("date_issued=?", @capital_increase.date_issued)
+          .where("identity_id=?", @capital_increase.identity_id)[0]
+        
+        if !remaining_stock.nil? && remaining_stock.stock_num == @capital_increase.stock_num
+          remaining_stock.destory
+          capital_increase.destory
+          @capital_increase = CapitalIncrease.create(
+            :identity_id => self.identity.id,
+            :stock_class => self.stock_class,
+            :date_issued => self.date_establish,
+            :fund => self.fund,
+            :currency => self.currency,
+            :stock_price => self.stock_price,
+            :stock_num => self.stock_num,
+            :remark => "起始增資"
+          )
+        else  
+          self.errors.add(:date_establish, "股票已變動, 無法更動起始資金資訊") if self.date_establish_changed?
+          self.errors.add(:fund, "股票已變動, 無法更動起始資金資訊") if self.fund_changed?
+          self.errors.add(:stock_price, "股票已變動, 無法更動起始資金資訊") if self.stock_price_changed?
+          self.errors.add(:stock_class, "股票已變動, 無法更動起始資金資訊") if self.stock_class_changed?
+          self.errors.add(:currency, "股票已變動, 無法更動起始資金資訊") if self.currency_changed?
+          self.errors.add(:stock_num, "股票已變動, 無法更動起始資金資訊") if self.stock_num_changed?
+        end
+        
       end
     end
   end
