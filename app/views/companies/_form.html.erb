@@ -1,13 +1,15 @@
+<%= render :partial => 'layouts/flash' %>
+
 <%= form_for @company do |f| %>
   <!-- 公司基本資料 -->
   <%= render :partial => 'layouts/flash' %>
   <div class="panel panel-default">
-    <div class="panel-heading text-center">
+    <div class="panel-heading">
       <h3 class="panel-title">公司基本資料</h3>
     </div>
     <div class="panel-body">
       <div class="form-group">
-        <label>中文名稱</label>
+        <%= f.label :name_zh, "中文名稱" %>
         <% if @company.new_record? %>
           <%= f.text_field :name_zh, class: 'form-control' %>
         <% else %>
@@ -16,36 +18,28 @@
 
       </div>
       <div class="form-group">
-        <label>英文名稱</label>
-        <div>
-          <% if @company.new_record? %>
-            <%= f.text_field :name_en, class: 'form-control' %>
-          <% else %>
-            <%= f.text_field :name_en, {class: 'form-control', readonly: true} %>
-          <% end %>
-        </div>
+        <%= f.label :name_en, "英文名稱" %>
+        <% if @company.new_record? %>
+          <%= f.text_field :name_en, class: 'form-control' %>
+        <% else %>
+          <%= f.text_field :name_en, {class: 'form-control', readonly: true} %>
+        <% end %>
       </div>
       <div class="form-group">
-        <label>公司稅號</label>
-        <div>
-          <% if @company.new_record? %>
-            <%= f.text_field :ein, class: 'form-control' %>
-          <% else %>
-            <%= f.text_field :ein, {class: 'form-control', readonly: true} %>
-          <% end %>
-        </div>
+        <%= f.label :ein, "公司稅號" %>
+        <% if @company.new_record? %>
+          <%= f.text_field :ein, class: 'form-control' %>
+        <% else %>
+          <%= f.text_field :ein, {class: 'form-control', readonly: true} %>
+        <% end %>
       </div>
       <div class="form-group">
-        <label>公司電話</label>
-        <div>
-           <%= f.text_field :phone, class: 'form-control' %>
-        </div>
+        <%= f.label :phone, "公司電話" %>
+        <%= f.text_field :phone, class: 'form-control' %>
       </div>
       <div class="form-group">
-        <label>公司地址</label>
-        <div>
-           <%= f.text_field :address, class: 'form-control' %>
-        </div>
+        <%= f.label :address, "公司地址" %>
+        <%= f.text_field :address, class: 'form-control' %>
       </div>
     </div>
   </div>
@@ -55,54 +49,42 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="panel panel-default">
-        <div class="panel-heading text-center">
+        <div class="panel-heading">
           <h3 class="panel-title">董事長</h3>
         </div>
         <div class="panel-body">
           <div class="form-group">
-            <label >姓名</label>
-            <div >
-              <%= f.text_field :chairman_name, class: 'form-control' %>
-            </div>
+            <%= f.label :chairman_name, "姓名" %>
+            <%= f.text_field :chairman_name, class: 'form-control' %>
           </div>
           <div class="form-group">
-            <label >護照號碼</label>
-            <div >
-              <%= f.text_field :chairman_passport, class: 'form-control' %>
-            </div>
+            <%= f.label :chairman_passport, "護照號碼" %>
+            <%= f.text_field :chairman_passport, class: 'form-control' %>
           </div>
           <div class="form-group">
-            <label >電子郵件</label>
-            <div >
-              <%= f.text_field :chairman_email, class: 'form-control' %>
-            </div>
+            <%= f.label :chairman_email, "電子郵件" %>
+            <%= f.text_field :chairman_email, class: 'form-control' %>
           </div>
         </div>
       </div>
     </div>
     <div class="col-sm-6">
       <div class="panel panel-default">
-        <div class="panel-heading text-center">
+        <div class="panel-heading">
           <h3 class="panel-title">財務長</h3>
         </div>
         <div class="panel-body">
           <div class="form-group">
-            <label >姓名</label>
-            <div >
-              <%= f.text_field :cfo_name, class: 'form-control' %>
-            </div>
+            <%= f.label :cfo_name, "姓名" %>
+            <%= f.text_field :cfo_name, class: 'form-control' %>
           </div>
           <div class="form-group">
-            <label >護照號碼</label>
-            <div >
-              <%= f.text_field :cfo_passport, class: 'form-control' %>
-            </div>
+            <%= f.label :cfo_passport, "護照號碼" %>
+            <%= f.text_field :cfo_passport, class: 'form-control' %>
           </div>
           <div class="form-group">
-            <label >電子郵件</label>
-            <div >
-              <%= f.text_field :cfo_email, class: 'form-control' %>
-            </div>
+            <%= f.label :cfo_email, "電子郵件" %>
+            <%= f.text_field :cfo_email, class: 'form-control' %>
           </div>
         </div>
       </div>
@@ -111,54 +93,45 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="panel panel-default">
-        <div class="panel-heading text-center">
+        <div class="panel-heading">
           <h3 class="panel-title">執行長</h3>
         </div>
         <div class="panel-body">
           <div class="form-group">
-            <label >姓名</label>
-            <div >
-              <%= f.text_field :ceo_name, class: 'form-control' %>
-            </div>
+            <%= f.label :ceo_name, "姓名" %>
+            <%= f.text_field :ceo_name, class: 'form-control' %>
           </div>
           <div class="form-group">
-            <label >護照號碼</label>
-            <div >
-              <%= f.text_field :ceo_passport, class: 'form-control' %>
-            </div>
+            <%= f.label :ceo_passport, "護照號碼" %>
+          <%= f.text_field :ceo_passport, class: 'form-control' %>
           </div>
           <div class="form-group">
-            <label >電子郵件</label>
-            <div >
-              <%= f.text_field :ceo_email, class: 'form-control' %>
-            </div>
+            <%= f.label :ceo_email, "電子郵件" %>
+            <%= f.text_field :ceo_email, class: 'form-control' %>
           </div>
         </div>
       </div>
     </div>
     <div class="col-sm-6">
       <div class="panel panel-default">
-        <div class="panel-heading text-center">
+        <div class="panel-heading">
           <h3 class="panel-title">會計師事務所</h3>
         </div>
         <div class="panel-body">
           <div class="form-group">
             <label >姓名</label>
-            <div >
-              <%= f.text_field :accounting_name, class: 'form-control' %>
-            </div>
+            <%= f.label :accounting_name, "姓名" %>
+            <%= f.text_field :accounting_name, class: 'form-control' %>
           </div>
           <div class="form-group">
             <label >護照號碼</label>
-            <div >
-              <%= f.text_field :accounting_passport, class: 'form-control' %>
-            </div>
+            <%= f.label :accounting_passport, "護照號碼" %>
+            <%= f.text_field :accounting_passport, class: 'form-control' %>
           </div>
           <div class="form-group">
             <label >電子郵件</label>
-            <div >
-              <%= f.text_field :accounting_email, class: 'form-control' %>
-            </div>
+            <%= f.label :accounting_email, "電子郵件" %>
+            <%= f.text_field :accounting_email, class: 'form-control' %>
           </div>
         </div>
       </div>
@@ -167,27 +140,21 @@
   <div class="row">
     <div class="col-sm-6">
       <div class="panel panel-default">
-        <div class="panel-heading text-center">
+        <div class="panel-heading">
           <h3 class="panel-title">Registered Agent</h3>
         </div>
         <div class="panel-body">
           <div class="form-group">
-            <label >姓名</label>
-            <div >
-              <%= f.text_field :registered_agent_name, class: 'form-control' %>
-            </div>
+            <%= f.label :registered_agent_name, "姓名" %>
+            <%= f.text_field :registered_agent_name, class: 'form-control' %>
           </div>
           <div class="form-group">
-            <label >護照號碼</label>
-            <div >
-              <%= f.text_field :registered_agent_passport, class: 'form-control' %>
-            </div>
+            <%= f.label :registered_agent_passport, "護照號碼" %>
+            <%= f.text_field :registered_agent_passport, class: 'form-control' %>
           </div>
           <div class="form-group">
-            <label >電子郵件</label>
-            <div >
-              <%= f.text_field :registered_agent_email, class: 'form-control' %>
-            </div>
+            <%= f.label :registered_agent_email, "電子郵件" %>
+            <%= f.text_field :registered_agent_email, class: 'form-control' %>
           </div>
         </div>
       </div>
@@ -201,33 +168,25 @@
     <% end %>  
       <div class="col-sm-6">
         <div class="panel panel-default">
-          <div class="panel-heading text-center">
+          <div class="panel-heading">
             <h3 class="panel-title"><%= bank_hash['title'] %></h3>
           </div>
           <div class="panel-body">
             <div class="form-group">
-              <label >銀行名稱</label>
-              <div >
-                <%= f.text_field bank_hash['bank'] , class: 'form-control' %>
-              </div>
+              <%= f.label bank_hash['bank'], "銀行名稱" %>
+              <%= f.text_field bank_hash['bank'] , class: 'form-control' %>
             </div>
             <div class="form-group">
-              <label >帳號</label>
-              <div >
-                <%= f.text_field bank_hash['num'] , class: 'form-control' %>
-              </div>
+              <%= f.label bank_hash['num'], "帳號" %>
+              <%= f.text_field bank_hash['num'] , class: 'form-control' %>
             </div>
             <div class="form-group">
-              <label >帳戶名稱</label>
-              <div >
-                <%= f.text_field bank_hash['name'] , class: 'form-control' %>
-              </div>
+              <%= f.label bank_hash['name'], "帳戶名稱" %>
+              <%= f.text_field bank_hash['name'] , class: 'form-control' %>
             </div>
             <div class="form-group">
-              <label >銀行地址</label>
-              <div >
-                <%= f.text_field bank_hash['address'] , class: 'form-control' %>
-              </div>
+              <%= f.label bank_hash['address'], "銀行地址" %>
+              <%= f.text_field bank_hash['address'] , class: 'form-control' %>
             </div>
           </div>
         </div>
@@ -239,32 +198,26 @@
   
   <!-- 日期 --> 
   <div class="panel panel-default">
-    <div class="panel-heading text-center">
-      <h3 class="panel-title">日期</h3>
+    <div class="panel-heading">
+      <h3 class="panel-title">日期資訊</h3>
     </div>
     <div class="panel-body">
       <div class="form-group">
-        <label >公司成立日期</label>
-        <% if @company.new_record? %>
-          <div class='input-group date' id='datetimepicker1'>
-            <%= f.text_field :date_establish , class: 'form-control' %>
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span>
-          </div>
-        <% else %>
-          <div class="input-group">
-            <%= f.text_field :date_establish , {class: 'form-control', readonly: true} %>
-          </div>
-        <% end %>
+        <%= f.label :date_establish, "公司成立日期" %>
+        <div class='input-group date' id='datetimepicker1'>
+          <%= f.text_field :date_establish , class: 'form-control' %>
+          <span class="input-group-addon">
+            <span class="glyphicon glyphicon-calendar"></span>
+          </span>
+        </div>
       </div>
 
       <div class="form-group">
-        <label >會計年度</label>
+        <%= f.label :date_accounting, "會計年度" %>
         <div class='input-group date' id='datetimepicker2'>
           <%= f.text_field :date_accounting , class: 'form-control' %>
           <span class="input-group-addon">
-              <span class="glyphicon glyphicon-calendar"></span>
+            <span class="glyphicon glyphicon-calendar"></span>
           </span>
         </div>
       </div>
@@ -275,55 +228,38 @@
   <div class="row">
     <div class="col-sm-12">
       <div class="panel panel-default">
-        <div class="panel-heading text-center">
-          <h3 class="panel-title">$$$</h3>
+        <div class="panel-heading">
+          <h3 class="panel-title">起始資金</h3>
         </div>
         <div class="panel-body">
           <div class="form-group">
-            <label >資本額</label>
-            <div >
-              <% if @company.new_record? %>
+            <%= f.label :stock_class, "股票類別" %>
+            <%= f.text_field :stock_class, class: 'form-control' %>
+          </div>
+        
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <%= f.label :fund, "資本額" %>
                 <%= f.text_field :fund, class: 'form-control auto-calculate'%>
-              <% else %>
-                <%= f.text_field :fund, {class: 'form-control', readonly: true} %>
-              <% end %>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <label >每股面額</label>
-            <div >
-              <% if @company.new_record? %>
+            <div class="col-md-2">
+              <div class="form-group">
+                <%= f.label :currency, "幣別" %>
+                 <%= f.select :currency, @currency_array, {}, { :class => 'form-control' } %>
+              </div>
+            </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <%= f.label :stock_price, "每股面額" %>
                 <%= f.text_field :stock_price, class: 'form-control auto-calculate'%>
-              <% else %>
-                <%= f.text_field :stock_price, {class: 'form-control', readonly: true} %>
-              <% end %>
+              </div>
             </div>
-          </div>
-          <div class="form-group">
-            <div class="row">
-              <div class="col-sm-2">
-                <label >股票種類</label>
-                <% if @company.new_record? %>
-                  <%= f.text_field :stock_class, class: 'form-control' %>
-                <% else %>
-                  <%= f.text_field :stock_class, {class: 'form-control', readonly: true} %>
-                <% end %>
-              </div>
-              <div class="col-sm-2">
-                <label >幣別</label>
-                <div>
-                  <% if @company.new_record? %>
-                    <%= f.select :currency, @currency_array, {}, { :class => 'form-control' } %>
-                  <% else %>
-                    <input class="form-control" value="<%= @currency_array[@company.currency-1][0] %>" readonly >
-                  <% end %>
-                </div>
-              </div>
-              <div class="col-sm-2">
-                <label>原始股數</label>
-                <div>
-                  <%= f.text_field :stock_num, {class: 'form-control', readonly: true} %>
-                </div>
+            <div class="col-md-2">
+              <div class="form-group">
+                <%= f.label :stock_num, "原始股數" %>
+                <%= f.text_field :stock_num, {class: 'form-control', readonly: true} %>
               </div>
             </div>
           </div>

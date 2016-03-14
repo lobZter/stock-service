@@ -22,3 +22,9 @@ $('body.main_index').ready ->
   $('#company_input').change ->
     setCompanySearchUrl()
     return
+
+  $('#company_input').change ->
+    val = $('#company_input').val()
+    url = 'companies/' + $('#company_list [value="' + val + '"]').data('value')
+    $('#company_search_btn').attr 'href', url
+    return

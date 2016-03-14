@@ -9,7 +9,9 @@
       <th class="text-center">簽名頁影本</th>
       <th class="text-center">郵寄地址影本</th>
       <th class="text-center">資料</th>
+      <% if session[:is_admin] %>
       <th class="text-center">編輯</th>
+      <% end %>
     </tr>
   </thead>
   <tbody>
@@ -23,7 +25,9 @@
    	  <td><%= check_exist(s.copy_mail_addr?) %></td>
    	  
    	  <td><%= link_to "Info", stockholder_path(s) , class: "btn btn-primary btn-xs" %></td>
+   	  <% if session[:is_admin] %>
    	  <td><%= link_to "Edit", edit_stockholder_path(s) , class: "btn btn-success btn-xs" %></td>
+   	  <% end %>
    	  </tr>
     <% end %>
   </tbody>
