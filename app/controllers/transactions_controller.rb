@@ -6,14 +6,22 @@ class TransactionsController < ApplicationController
   # GET /transactions
   # GET /transactions/index
   def index
-    @transactions = Transaction.all
+    set_data()
     
+    @transactions = Transaction.all
     if params[:set_not_completed]
       @transactions = @transactions.filter_not_completed  
-    end
-    
-    if params[:set_completed]
+    elsif params[:set_completed]
       @transactions = @transactions.filter_completed 
+    else
+      @buyer_transactions = []
+      @seller_transactions = []
+      @stock_transacitons = []
+      
+      @buyer_transactions = @transactions.buyer_id(params[:buyer_id]) if params[:buyer_id].present? && params[:buyer_id] != "0"
+      @seller_transactions = @transactions.seller_id(params[:seller_id]) if params[:seller_id].present? && params[:seller_id] != "0"
+      
+      @transactions =  @buyer_transactions + @seller_transactions + @stock_transacitons
     end
     
     @identity_names = Hash.new
@@ -22,7 +30,7 @@ class TransactionsController < ApplicationController
       set_identity_name(t.seller_id)
       set_identity_name(t.buyer_id)
       set_company_name(t.company_id)
-    end                                
+    end                  
   end
   
   # POST /transactions
@@ -139,11 +147,7 @@ class TransactionsController < ApplicationController
   def set_identity_name(identity_id)
     if !@identity_names.has_key?(identity_id)
       @identity = Identity.find(identity_id)
-      if @identity.company.nil? 
-        @identity_names[identity_id] = @identity.stockholder.name_zh
-      else @identity.stockholder.nil? 
-        @identity_names[identity_id] = @identity.company.name_zh
-      end
+      @identity_names[identity_id] = @identity.self_detail.name_zh
     else 
       return
     end

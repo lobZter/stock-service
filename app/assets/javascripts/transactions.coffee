@@ -31,6 +31,15 @@ setStock = ->
   $('#enlarge_image').attr 'src', image.src
   $('#image_modal').modal 'show'
   return
+  
+setTransactionFilterUrl = ->
+  url = 'transactions?'
+  url += 'buyer_id=' + $('#buyer_filter_input').val()
+  url += '&seller_id=' + $('#seller_filter_input').val()
+  
+  $('#filter_btn').attr 'href', url
+  
+  return
 
 
 $('body.transactions_new').ready ->
@@ -71,4 +80,25 @@ $('body.transactions_new').ready ->
     setCurrency()
     return
 
+  return
+  
+  
+  
+$('body.transactions_index').ready ->
+  setTransactionFilterUrl()
+  
+  $('#buyer_filter_input').change ->
+    setTransactionFilterUrl()
+    return
+  
+  $('#seller_filter_input').change ->
+    setTransactionFilterUrl()
+    return
+  
+  $('#stock_filter_input').change ->
+    setTransactionFilterUrl()
+    return
+
+  $(".transaction_index_select2").select2({theme: "bootstrap"});
+  
   return

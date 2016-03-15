@@ -11,23 +11,36 @@
     <%= link_to "未完成", transactions_path(:set_not_completed => 1), {class: "btn btn-default", style: "display: table-cell"} %>
   </div>
   <div class="col-md-2" style="padding-left: 0px; display: table">
-    <select id="buyer_filter_input" class="form-control main_select2" style="display: table-cell">
-      
+    <select id="buyer_filter_input" class="form-control transaction_index_select2" style="display: table-cell">
+      <option value="0">買方</option>
+      <optgroup label="股東">
+      <% @stockholders.each do |s| %>
+        <option value="<%= s.identity_id %>"><%= s.name_zh %></option>
+      <% end %>
+      <optgroup label="公司">
+      <% @companies.each do |c| %>
+        <option value="<%= c.identity_id %>"><%= c.name_zh %></option>
+      <% end %>
     </select>
-    <span class="help-block" style="padding-left: 6px">買方</span>
   </div>
   <div class="col-md-2" style="padding-left: 0px; display: table">
-    <select id="seller_filter_input" class="form-control main_select2" style="display: table-cell">
-      
+    <select id="seller_filter_input" class="form-control transaction_index_select2" style="display: table-cell">
+      <option value="0">賣方</option>
+      <optgroup label="股東">
+      <% @stockholders.each do |s| %>
+        <option value="<%= s.identity_id %>"><%= s.name_zh %></option>
+      <% end %>
+      <optgroup label="公司">
+      <% @companies.each do |c| %>
+        <option value="<%= c.identity_id %>"><%= c.name_zh %></option>
+      <% end %>
     </select>
-    <span class="help-block" style="padding-left: 6px">賣方</span>
   </div>
-  <div class="col-md-2" style="padding-left: 0px; display: table">
-    <select id="stock_filter_input" class="form-control main_select2" style="display: table-cell">
-      
-    </select>
-    <span class="help-block" style="padding-left: 6px">股票</span>
-  </div>
+  <!--<div class="col-md-2" style="padding-left: 0px; display: table">-->
+  <!--  <select id="stock_filter_input" class="form-control transaction_index_select2" style="display: table-cell">-->
+  <!--    <option value="0">股票</option>-->
+  <!--  </select>-->
+  <!--</div>-->
   
   <a href="" id="filter_btn" class="btn btn-default">
     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>

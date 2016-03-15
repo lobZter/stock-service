@@ -47,6 +47,6 @@ $('body.capital_increases_index').ready ->
     setfilterUrl()
     return
 
-  $(".main_select2").select2({theme: "bootstrap"});
+  $(".capital_increase_index_select2").select2({theme: "bootstrap"});
   
   return

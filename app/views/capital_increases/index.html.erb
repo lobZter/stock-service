@@ -6,7 +6,7 @@
   </div>
   <div class="col-md-3" style="padding-left: 0px">
     <div class="input-group">
-      <select id="company_filter_input" class="form-control main_select2">
+      <select id="company_filter_input" class="form-control capital_increase_index_select2">
         <% @companies.each do |c| %>
           <option value="<%= c.identity_id %>"><%= c.name_zh %></option>
         <% end %>

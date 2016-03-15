@@ -31,6 +31,12 @@ class Transaction < ActiveRecord::Base
       ((contract_6_needed = ?) AND (contract_6 IS NULL)) OR
       ((contract_7_needed = ?) AND (contract_7 IS NULL))",
     true, true, true, true, true, true, true, true)}
+    
+  scope :buyer_id, -> (buyer_id) { where(buyer_id: buyer_id) }
+  scope :seller_id, -> (seller_id) { where(seller_id: seller_id) }
+  scope :stock, -> (company_id, stock_class, date_issued) { 
+    where(company_id: company_id, stock_class: stock_class, date_issued: date_issued)
+  }
   
   validates_presence_of :seller_id,
     :buyer_id,

@@ -10,7 +10,7 @@
   <% if session[:is_login] %>
     <%= render 'layouts/header' %>
   <% end %>
-  <div class="container-fluid" style="margin-bottom: 20px">
+  <div class="container-fluid <%= controller_name %>_<%= action_name %>" style="margin-bottom: 20px">
     <%= yield %>
   </div>
 </body>
