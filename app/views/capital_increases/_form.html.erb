@@ -4,18 +4,9 @@
 <div class="panel panel-default">
   <div class="panel-heading">公司增資</div>
   <div class="panel-body">
-    
-    <!--<div class="btn-group" data-toggle="buttons">-->
-    <!--  <label class="btn btn-default active">-->
-    <!--    <input type="radio" name="capital_increase[is_increase]" id="is_increase" autocomplete="off" checked> 增資-->
-    <!--  </label>-->
-    <!--  <label class="btn btn-default">-->
-    <!--    <input type="radio" name="capital_increase[is_increase]" id="is_decrease" autocomplete="off"> 減資-->
-    <!--  </label>-->
-    <!--</div><-->
 
     <div class="form-group">
-      <div class="row no-margin-top">
+      <div class="row" style="margin-top: 0px">
         <div class="col-sm-4">
           <%= f.label :identity_id, "公司名稱" %>
           <%= f.select :identity_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} ), {}, {class: "form-control transaction_select2"} %>
@@ -42,7 +33,8 @@
       <div class="row">
         <div class="col-sm-2">
           <%= f.label :fund, "金額" %>
-          <%= f.text_field :fund, {class: 'form-control auto-calculate', placeholder: "減資請填負數"} %>
+          <%= f.text_field :fund, {class: 'form-control auto-calculate'} %>
+          <span class="help-block no-margin-bottom">減資請填負數</span>
         </div>
         <div class="col-sm-2">
           <%= f.label :stock_price, "每股面額" %>
@@ -56,6 +48,7 @@
         <div class="col-sm-2">
           <%= f.label :stock_num, "本次總股數" %>
           <%= f.text_field :stock_num, {class: 'form-control'} %>
+          <span class="help-block no-margin-bottom">減資請填負數</span>
         </div>
       </div>
     </div>

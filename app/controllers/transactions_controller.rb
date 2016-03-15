@@ -7,31 +7,42 @@ class TransactionsController < ApplicationController
   # GET /transactions/index
   def index
     set_data()
-    
-    @transactions = Transaction.all
-    if params[:set_not_completed]
-      @transactions = @transactions.filter_not_completed  
-    elsif params[:set_completed]
-      @transactions = @transactions.filter_completed 
-    elsif params[:buyer_id] or params[:seller_id]
-      @buyer_transactions = []
-      @seller_transactions = []
-      @stock_transacitons = []
-      
-      @buyer_transactions = @transactions.buyer_id(params[:buyer_id]) if params[:buyer_id].present? && params[:buyer_id] != "0"
-      @seller_transactions = @transactions.seller_id(params[:seller_id]) if params[:seller_id].present? && params[:seller_id] != "0"
-      
-      
-      @transactions =  @buyer_transactions + @seller_transactions + @stock_transacitons
-    end
-    
     @identity_names = Hash.new
     @company_names = Hash.new
+    @stocks = Array.new
+    @transactions = Transaction.all
+    @capital_increases = CapitalIncrease.all
+    
+    @buyer_transactions = []
+    @seller_transactions = []
+    @stock_transacitons = []
+    
+    if params[:buyer_id].present? && params[:buyer_id] != "0"
+      @transactions = @transactions.buyer_id(params[:buyer_id])
+    end
+    if params[:seller_id].present? && params[:seller_id] != "0"
+      @transactions = @transactions.seller_id(params[:seller_id])
+    end
+    if params[:company_id].present? && params[:stock_class].present? && params[:date_issued].present?
+      if params[:company_id] != "undefined" && params[:stock_class] != "undefined" && params[:date_issued] != "undefined"
+        @transactions = @transactions.stock(params[:company_id], params[:stock_class], params[:date_issued])
+      end  
+    end
+    if params[:set_completed]
+      @transactions = @transactions.filter_completed 
+    elsif params[:set_not_completed]
+      @transactions = @transactions.filter_not_completed  
+    end
+    
+    @capital_increases.each do |c_i|
+      set_stock(c_i)
+    end
+    
     @transactions.each do |t|
       set_identity_name(t.seller_id)
       set_identity_name(t.buyer_id)
       set_company_name(t.company_id)
-    end                  
+    end
   end
   
   # POST /transactions
@@ -159,6 +170,17 @@ class TransactionsController < ApplicationController
       @company_names[company_id] = Company.find(company_id).name_zh
     else 
       return
+    end
+  end
+  
+  def set_stock(capital_increase)
+    if capital_increase.stock_num > 0
+      @stocks.push({
+        :company_id => capital_increase.identity.company_id,
+        :company_name => capital_increase.identity.self_detail.name_zh,
+        :stock_class => capital_increase.stock_class,
+        :date_issued => capital_increase.date_issued
+      })
     end
   end
   

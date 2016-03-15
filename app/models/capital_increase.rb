@@ -20,6 +20,7 @@ class CapitalIncrease < ActiveRecord::Base
   private
   def check_stock_num
     return if stock_num.nil? or identity_id.nil? or stock_class.nil? or date_issued.nil? or fund.nil? or currency.nil? or stock_price.nil? or stock_num.nil?
+    # 減資
     if self.stock_num < 0
       stock = Stock.where("company_id=?", self.identity.company_id)
         .where("stock_class=?", self.stock_class)
@@ -27,24 +28,41 @@ class CapitalIncrease < ActiveRecord::Base
         .where("identity_id=?", self.identity_id)
       if stock.size == 0
         self.errors.add(:stock_class, "減資失敗: 未擁有此股")
-      elsif stock[0].stock_num + self.stock_num < 0
-        self.errors.add(:stock_num, "減資失敗: 擁有股票數量不足")
       else
-        stock[0].stock_num += self.stock_num
-        stock[0].save
-        self.stock_checked = true
+        stock_num = stock[0].stock_num += self.stock_num
+        if stock_num < 0
+          self.errors.add(:stock_num, "減資失敗: 擁有股票數量不足")
+        elsif stock_num > 0
+          stock[0].save
+          self.stock_checked = true
+        else  
+          stock[0].destroy
+          self.stock_checked = true
+        end
+      end      
+    # 增資
+    elsif self.stock_num > 0
+    
+      @stock = Stock.where("company_id=?", self.identity.company_id)
+        .where("stock_class=?", self.stock_class)
+        .where("date_issued=?", self.date_issued)
+        
+      if @stock.size == 0
+        
+        if self.date_issued <= Date.today
+          Stock.create(:identity_id => self.identity_id,
+            :company_id => self.identity.company_id,
+            :stock_class => self.stock_class,
+            :stock_num => self.stock_num,
+            :date_issued => self.date_issued)
+          self.stock_checked = true
+        end
+        
+      else
+        self.errors.add(:date_issued, "增資失敗: 不可增資同發行日期之股票")
       end
-    elsif self.stock_num == 0
-      self.errors.add(:stock_num, "增資失敗: 股票數不可為零")
     else
-      if self.date_issued <= Date.today
-        @stock = Stock.create(:identity_id => self.identity_id,
-          :company_id => self.identity.company_id,
-          :stock_class => self.stock_class,
-          :stock_num => self.stock_num,
-          :date_issued => self.date_issued)
-        self.stock_checked = true
-      end
+      self.errors.add(:stock_num, "增資失敗: 股票數不可為零")
     end
   end
   

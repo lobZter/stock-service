@@ -1,15 +1,21 @@
 <%= render :partial => 'layouts/flash' %>
 
 <div class="row col-md-offset-1" style="margin-top: 0px">
-  <div class="col-md-1" style="display: table">
-    <%= link_to "全部", transactions_path, {class: "btn btn-default", style: "display: table-cell"} %>
+  
+  <div class="col-md-2">
+    <div class="btn-group" data-toggle="buttons" style="float: right">
+      <label class="btn btn-default">
+        <input type="radio" name="set_field" value="set_all" autocomplete="off"> 全部
+      </label>
+      <label class="btn btn-default">
+        <input type="radio" name="set_field" value="set_completed" autocomplete="off"> 已完成
+      </label>
+      <label class="btn btn-default">
+        <input type="radio" name="set_field" value="set_not_completed" autocomplete="off"> 未完成
+      </label>
+    </div>
   </div>
-  <div class="col-md-1" style="display: table; padding-left: 0px">
-    <%= link_to "已完成", transactions_path(:set_completed => 1), {class: "btn btn-default", style: "display: table-cell"} %>
-  </div>
-  <div class="col-md-1" style="display: table; padding-left: 0px">
-    <%= link_to "未完成", transactions_path(:set_not_completed => 1), {class: "btn btn-default", style: "display: table-cell"} %>
-  </div>
+  
   <div class="col-md-2" style="padding-left: 0px; display: table">
     <select id="buyer_filter_input" class="form-control transaction_index_select2" style="display: table-cell">
       <option value="0">買方</option>
@@ -36,11 +42,16 @@
       <% end %>
     </select>
   </div>
-  <!--<div class="col-md-2" style="padding-left: 0px; display: table">-->
-  <!--  <select id="stock_filter_input" class="form-control transaction_index_select2" style="display: table-cell">-->
-  <!--    <option value="0">股票</option>-->
-  <!--  </select>-->
-  <!--</div>-->
+  <div class="col-md-3" style="padding-left: 0px; display: table">
+    <select id="stock_filter_input" class="form-control transaction_index_select2" style="display: table-cell">
+      <option value="0">股票</option>
+      <% @stocks.each do |s| %>
+        <option value="{'company_id': '<%= s[:company_id] %>', 'stock_class': '<%= s[:stock_class] %>', 'date_issued': '<%= s[:date_issued] %>'}">
+          <%= s[:company_name] %> / <%= s[:stock_class] %> / <%= s[:date_issued] %>
+        </option>
+      <% end %>
+    </select>
+  </div>
   
   <a href="" id="filter_btn" class="btn btn-default">
     <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
@@ -86,7 +97,7 @@
    	  <td><%= status_check(t.contract_5_needed, t.contract_5?) %></td>
    	  <td><%= status_check(t.contract_6_needed, t.contract_6?) %></td>
    	  <td><%= status_check(t.contract_7_needed, t.contract_7?) %></td>
-   	  <td><%= status_check(true, t.contract_7?) %></td>
+   	  <td><%= status_check(true, t.contract_8?) %></td>
 
    	  <td>
    	    <% if t.send_buyer? %>

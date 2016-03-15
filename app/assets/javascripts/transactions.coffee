@@ -4,6 +4,7 @@ currency =
   3: 'NTD'
   
 stocks = undefined
+set_field = "set_all"
 
 setCurrency = ->
   index = $("#transaction_stock").prop('selectedIndex')
@@ -32,13 +33,15 @@ setStock = ->
   $('#image_modal').modal 'show'
   return
   
-setTransactionFilterUrl = ->
+setTransactionFilterUrl = () -> 
   url = 'transactions?'
   url += 'buyer_id=' + $('#buyer_filter_input').val()
   url += '&seller_id=' + $('#seller_filter_input').val()
+  stock = JSON.parse($('#stock_filter_input').val().replace(/'/g, '"'))
+  url += '&company_id=' + stock.company_id + '&stock_class=' + stock.stock_class + '&date_issued=' + stock.date_issued
+  url += "&" + set_field + "=1"
   
   $('#filter_btn').attr 'href', url
-  
   return
 
 
@@ -83,7 +86,6 @@ $('body.transactions_new').ready ->
   return
   
   
-  
 $('body.transactions_index').ready ->
   setTransactionFilterUrl()
   
@@ -96,6 +98,11 @@ $('body.transactions_index').ready ->
     return
   
   $('#stock_filter_input').change ->
+    setTransactionFilterUrl()
+    return
+    
+  $('input:radio[name="set_field"]').change ->
+    set_field = $(this).val()
     setTransactionFilterUrl()
     return
 

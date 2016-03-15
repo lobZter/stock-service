@@ -56,38 +56,44 @@ class CapitalIncreasesController < ApplicationController
     
     if @capital_increase.remark != "起始增資"
     
-      remaining_stock = Stock.where("company_id=?", @capital_increase.identity.company_id)
-        .where("stock_class=?", @capital_increase.stock_class)
-        .where("date_issued=?", @capital_increase.date_issued)
-        .where("identity_id=?", @capital_increase.identity_id)[0]
+      if @capital_increase.stock_checked
     
-      if @capital_increase.stock_num > 0
-        if remaining_stock.nil?
-          flash[:errors] = "剩餘股票數量不合 無法刪除此筆增資"
-        elsif remaining_stock.stock_num < @capital_increase.stock_num
-          flash[:errors] = "買方剩餘股票數量不合 無法刪除此筆增資"
-        elsif remaining_stock.stock_num > @capital_increase.stock_num
-          stock_num = remaining_stock.stock_num - @capital_increase.stock_num
-          remaining_stock.update({:stock_num => stock_num})
-          @capital_increase.destroy
+        remaining_stock = Stock.where("company_id=?", @capital_increase.identity.company_id)
+          .where("stock_class=?", @capital_increase.stock_class)
+          .where("date_issued=?", @capital_increase.date_issued)
+          .where("identity_id=?", @capital_increase.identity_id)[0]
+      
+        if @capital_increase.stock_num > 0
+          if remaining_stock.nil?
+            flash[:errors] = "剩餘股票數量不合 無法刪除此筆增資"
+          elsif remaining_stock.stock_num < @capital_increase.stock_num
+            flash[:errors] = "買方剩餘股票數量不合 無法刪除此筆增資"
+          elsif remaining_stock.stock_num > @capital_increase.stock_num
+            stock_num = remaining_stock.stock_num - @capital_increase.stock_num
+            remaining_stock.update({:stock_num => stock_num})
+            @capital_increase.destroy
+          else
+            remaining_stock.destroy
+            @capital_increase.destroy
+          end
         else
-          remaining_stock.destroy
-          @capital_increase.destroy
+          if remaining_stock.nil?
+            Stock.create({
+              :identity_id => @capital_increase.identity_id,
+              :company_id => @capital_increase.identity.company_id,
+              :stock_class => @capital_increase.stock_class,
+              :date_issued => @capital_increase.date_issued,
+              :stock_num => -@capital_increase.stock_num})
+            @capital_increase.destroy
+          else
+            stock_num = remaining_stock.stock_num - @capital_increase.stock_num
+            remaining_stock.update({:stock_num => stock_num})
+            @capital_increase.destroy
+          end
         end
+        
       else
-        if remaining_stock.nil?
-          Stock.create({
-            :identity_id => @capital_increase.identity_id,
-            :company_id => @capital_increase.identity.company_id,
-            :stock_class => @capital_increase.stock_class,
-            :date_issued => @capital_increase.date_issued,
-            :stock_num => -@capital_increase.stock_num})
-          @capital_increase.destroy
-        else
-          stock_num = remaining_stock.stock_num - @capital_increase.stock_num
-          remaining_stock.update({:stock_num => stock_num})
-          @capital_increase.destroy
-        end
+        @capital_increase.destroy
       end
       
     else

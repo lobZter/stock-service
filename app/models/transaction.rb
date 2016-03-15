@@ -18,8 +18,12 @@ class Transaction < ActiveRecord::Base
       ((contract_4_needed = ?) AND (contract_4 IS NULL)) OR
       ((contract_5_needed = ?) AND (contract_5 IS NULL)) OR
       ((contract_6_needed = ?) AND (contract_6 IS NULL)) OR
-      ((contract_7_needed = ?) AND (contract_7 IS NULL))",
-    true, true, true, true, true, true, true, true)}
+      ((contract_7_needed = ?) AND (contract_7 IS NULL)) OR
+      (contract_8 IS NULL) OR
+      (send_buyer IS NULL) OR
+      (send_seller IS NULL)",
+    true, true, true, true, true, true, true, true
+  )}
   
   scope :filter_completed, -> { where.not(
     " ((contract_0_needed = ?) AND (contract_0 IS NULL)) OR 
@@ -29,8 +33,12 @@ class Transaction < ActiveRecord::Base
       ((contract_4_needed = ?) AND (contract_4 IS NULL)) OR
       ((contract_5_needed = ?) AND (contract_5 IS NULL)) OR
       ((contract_6_needed = ?) AND (contract_6 IS NULL)) OR
-      ((contract_7_needed = ?) AND (contract_7 IS NULL))",
-    true, true, true, true, true, true, true, true)}
+      ((contract_7_needed = ?) AND (contract_7 IS NULL)) OR
+      (contract_8 IS NULL) OR
+      (send_buyer IS NULL) OR
+      (send_seller IS NULL)",
+    true, true, true, true, true, true, true, true
+  )}
     
   scope :buyer_id, -> (buyer_id) { where(buyer_id: buyer_id) }
   scope :seller_id, -> (seller_id) { where(seller_id: seller_id) }
@@ -61,6 +69,7 @@ class Transaction < ActiveRecord::Base
       self.errors.add(:seller_id, "賣方與買方相同")
     end
   end
+  
   def check_stock_num
     return if seller_id.nil? or buyer_id.nil? or company_id.nil? or stock_class.nil? or date_issued.nil? or fund.nil? or currency.nil? or stock_price.nil? or stock_num.nil? or date_signed.nil?
     seller_stock = Stock.where("company_id=?", self.company_id)
