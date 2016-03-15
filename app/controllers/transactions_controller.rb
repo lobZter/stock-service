@@ -13,13 +13,14 @@ class TransactionsController < ApplicationController
       @transactions = @transactions.filter_not_completed  
     elsif params[:set_completed]
       @transactions = @transactions.filter_completed 
-    else
+    elsif params[:buyer_id] or params[:seller_id]
       @buyer_transactions = []
       @seller_transactions = []
       @stock_transacitons = []
       
       @buyer_transactions = @transactions.buyer_id(params[:buyer_id]) if params[:buyer_id].present? && params[:buyer_id] != "0"
       @seller_transactions = @transactions.seller_id(params[:seller_id]) if params[:seller_id].present? && params[:seller_id] != "0"
+      
       
       @transactions =  @buyer_transactions + @seller_transactions + @stock_transacitons
     end

@@ -88,8 +88,20 @@
    	  <td><%= status_check(t.contract_7_needed, t.contract_7?) %></td>
    	  <td><%= status_check(true, t.contract_7?) %></td>
 
-   	  <td><%= t.send_buyer %></td>
-   	  <td><%= t.send_seller %></td>
+   	  <td>
+   	    <% if t.send_buyer? %>
+   	      <%= t.send_buyer %>
+   	    <% else %>  
+   	      <span class="glyphicon glyphicon-remove"></span>
+   	    <% end %>
+   	  </td>
+   	  <td>
+   	    <% if t.send_seller? %>
+   	      <%= t.send_seller %>
+   	    <% else %>  
+   	      <span class="glyphicon glyphicon-remove"></span>
+   	    <% end %>
+   	  </td>
    	  
    	  <td><%= link_to 'Edit', edit_transaction_path(t), class: "btn btn-success btn-xs" %></td>
    	  <td><%= button_to 'Del', transaction_path(t), {method: "delete", class: "btn btn-danger btn-xs", data: {confirm: "確定刪除?"}} %></td>
