@@ -2,15 +2,17 @@
 <html>
 <head>
   <title>iDreams Stock System</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= stylesheet_link_tag 'application' %>
+  <%= stylesheet_link_tag params[:controller] %>
+  <%= javascript_include_tag 'application' %>
+  <%= javascript_include_tag params[:controller] %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="<%= controller_name %>_<%= action_name %>">
   <% if session[:is_login] %>
     <%= render 'layouts/header' %>
   <% end %>
-  <div class="container-fluid <%= controller_name %>_<%= action_name %>" style="margin-bottom: 20px">
+  <div class="container-fluid" style="margin-bottom: 20px">
     <%= yield %>
   </div>
 </body>

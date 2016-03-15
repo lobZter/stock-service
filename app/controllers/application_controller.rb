@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   
   def is_admin
     if session[:is_login] and not session[:is_admin]
-      user_allow_action = ["index", "show"]
+      user_allow_action = ["index", "show", "logout"]
       if !user_allow_action.include?params[:action]
         redirect_to controller: 'main', action: 'index'
       end

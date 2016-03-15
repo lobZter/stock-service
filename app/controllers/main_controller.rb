@@ -6,12 +6,12 @@ class MainController < ApplicationController
     
     def check_login
         puts params
-        if params["account"] == "asd" and params["password"] == "asd"
+        if params["account"] == "admin" and params["password"] == "admin"
             session[:name] = "admin"
             session[:is_admin] = true
             session[:is_login] = true
             redirect_to controller: 'main', action: 'index'    
-        elsif params["account"] == "zxc" and params["password"] == "zxc"
+        elsif params["account"] == "user" and params["password"] == "user"
             session[:name] = "employee"
             session[:is_admin] = false
             session[:is_login] = true
