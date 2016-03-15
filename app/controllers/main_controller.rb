@@ -1,5 +1,4 @@
 class MainController < ApplicationController
-    before_action :has_login, :except => [:login, :check_login] 
     
     def login
         @show_error = params["show_error"]
@@ -32,12 +31,5 @@ class MainController < ApplicationController
         @stockholders = Stockholder.all
     end
 
-    protected
-    
-    def has_login    
-        if not session[:is_login]
-            puts "nononono" 
-            redirect_to controller: 'main', action: 'login'
-        end
-    end
+   
 end
