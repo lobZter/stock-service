@@ -1,17 +1,40 @@
 <%= render :partial => 'layouts/flash' %>
 
-<div class="row">
+<div class="row col-md-offset-1" style="margin-top: 0px">
   <div class="col-md-1" style="display: table">
     <%= link_to "全部", transactions_path, {class: "btn btn-default", style: "display: table-cell"} %>
   </div>
-    <div class="col-md-1" style="display: table">
+  <div class="col-md-1" style="display: table; padding-left: 0px">
     <%= link_to "已完成", transactions_path(:set_completed => 1), {class: "btn btn-default", style: "display: table-cell"} %>
   </div>
-  <div class="col-md-1" style="display: table">
+  <div class="col-md-1" style="display: table; padding-left: 0px">
     <%= link_to "未完成", transactions_path(:set_not_completed => 1), {class: "btn btn-default", style: "display: table-cell"} %>
   </div>
+  <div class="col-md-2" style="padding-left: 0px; display: table">
+    <select id="buyer_filter_input" class="form-control main_select2" style="display: table-cell">
+      
+    </select>
+    <span class="help-block" style="padding-left: 6px">買方</span>
+  </div>
+  <div class="col-md-2" style="padding-left: 0px; display: table">
+    <select id="seller_filter_input" class="form-control main_select2" style="display: table-cell">
+      
+    </select>
+    <span class="help-block" style="padding-left: 6px">賣方</span>
+  </div>
+  <div class="col-md-2" style="padding-left: 0px; display: table">
+    <select id="stock_filter_input" class="form-control main_select2" style="display: table-cell">
+      
+    </select>
+    <span class="help-block" style="padding-left: 6px">股票</span>
+  </div>
+  
+  <a href="" id="filter_btn" class="btn btn-default">
+    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+  </a>
+  
 </div>
-<div class="row">
+<div class="row" style="margin-left: 0px; margin-right: 0px; margin-top:30px">
 <table class="table table-hover text-center">
   <thead>
     <tr>
