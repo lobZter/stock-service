@@ -14,6 +14,9 @@ class CapitalIncrease < ActiveRecord::Base
   validate :check_stock_num, :on => :create
   validate :readonly_field, :on => :update
   
+  scope :company, -> (identity_id) { where(identity_id: identity_id) }
+  
+  
   private
   def check_stock_num
     return if stock_num.nil? or identity_id.nil? or stock_class.nil? or date_issued.nil? or fund.nil? or currency.nil? or stock_price.nil? or stock_num.nil?

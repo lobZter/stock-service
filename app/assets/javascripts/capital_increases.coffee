@@ -4,12 +4,17 @@ currency =
   3: 'NTD'
   
 setCurrency = ->
-  
   i_id = $('#capital_increase_identity_id').val()
   url = '/identities/' + i_id
   $.get url, (data, status) ->
     company = JSON.parse(data)
     $('#capital_increase_currency').val(currency[company.currency])
+    
+setfilterUrl = ->
+  url = 'capital_increases?identity_id=' + $('#company_filter_input').val()
+  $('#company_filter_btn').attr 'href', url
+  
+  return
   
 $('body.capital_increases_new').ready ->
   setCurrency()
@@ -32,4 +37,16 @@ $('body.capital_increases_new').ready ->
     
     return
     
+  return
+  
+  
+$('body.capital_increases_index').ready ->
+  setfilterUrl()
+  
+  $('#company_filter_input').change ->
+    setfilterUrl()
+    return
+
+  $(".main_select2").select2({theme: "bootstrap"});
+  
   return

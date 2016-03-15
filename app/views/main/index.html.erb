@@ -3,7 +3,7 @@
     <%= link_to "全股東列表", stockholders_path , {class: "btn btn-default cont", style: "display: table-cell"} %>
   </div>
   
-  <div class="col-sm-5">
+  <div class="col-sm-5" style="padding-left: 0px">
     <div class="input-group">
       <select id="stockholder_input" class="form-control main_select2">
         <% @stockholders.each do |s| %>
@@ -17,7 +17,7 @@
       </span>
     </div>
   </div>
-  <div class="col-sm-5">
+  <div class="col-sm-5" style="padding-left: 0px">
     <div class="input-group">
       <select id="company_input" class="form-control main_select2">
         <% @companies.each do |c| %>

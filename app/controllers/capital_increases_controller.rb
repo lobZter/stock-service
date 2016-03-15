@@ -3,14 +3,15 @@ class CapitalIncreasesController < ApplicationController
   # GET /capital_increases/index
   # GET /capital_increases
   def index
+    set_data()
+    
     @capital_increases = CapitalIncrease.all
-    @identities_id = CapitalIncrease.uniq.pluck(:identity_id)
+    @capital_increases = @capital_increases.company(params[:identity_id]) if params[:identity_id].present?
+    
     @companies_name = {}
-    @identities_id.each do |identity_id|
-      @identity = Identity.find(identity_id)
-      @company = Company.find(@identity.company_id)
-      
-      @companies_name[identity_id] = @company.name_zh
+    @capital_increases.each do |c_i|
+      @companies_name[c_i.identity.id] = c_i.identity.company.name_zh
+      c_i.identity.company.name_zh
     end
   end
   
@@ -100,7 +101,7 @@ class CapitalIncreasesController < ApplicationController
   private
   def set_data
     @companies = Company.all
-    @currency_array = [["USD", 1], ["RMB", 2], ["NTD", 3]]
+    @currency_array = Currency.types
   end
   
   def capital_increase_params

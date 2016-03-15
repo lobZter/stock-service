@@ -9,7 +9,7 @@ class TransactionsController < ApplicationController
     @transactions = Transaction.all
     
     if params[:set_not_completed]
-      @transactions = @transactions.filter_not_completed 
+      @transactions = @transactions.filter_not_completed  
     end
     
     if params[:set_completed]
