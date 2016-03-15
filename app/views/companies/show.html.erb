@@ -161,12 +161,14 @@
     <% if @stocks.size == 0 %>
       <tr><td colspan="3">無資料</td></tr>
     <% else %>
-      <% @stocks.each do |s| %>
+      <% i = @stocks[:stock_info].size - 1 %>
+      <% while i >= 0 %>
         <tr>
-          <td><%= s[:company_name] %></td>
-          <td><%= s[:stock_class] %></td>
-          <td><%= s[:stock_num] %></td>
+          <td><%= @stocks[:stock_info][i][:company_name] %></td>
+          <td><%= @stocks[:stock_info][i][:stock_class] %></td>
+          <td><%= @stocks[:stock_num][i] %></td>
         </tr>
+        <% i = i - 1 %>
       <% end %>
     <% end %>
   </table>

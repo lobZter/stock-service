@@ -163,12 +163,14 @@
           <% if @stocks.size == 0 %>
             <tr><td colspan="3">無資料</td></tr>
           <% else %>
-            <% @stocks.each do |s| %>
+            <% i = @stocks[:stock_info].size - 1 %>
+            <% while i >= 0 %>
               <tr>
-                <td><%= s[:company_name] %></td>
-                <td><%= s[:stock_class] %></td>
-                <td><%= s[:stock_num] %></td>
+                <td><%= @stocks[:stock_info][i][:company_name] %></td>
+                <td><%= @stocks[:stock_info][i][:stock_class] %></td>
+                <td><%= @stocks[:stock_num][i] %></td>
               </tr>
+              <% i = i - 1 %>
             <% end %>
           <% end %>
         </tbody>
@@ -180,6 +182,7 @@
           <th>賣方</th>
           <th>股票公司</th>
           <th>股票類型</th>
+          <th>發行日期</th>
           <th>交易股數</th>
         </thead>
         <tbody>
@@ -192,6 +195,7 @@
                 <td><%= t[:seller_name] %></td>
                 <td><%= t[:company_name] %></td>
                 <td><%= t[:stock_class] %></td>
+                <td><%= t[:date_issued] %></td>
                 <td><%= t[:stock_num] %></td>
               </tr>
             <% end %>

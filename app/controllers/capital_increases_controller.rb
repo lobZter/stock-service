@@ -32,6 +32,8 @@ class CapitalIncreasesController < ApplicationController
           flash.now[:stock_num_zero] = @capital_increase.errors.messages[:stock_num][0]
         elsif @capital_increase.errors.messages.key?(:stock_class) && @capital_increase.errors.messages[:stock_class][0] == "減資失敗: 未擁有此股"
           flash.now[:stock_class] = @capital_increase.errors.messages[:stock_class][0]
+        elsif @capital_increase.errors.messages.key?(:date_issued) && @capital_increase.errors.messages[:date_issued][0] == "增資失敗: 不可增資同發行日期之股票"
+          flash.now[:date_issued] = @capital_increase.errors.messages[:date_issued][0]
         end
         render :action => :new
       end

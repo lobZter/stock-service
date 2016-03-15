@@ -38,6 +38,27 @@ class Identity < ActiveRecord::Base
     return stock_array
   end
   
+  def stock_show
+    @stocks = self.stocks
+    
+    stock_info_array = Array.new
+    stock_num_array = Array.new
+    @stocks.each do |s|
+      stock_hash= Hash.new
+      stock_hash[:company_id] = s.company_id
+      stock_hash[:company_name] = Company.find(s.company_id).name_zh
+      stock_hash[:stock_class] = s.stock_class
+      index = stock_info_array.index(stock_hash)
+      if index == nil
+        stock_info_array.push(stock_hash)
+        stock_num_array.push(s.stock_num)
+      else
+        stock_num_array[index] += s.stock_num
+      end
+    end
+    return {:stock_info => stock_info_array, :stock_num => stock_num_array}
+  end
+  
   def recent_transactions
     @transactions = Transaction.where("buyer_id=?", self.id)
     array = Array.new

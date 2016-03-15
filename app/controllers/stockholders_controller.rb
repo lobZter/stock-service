@@ -40,8 +40,10 @@ class StockholdersController < ApplicationController
   # GET /stockholders/:id
   def show
     @identity = @stockholder.identity
-    @stocks = @identity.stock_detail
+    @stocks = @identity.stock_show
     @transactions = @identity.recent_transactions
+    puts "AAAAAAAAAAAAAAA"
+    puts @stocks.inspect
   end
   
   # PUT /stockholders/:id
