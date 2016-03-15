@@ -2,9 +2,11 @@
   <div class="col-md-11">
     <h2><strong><%= @company.name_zh %> <%= @company.name_en %></strong></h2>
   </div>
+  <% if session[:is_admin] %>
   <h2>
     <%= link_to "修改", edit_company_path(@company), class: "btn btn-default col-md-1" %>
   </h2>
+  <% end %>
 </div>
 
 

@@ -77,8 +77,10 @@
    	  <th class="text-center">銀行水單</th>
    	  <th class="text-center">合約寄買方</th>
    	  <th class="text-center">合約寄賣方</th>
+   	  <% if session[:is_admin] %>
    	  <th class="text-center">編輯</th>
    	  <th class="text-center">刪除</th>
+   	  <% end %>
     </tr>
   </thead>
   <tbody>
@@ -98,7 +100,7 @@
    	  <td><%= status_check(t.contract_6_needed, t.contract_6?) %></td>
    	  <td><%= status_check(t.contract_7_needed, t.contract_7?) %></td>
    	  <td><%= status_check(true, t.contract_8?) %></td>
-
+   	  
    	  <td>
    	    <% if t.send_buyer? %>
    	      <%= t.send_buyer %>
@@ -113,9 +115,10 @@
    	      <span class="glyphicon glyphicon-remove"></span>
    	    <% end %>
    	  </td>
-   	  
+      <% if session[:is_admin] %>
    	  <td><%= link_to 'Edit', edit_transaction_path(t), class: "btn btn-success btn-xs" %></td>
    	  <td><%= button_to 'Del', transaction_path(t), {method: "delete", class: "btn btn-danger btn-xs", data: {confirm: "確定刪除?"}} %></td>
+   	  <% end %>
     </tr>
     <% end %>
   </tbody>
