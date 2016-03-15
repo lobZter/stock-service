@@ -43,11 +43,11 @@ class CapitalIncrease < ActiveRecord::Base
     # 增資
     elsif self.stock_num > 0
     
-      @stock = Stock.where("company_id=?", self.identity.company_id)
+      @capital_increase = CapitalIncrease.where("identity_id=?", self.identity_id)
         .where("stock_class=?", self.stock_class)
         .where("date_issued=?", self.date_issued)
         
-      if @stock.size == 0
+      if @capital_increase.size == 0
         
         if self.date_issued <= Date.today
           Stock.create(:identity_id => self.identity_id,
