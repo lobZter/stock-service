@@ -19,7 +19,7 @@
           <div class="col-md-4">
             <%= f.label :seller_id, "賣方" %>
             <% if @transaction.new_record? %>
-              <%= f.select :seller_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh, s.identity.id]}), {}, {class: "form-control transaction_select2"} %>
+              <%= f.select :seller_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh + " / " + s.passport, s.identity.id]}), {}, {class: "form-control transaction_select2"} %>
             <% else %>
               <input class="form-control" value="<%= Identity.find(@transaction.seller_id).self_detail.name_zh %>" readonly >
             <% end %>
