@@ -125,7 +125,7 @@
       
       <table class="table">
         <h3><strong>郵寄地址影本</strong></h3>
-        <% if @stockholder.copy_signature.to_s == "" %>
+        <% if @stockholder.copy_mail_addr.to_s == "" %>
           <p>未上傳</p>
         <% else %>
           <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@stockholder.copy_mail_addr.to_s)) %>

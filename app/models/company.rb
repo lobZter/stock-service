@@ -18,7 +18,7 @@ class Company < ActiveRecord::Base
     if self.date_establish_changed? or self.fund_changed? or self.stock_price_changed? or self.stock_class_changed? or self.currency_changed? or self.stock_num_changed?
       
       @capital_increase = CapitalIncrease.where("identity_id=?", self.identity.id)
-        .where("remark=?", "起始增資")[0]
+        .where("is_first=?", true)[0]
         
       if !@capital_increase.stock_checked
         
@@ -31,7 +31,8 @@ class Company < ActiveRecord::Base
           :currency => self.currency,
           :stock_price => self.stock_price,
           :stock_num => self.stock_num,
-          :remark => "起始增資"
+          :remark => "起始增資",
+          :is_first => true
         )
         
       else
@@ -52,7 +53,8 @@ class Company < ActiveRecord::Base
             :currency => self.currency,
             :stock_price => self.stock_price,
             :stock_num => self.stock_num,
-            :remark => "起始增資"
+            :remark => "起始增資",
+            :is_first => true
           )
         else  
           self.errors.add(:date_establish, "股票已變動, 無法更動起始資金資訊") if self.date_establish_changed?

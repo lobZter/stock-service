@@ -17,7 +17,8 @@ class CompaniesController < ApplicationController
         :stock_price => @company.stock_price,
         :stock_num => @company.stock_num,
         :remark => "起始增資",
-        :stock_checked => false
+        :stock_checked => false,
+        :is_first => true
       )
 
       redirect_to company_path(@company)

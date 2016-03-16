@@ -66,7 +66,7 @@ class StockholdersController < ApplicationController
       :name_zh, :name_en, :is21, :representative,
       :passport, :country, :phone, :wechat, :address, :email,
       :account_bank, :account_num, :account_owner, :account_owner_id,
-      :copy_passport, :copy_signature)
+      :copy_passport, :copy_signature, :copy_mail_addr)
   end
   
 end

@@ -10,6 +10,7 @@ class CapitalIncrease < ActiveRecord::Base
     :stock_num
   
   validates_inclusion_of :stock_checked, :in => [true, false]
+  validates_inclusion_of :is_first, :in => [true, false]
   
   validate :check_stock_num, :on => :create
   validate :readonly_field, :on => :update
@@ -19,7 +20,7 @@ class CapitalIncrease < ActiveRecord::Base
   
   private
   def check_stock_num
-    return if stock_num.nil? or identity_id.nil? or stock_class.nil? or date_issued.nil? or fund.nil? or currency.nil? or stock_price.nil? or stock_num.nil?
+    return if stock_num.nil? or identity_id.nil? or stock_class.nil? or date_issued.nil? or fund.nil? or currency.nil? or stock_price.nil? or stock_num.nil? or stock_checked.nil? or is_first.nil?
     # 減資
     if self.stock_num < 0
       stock = Stock.where("company_id=?", self.identity.company_id)
@@ -74,7 +75,7 @@ class CapitalIncrease < ActiveRecord::Base
     self.errors.add(:currency, "currency can't be changed") if self.currency_changed?
     self.errors.add(:stock_price, "stock_price can't be changed") if self.stock_price_changed?
     self.errors.add(:stock_num, "stock_num can't be changed") if self.stock_num_changed?
-    self.errors.add(:remark, "remark can't be changed") if self.remark_changed?
+    self.errors.add(:is_first, "is_first can't be changed") if self.is_first_changed?
   end
 
 end

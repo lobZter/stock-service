@@ -9,22 +9,33 @@
       <div class="row" style="margin-top: 0px">
         <div class="col-sm-4">
           <%= f.label :identity_id, "公司名稱" %>
-          <%= f.select :identity_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} ), {}, {class: "form-control transaction_select2"} %>
+          <% if @capital_increase.new_record? %>
+            <%= f.select :identity_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} ), {}, {class: "form-control transaction_select2"} %>
+          <% else %>
+            <input class="form-control" value="<%= @capital_increase.identity.self_detail.name_zh %>" readonly >
+          <% end %>
         </div>
         <div class="col-sm-4">
           <%= f.label :stock_class, "股票類型" %>
-          <%= f.text_field :stock_class, {class: "form-control", list: "stock_class_list"} %>
-          <datalist id="stock_class_list">
-          </datalist>
+          <% if @capital_increase.new_record? %>
+            <%= f.text_field :stock_class, {class: "form-control", list: "stock_class_list"} %>
+          <% else %>
+            <input class="form-control" value="<%= @capital_increase.stock_class %>" readonly >
+          <% end %>
         </div>
         <div class="col-md-4">
-          <%= f.label :date_issued, "生效日期" %>
-          <div class='input-group date' id='capital_increase_datetimepicker1'>
-            <%= f.text_field :date_issued , class: 'form-control' %>
-            <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-            </span>
-          </div>
+          <%= f.label :date_issued, "發行日期" %>
+          <% if @capital_increase.new_record? %>
+            <div class='input-group date' id='capital_increase_datetimepicker1'>
+              <%= f.text_field :date_issued , class: 'form-control' %>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+          <% else %>
+            <input class="form-control" value="<%= @capital_increase.date_issued %>" readonly >
+          <% end %>
+          <span class="help-block no-margin-bottom">此股票可用來交易之日期</span>
         </div>
       </div>
     </div>
@@ -33,22 +44,52 @@
       <div class="row">
         <div class="col-sm-2">
           <%= f.label :fund, "金額" %>
-          <%= f.text_field :fund, {class: 'form-control auto-calculate'} %>
+          <% if @capital_increase.new_record? %>
+            <%= f.text_field :fund, {class: 'form-control auto-calculate'} %>
+          <% else %>
+            <input class="form-control" value="<%= @capital_increase.fund %>" readonly >
+          <% end %>
           <span class="help-block no-margin-bottom">減資請填負數</span>
         </div>
         <div class="col-sm-2">
           <%= f.label :stock_price, "每股面額" %>
+          <% if @capital_increase.new_record? %>
           <%= f.text_field :stock_price, {class: 'form-control auto-calculate'} %>
+          <% else %>
+            <input class="form-control" value="<%= @capital_increase.stock_price %>" readonly >
+          <% end %>
         </div>
         <div class="col-sm-2">
           <%= f.label :currency, "認定幣別" %>
+          <% if @capital_increase.new_record? %>
           <%= f.text_field :currency, {class: 'form-control', readonly: true} %>
+          <% else %>
+            <input class="form-control" value="<%= @currency_array[@capital_increase.currency-1][0] %>" readonly >
+          <% end %>
           <span class="help-block no-margin-bottom">由股票發行公司決定</span>
         </div>
         <div class="col-sm-2">
           <%= f.label :stock_num, "本次總股數" %>
+          <% if @capital_increase.new_record? %>
           <%= f.text_field :stock_num, {class: 'form-control'} %>
+          <% else %>
+            <input class="form-control" value="<%= @capital_increase.stock_num %>" readonly >
+          <% end %>
           <span class="help-block no-margin-bottom">減資請填負數</span>
+        </div>
+        <div class="col-md-4">
+          <%= f.label :date_decreased, "減資生效日期" %>
+          <% if @capital_increase.new_record? %>
+          <div class='input-group date' id='capital_increase_datetimepicker2'>
+            <%= f.text_field :date_decreased , class: 'form-control' %>
+            <span class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+          <% else %>
+            <input class="form-control" value="<%= @capital_increase.date_decreased %>" readonly >
+          <% end %>
+          <span class="help-block no-margin-bottom">註記用，增資可不填</span>
         </div>
       </div>
     </div>
@@ -59,7 +100,7 @@
     </div>
 
     <div class="form-group">
-      <%= f.submit "Create", class: 'btn btn-default btn-primary col-md-12' %>
+      <%= f.submit "完成", class: 'btn btn-default btn-primary col-md-12' %>
     </div>
   </div>
 </div>

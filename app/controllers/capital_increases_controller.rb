@@ -1,4 +1,6 @@
 class CapitalIncreasesController < ApplicationController
+  before_action :set_capital_increase, :only => [:edit, :update, :destroy]
+  before_action :set_data, :only => [:new, :edit]
   
   # GET /capital_increases/index
   # GET /capital_increases
@@ -17,46 +19,50 @@ class CapitalIncreasesController < ApplicationController
   
   # POST /capital_increases
   def create
-    @capital_increase = CapitalIncrease.new(capital_increase_params.merge({:stock_checked => false}))
-    
-    if @capital_increase.remark != "起始增資"
-    
-      if @capital_increase.save
-        redirect_to root_path
-      else
-        set_data()
-        puts @capital_increase.errors.messages.inspect
-        if @capital_increase.errors.messages.key?(:stock_num) && @capital_increase.errors.messages[:stock_num][0] == "減資失敗: 擁有股票數量不足"
-          flash.now[:stock_num] = @capital_increase.errors.messages[:stock_num][0]
-        elsif @capital_increase.errors.messages.key?(:stock_num) && @capital_increase.errors.messages[:stock_num][0] == "增資失敗: 股票數不可為零"
-          flash.now[:stock_num_zero] = @capital_increase.errors.messages[:stock_num][0]
-        elsif @capital_increase.errors.messages.key?(:stock_class) && @capital_increase.errors.messages[:stock_class][0] == "減資失敗: 未擁有此股"
-          flash.now[:stock_class] = @capital_increase.errors.messages[:stock_class][0]
-        elsif @capital_increase.errors.messages.key?(:date_issued) && @capital_increase.errors.messages[:date_issued][0] == "增資失敗: 不可增資同發行日期之股票"
-          flash.now[:date_issued] = @capital_increase.errors.messages[:date_issued][0]
-        end
-        render :action => :new
-      end
-      
+    @capital_increase = CapitalIncrease.new(capital_increase_params.merge({:stock_checked => false, :is_first => false}))
+
+    if @capital_increase.save
+      redirect_to root_path
     else
       set_data()
-      @capital_increase.errors.add(:remark, '備註不可為 "起始增資"')
-      flash.now[:remark] = '備註不可為 "起始增資"'
+      puts @capital_increase.errors.messages.inspect
+      if @capital_increase.errors.messages.key?(:stock_num) && @capital_increase.errors.messages[:stock_num][0] == "減資失敗: 擁有股票數量不足"
+        flash.now[:stock_num] = @capital_increase.errors.messages[:stock_num][0]
+      elsif @capital_increase.errors.messages.key?(:stock_num) && @capital_increase.errors.messages[:stock_num][0] == "增資失敗: 股票數不可為零"
+        flash.now[:stock_num_zero] = @capital_increase.errors.messages[:stock_num][0]
+      elsif @capital_increase.errors.messages.key?(:stock_class) && @capital_increase.errors.messages[:stock_class][0] == "減資失敗: 未擁有此股"
+        flash.now[:stock_class] = @capital_increase.errors.messages[:stock_class][0]
+      elsif @capital_increase.errors.messages.key?(:date_issued) && @capital_increase.errors.messages[:date_issued][0] == "增資失敗: 不可增資同發行日期之股票"
+        flash.now[:date_issued] = @capital_increase.errors.messages[:date_issued][0]
+      end
       render :action => :new
     end
+
   end
   
   # GET /capital_increases/new
   def new
     @capital_increase = CapitalIncrease.new
-    set_data()
+  end
+  
+  # GET /capital_increases/:id/edit
+  def edit
+  end
+  
+  # PUT /capital_increases/:id
+  def update
+    if @capital_increase.update(capital_increase_params)
+      redirect_to capital_increases_path
+    else
+      set_data()
+      render :action => :edit
+    end
   end
   
   # DELETE /capital_increases/:id
   def destroy
-    @capital_increase = CapitalIncrease.find(params[:id])
     
-    if @capital_increase.remark != "起始增資"
+    if !@capital_increase.is_first
     
       if @capital_increase.stock_checked
     
@@ -112,8 +118,12 @@ class CapitalIncreasesController < ApplicationController
     @currency_array = Currency.types
   end
   
+  def set_capital_increase
+    @capital_increase = CapitalIncrease.find(params[:id])
+  end
+  
   def capital_increase_params
     params.require(:capital_increase).permit(:identity_id, :date_issued, :fund, :currency,
-        :stock_price, :stock_num, :remark, :created_at, :updated_at, :stock_class)
+        :stock_price, :stock_num, :remark, :created_at, :updated_at, :stock_class, :date_decreased)
   end
 end

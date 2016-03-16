@@ -25,6 +25,10 @@ $('body.capital_increases_new').ready ->
   $('#capital_increase_datetimepicker1').datetimepicker({
      format: 'YYYY/MM/DD'
   });
+  
+  $('#capital_increase_datetimepicker2').datetimepicker({
+     format: 'YYYY/MM/DD'
+  });
 
   # Calculate 
   $('.auto-calculate').change ->

@@ -31,7 +31,9 @@
     <th class="text-center">幣別</th> 
     <th class="text-center">每股面額</th> 
     <th class="text-center">股數</th>
+    <th class="text-center">減資生效日期</th>
    	<% if session[:is_admin] %>
+    <th class="text-center">編輯</th>
    	<th class="text-center">刪除</th>
    	<% end %>
   </tr>
@@ -46,7 +48,9 @@
       <td><%= Currency.types[c_i["currency"]-1][0] %></td> 
       <td><%= c_i["stock_price"] %></td> 
       <td><%= c_i["stock_num"] %></td>
+      <td><%= c_i["date_decreased"] %></td>
       <% if session[:is_admin] %>
+      <td><%= link_to 'Edit', edit_capital_increase_path(c_i), class: "btn btn-success btn-xs" %></td>
       <td><%= button_to 'Del', capital_increase_path(c_i), {method: "delete", class: "btn btn-danger btn-xs", data: {confirm: "確定刪除?"}} %></td>
       <% end %>
     </tr>

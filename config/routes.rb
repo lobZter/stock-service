@@ -5,7 +5,7 @@ Rails.application.routes.draw do
   get   'logout' => 'main#logout'
   resources :stockholders, except: [:destory]
   resources :companies, except: [:destory, :index]
-  resources :capital_increases, except: [:show, :edit, :update]
+  resources :capital_increases, except: [:show]
   resources :transactions, except: [:show]
   resources :identities do 
     resources :stocks, only: [:index]
