@@ -1,10 +1,10 @@
 namespace :stock do
-  desc "Update capital increases" 
+  desc "Update capital increases"
   task :update_capital_increases => :environment do
-    
-    @capital_increases = CapitalIncrease.where(:date_issued => Date.today.at_beginning_of_month...Date.today)
+
+    @capital_increases = CapitalIncrease.where("stock_checked=?", false)
     @capital_increases.each do |c_i|
-      if !c_i.stock_checked 
+      if c_i.date_issued <= Date.today
         @stock = Stock.create(:identity_id => c_i.identity_id,
                               :company_id => Identity.find(c_i.identity_id).company_id,
                               :stock_class => c_i.stock_class,
@@ -16,5 +16,5 @@ namespace :stock do
       end
     end
 
-  end 
+  end
 end
