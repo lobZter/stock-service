@@ -18,10 +18,13 @@
         <div class="col-sm-4">
           <%= f.label :stock_class, "股票類型" %>
           <% if @capital_increase.new_record? %>
-            <%= f.text_field :stock_class, {class: "form-control", list: "stock_class_list"} %>
+            <input type="text" id="capital_increase_stock_class" class="form-control" name="capital_increase[stock_class]" list="stock_class_list">
+            <datalist id="stock_class_list">
+            </datalist>
           <% else %>
             <input class="form-control" value="<%= @capital_increase.stock_class %>" readonly >
           <% end %>
+          <span class="help-block no-margin-bottom">可填新類型，也可選既有的類型</span>
         </div>
         <div class="col-md-4">
           <%= f.label :date_issued, "發行日期" %>
