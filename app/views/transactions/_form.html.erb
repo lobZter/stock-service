@@ -199,7 +199,7 @@
       
       <% if !(@transaction.new_record?) %>
         <div class="row" style="margin-top: 0px">
-          <div class="col-md-3 vcenter" style="text-align:center">
+          <div class="col-md-3" style="text-align:center">
             <% if @transaction.contract_0.to_s != "" %>
               <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_0.to_s)) %>
                 <%= image_tag @transaction.contract_0.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
@@ -211,7 +211,7 @@
               <% end %>
             <% end %>
           </div>
-          <div class="col-md-3 vcenter" style="text-align:center">
+          <div class="col-md-3" style="text-align:center">
             <% if @transaction.contract_1.to_s != "" %>
               <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_1.to_s)) %>
                 <%= image_tag @transaction.contract_1.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
@@ -223,7 +223,7 @@
               <% end %>
             <% end %>
           </div>
-          <div class="col-md-3 vcenter" style="text-align:center">
+          <div class="col-md-3" style="text-align:center">
             <% if @transaction.contract_2.to_s != "" %>
               <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_2.to_s)) %>
                 <%= image_tag @transaction.contract_2.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
@@ -235,7 +235,7 @@
               <% end %>
             <% end %>
           </div>
-          <div class="col-md-3 vcenter" style="text-align:center">
+          <div class="col-md-3" style="text-align:center">
             <% if @transaction.contract_3.to_s != "" %>
               <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_3.to_s)) %>
                 <%= image_tag @transaction.contract_3.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
