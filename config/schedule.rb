@@ -16,7 +16,6 @@
 # every 4.days do
 #   runner "AnotherModel.prune_old_records"
 # end
-
-every 1.days do
+every 1.day, :at => '0:30 am' do
   rake 'stock:update_capital_increases', :environment => 'production'
 end
