@@ -65,8 +65,9 @@
         <div class="col-sm-2">
           <%= f.label :currency, "認定幣別" %>
           <% if @capital_increase.new_record? %>
-          <%= f.text_field :currency, {class: 'form-control', readonly: true} %>
-          <% else %>
+            <%= f.hidden_field :currency %>
+            <input id="currency" class="form-control" readonly>
+	  <% else %>
             <input class="form-control" value="<%= @currency_array[@capital_increase.currency-1][0] %>" readonly >
           <% end %>
           <span class="help-block no-margin-bottom">由股票發行公司決定</span>

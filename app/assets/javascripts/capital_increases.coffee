@@ -10,7 +10,8 @@ setCurrency = ->
   url = '/identities/' + i_id
   $.get url, (data, status) ->
     company = JSON.parse(data)
-    $('#capital_increase_currency').val(currency[company.currency])
+    $('#capital_increase_currency').val(company.currency)
+    $('#currency').val(currency[company.currency])
     
 setfilterUrl = ->
   url = 'capital_increases?identity_id=' + $('#company_filter_input').val()

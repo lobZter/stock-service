@@ -1,7 +1,6 @@
 <%= render :partial => 'layouts/flash' %>
 
 <%= form_for @transaction, html: { id: :transaction_form } do |f| %>
-  <%= f.hidden_field :currency %>
   <div class="panel panel-default">
     <div class="panel-heading">交易明細</div>
     <div class="panel-body">
@@ -41,7 +40,7 @@
           <div class="col-md-2">
             <%= f.label :fund_original, "投資金額" %>
             <% if @transaction.new_record? %>
-              <%= f.text_field :fund_original, class: "form-control auto-calculate" %>
+              <%= f.text_field :fund_original, class: "form-control calculate-fund" %>
             <% elsif @transaction.fund_original.nil? %>
               <%= f.text_field :fund_original, class: "form-control" %>
             <% else %>
@@ -59,7 +58,7 @@
           <div class="col-md-2">
             <%= f.label :exchange_rate, "匯率" %>
             <% if @transaction.new_record? %>
-              <%= f.text_field :exchange_rate, {class: "form-control auto-calculate", value: 1} %>
+              <%= f.text_field :exchange_rate, {class: "form-control calculate-fund", value: 1} %>
             <% else %>
               <%= f.text_field :exchange_rate, {class: "form-control"} %>
             <% end %>
@@ -85,7 +84,7 @@
           <div class="col-md-2">
             <%= f.label :fund, "交易金額" %>
             <% if @transaction.new_record? %>
-              <%= f.text_field :fund, class: "form-control auto-calculate" %>
+              <%= f.text_field :fund, class: "form-control calculate-stocknum" %>
             <% else %>
               <%= f.text_field :fund, {class: 'form-control', readonly: true} %>
             <% end %>
@@ -93,6 +92,7 @@
           </div>
           <div class="col-md-2">
             <%= f.label :currency, "認定幣別" %>
+            <%= f.hidden_field :currency %>
             <% if @transaction.new_record? %>
               <input class="form-control currency" readonly>
             <% else %>
@@ -108,7 +108,7 @@
           <div class="col-md-2">
             <%= f.label :stock_price, "每股價格" %>
             <% if @transaction.new_record? %>
-              <%= f.text_field :stock_price, class: "form-control auto-calculate" %>
+              <%= f.text_field :stock_price, class: "form-control calculate-stocknum" %>
             <% else %>
               <input class="form-control" value="<%= @transaction.stock_price %>" readonly>
             <% end %>

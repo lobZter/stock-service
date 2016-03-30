@@ -67,14 +67,14 @@ $('body.transactions_new').ready ->
      format: 'YYYY/MM/DD'
   });
 
-  # Calculate 
-  $('.auto-calculate').change ->
-    # Stock number
-    $('#transaction_stock_num').val(Math.floor($('#transaction_fund').val()/$('#transaction_stock_price').val()))
-    # Transaction money
+  $('.calculate-fund').change ->
     $('#transaction_fund').val($('#transaction_fund_original').val()/$('#transaction_exchange_rate').val())
     return
-    
+   
+  $('.calculate-stocknum').change ->
+    $('#transaction_stock_num').val(Math.floor($('#transaction_fund').val()/$('#transaction_stock_price').val()))
+    return
+ 
   $('#transaction_seller_id').change ->
     setStock()
     return
