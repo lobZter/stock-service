@@ -62,48 +62,48 @@
 <table class="table table-hover text-center">
   <thead>
     <tr>
-      <th class="text-center">交易日期</th>
-   	  <th class="text-center">買方</th>
-   	  <th class="text-center">賣方</th>
-   	  <th class="text-center">股票</th>
-   	  <th class="text-center">股數</th>
-      <th class="text-center">意向書</th>
-      <th class="text-center">Regular S</th>
-   	  <th class="text-center">USD合約</th>
-   	  <th class="text-center">RMB合約</th>
-   	  <th class="text-center">購買協議</th>
-   	  <th class="text-center">W8BEN</th>
-   	  <th class="text-center">換股協議</th>
-   	  <th class="text-center">聲明書</th>
-   	  <th class="text-center">銀行水單</th>
-   	  <th class="text-center">合約寄買方</th>
-   	  <th class="text-center">合約寄賣方</th>
+      <th class="text-center" style="font-size: 0.5em;">交易日期</th>
+   	  <th class="text-center" style="font-size: 0.5em;">買方</th>
+   	  <th class="text-center" style="font-size: 0.5em;">賣方</th>
+   	  <th class="text-center" style="font-size: 0.5em;">股票</th>
+   	  <th class="text-center" style="font-size: 0.5em;">股數</th>
+      <th class="text-center" style="font-size: 0.5em;" width="60px" >意向書</th>
+      <th class="text-center" style="font-size: 0.5em;" width="60px" >Regular S</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >USD合約</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >RMB合約</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >購買協議</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >W8BEN</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >換股協議</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >聲明書</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >銀行水單</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >合約寄買方</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >合約寄賣方</th>
    	  <% if session[:is_admin] %>
-   	  <th class="text-center">編輯</th>
-   	  <th class="text-center">刪除</th>
+   	  <th class="text-center" style="font-size: 0.5em" width="60px" >編輯</th>
+   	  <th class="text-center" style="font-size: 0.5em" width="60px" >刪除</th>
    	  <% end %>
     </tr>
   </thead>
   <tbody>
     <% @transactions.each do |t| %>
     <tr>
-      <td><%= t.date_signed %></td>
+      <td style="white-space: nowrap"><%= t.date_signed %></td>
    	  <td>
    	    <% if @identities[t.buyer_id].class.name == "Stockholder" %>
-   	    <%= link_to @identities[t.buyer_id].name_zh, stockholder_path(@identities[t.buyer_id]) %>
+   	    <%= link_to @identities[t.buyer_id].name_zh, stockholder_path(@identities[t.buyer_id]), {"style" => "white-space: nowrap"} %>
    	    <% elsif @identities[t.buyer_id].class.name == "Company" %>
-   	    <%= link_to @identities[t.buyer_id].name_zh, company_path(@identities[t.buyer_id]) %>
+   	    <%= link_to @identities[t.buyer_id].name_zh, company_path(@identities[t.buyer_id]), {"style" => "white-space: nowrap"} %>
    	    <% end %>
    	  </td>
    	  <td>
    	    <% if @identities[t.seller_id].class.name == "Stockholder" %>
-   	    <%= link_to @identities[t.seller_id].name_zh, stockholder_path(@identities[t.seller_id]) %>
+   	    <%= link_to @identities[t.seller_id].name_zh, stockholder_path(@identities[t.seller_id]), {"style" => "white-space: nowrap"} %>
    	    <% elsif @identities[t.seller_id].class.name == "Company" %>
-   	    <%= link_to @identities[t.seller_id].name_zh, company_path(@identities[t.seller_id]) %>
+   	    <%= link_to @identities[t.seller_id].name_zh, company_path(@identities[t.seller_id]), {"style" => "white-space: nowrap"} %>
    	    <% end %>
    	  </td>
-   	  <td><%= @company_names[t.company_id] %> / <%= t.stock_class %> / <%= t.date_issued %></td>
-   	  <td><%= t.stock_num %></td>
+   	  <td style="white-space: nowrap"><%= @company_names[t.company_id] %> / <%= t.stock_class %> / <%= t.date_issued %></td>
+   	  <td style="white-space: nowrap"><%= t.stock_num %></td>
    	  
    	  <td><%= status_check(t.contract_0_needed, t.contract_0?) %></td>
    	  <td><%= status_check(t.contract_1_needed, t.contract_1?) %></td>
