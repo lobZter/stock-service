@@ -71,7 +71,7 @@ class Identity < ActiveRecord::Base
       hash[:seller_id] = t.seller_id
       hash[:seller_name] = Identity.find(t.seller_id).self_detail.name_zh
       hash[:company_id] = t.company_id
-      hash[:company_name] = Identity.find(t.company_id).self_detail.name_zh
+      hash[:company_name] = Company.find(t.company_id).name_zh
       hash[:stock_class] = t.stock_class
       hash[:date_issued] = t.date_issued
       hash[:stock_num] = t.stock_num
@@ -87,7 +87,7 @@ class Identity < ActiveRecord::Base
       hash[:seller_id] = t.seller_id
       hash[:seller_name] = Identity.find(t.seller_id).self_detail.name_zh
       hash[:company_id] = t.company_id
-      hash[:company_name] = Identity.find(t.company_id).self_detail.name_zh
+      hash[:company_name] = Company.find(t.company_id).name_zh
       hash[:stock_class] = t.stock_class
       hash[:date_issued] = t.date_issued
       hash[:stock_num] = t.stock_num
