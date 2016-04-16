@@ -153,7 +153,7 @@
       
       <div class="form-group">
         <%= f.label :remark, "備註" %>
-        <textarea name="transaction[remark]" form="transaction_form" id="transaction_remark" class="form-control" rows="5"></textarea>
+        <%= f.text_area :remark, {class: 'form-control', rows: 5} %>
       </div>
       
     </div>
@@ -340,7 +340,7 @@
       
       <div class="form-group">
         <%= f.label :remark_contract, "合約備註" %>
-        <textarea name="transaction[remark_contract]" form="transaction_form" id="transaction_remark_contract" class="form-control" rows="5"></textarea>
+        <%= f.text_area :remark_contract, {class: 'form-control', rows: 5} %>
       </div>
     </div>
   </div>
