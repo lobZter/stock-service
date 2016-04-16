@@ -86,8 +86,20 @@
   <tbody>
     <% @transactions.each do |t| %>
     <tr>
-   	  <td><%= @identity_names[t.buyer_id]%></td>
-   	  <td><%= @identity_names[t.seller_id]%></td>
+   	  <td>
+   	    <% if @identities[t.buyer_id].class.name == "Stockholder" %>
+   	    <%= link_to @identities[t.buyer_id].name_zh, stockholder_path(@identities[t.buyer_id]) %>
+   	    <% elsif @identities[t.buyer_id].class.name == "Company" %>
+   	    <%= link_to @identities[t.buyer_id].name_zh, company_path(@identities[t.buyer_id]) %>
+   	    <% end %>
+   	  </td>
+   	  <td>
+   	    <% if @identities[t.seller_id].class.name == "Stockholder" %>
+   	    <%= link_to @identities[t.seller_id].name_zh, stockholder_path(@identities[t.seller_id]) %>
+   	    <% elsif @identities[t.seller_id].class.name == "Company" %>
+   	    <%= link_to @identities[t.seller_id].name_zh, company_path(@identities[t.seller_id]) %>
+   	    <% end %>
+   	  </td>
    	  <td><%= @company_names[t.company_id] %> / <%= t.stock_class %> / <%= t.date_issued %></td>
    	  <td><%= t.stock_num %></td>
    	  

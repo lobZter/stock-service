@@ -7,7 +7,7 @@ class TransactionsController < ApplicationController
   # GET /transactions/index
   def index
     set_data()
-    @identity_names = Hash.new
+    @identities = Hash.new
     @company_names = Hash.new
     @stocks = Array.new
     @transactions = Transaction.all
@@ -39,8 +39,8 @@ class TransactionsController < ApplicationController
     end
     
     @transactions.each do |t|
-      set_identity_name(t.seller_id)
-      set_identity_name(t.buyer_id)
+      set_identity(t.seller_id)
+      set_identity(t.buyer_id)
       set_company_name(t.company_id)
     end
   end
@@ -156,10 +156,9 @@ class TransactionsController < ApplicationController
         :fund_original, :currency_original, :exchange_rate, :stock).except(:stock)
   end
 
-  def set_identity_name(identity_id)
-    if !@identity_names.has_key?(identity_id)
-      @identity = Identity.find(identity_id)
-      @identity_names[identity_id] = @identity.self_detail.name_zh
+  def set_identity(identity_id)
+    if !@identities.has_key?(identity_id)
+      @identities[identity_id] = Identity.find(identity_id).self_detail
     else 
       return
     end

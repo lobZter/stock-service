@@ -42,8 +42,6 @@ class StockholdersController < ApplicationController
     @identity = @stockholder.identity
     @stocks = @identity.stock_show
     @transactions = @identity.recent_transactions
-    puts "AAAAAAAAAAAAAAA"
-    puts @stocks.inspect
   end
   
   # PUT /stockholders/:id
@@ -64,7 +62,7 @@ class StockholdersController < ApplicationController
   def stockholder_params
     params.require(:stockholder).permit(
       :name_zh, :name_en, :is21, :representative,
-      :passport, :country, :phone, :wechat, :address, :email,
+      :passport, :country, :phone, :wechat, :address_zh, :address_en, :email,
       :account_bank, :account_num, :account_owner, :account_owner_id,
       :copy_passport, :copy_signature, :copy_mail_addr)
   end
