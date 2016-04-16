@@ -33,6 +33,7 @@ class TransactionsController < ApplicationController
     elsif params[:set_not_completed]
       @transactions = @transactions.filter_not_completed  
     end
+    @transactions = @transactions.sort_by{|t| t[:date_signed]}.reverse
     
     @capital_increases.each do |c_i|
       set_stock(c_i)
