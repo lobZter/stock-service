@@ -366,7 +366,7 @@
         <div class="col-md-4">
           <div class="form-group">
             <%= f.label :contract_8, "銀行水單" %>
-            <%= f.file_field :contract_8, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+            <%= f.file_field :contract_8, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true", "multiple": "true" %>
           </div>
         </div>
         <div class="col-md-4">
@@ -396,20 +396,21 @@
       </div>
       
       <div class="row">
-        <div class="col-md-4" style="text-align:center">
-            <% if @transaction.contract_8.to_s != "" %>
-              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_8.to_s)) %>
-                <%= image_tag @transaction.contract_8.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
+        <% if @transaction.contract_8.to_s != "" %>
+          <% @transaction.contract_8.each do |c_8| %>
+            <div class="col-md-4" style="text-align:center">
+              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(c_8.url)) %>
+                <%= image_tag c_8.url, {class: "img-responsive", onclick: "setModal(this);"} %>
               <% else %>
-                <a href="<%= @transaction.contract_8.to_s%>" target="_blank">
+                <a href="<%= c_8.url %>" target="_blank">
                   <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_8.to_s)) %></p>  
+                  <p style="color: #333333"><%= URI.decode(File.basename(c_8.url)) %></p>  
                 </a>
               <% end %>
-            <% end %>
-          </div>
+            </div>
+          <% end %>
+        <% end %>
       </div>
-      
       
     </div>
   </div>

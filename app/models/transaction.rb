@@ -1,4 +1,5 @@
 class Transaction < ActiveRecord::Base
+  serialize :contract_8, Array
   
   mount_uploader :contract_0, ContractUploader
   mount_uploader :contract_1, ContractUploader
@@ -8,7 +9,7 @@ class Transaction < ActiveRecord::Base
   mount_uploader :contract_5, ContractUploader
   mount_uploader :contract_6, ContractUploader
   mount_uploader :contract_7, ContractUploader
-  mount_uploader :contract_8, ContractUploader
+  mount_uploaders :contract_8, ContractUploader
   
   scope :filter_not_completed, -> { where(
     " ((contract_0_needed = ?) AND (contract_0 IS NULL)) OR
