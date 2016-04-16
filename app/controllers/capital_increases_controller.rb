@@ -7,7 +7,7 @@ class CapitalIncreasesController < ApplicationController
   def index
     set_data()
     
-    @capital_increases = CapitalIncrease.all
+    @capital_increases = CapitalIncrease.order("updated_at DESC")
     @capital_increases = @capital_increases.company(params[:identity_id]) if params[:identity_id].present?
     
     @companies_name = {}
