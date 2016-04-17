@@ -13,10 +13,6 @@ class TransactionsController < ApplicationController
     @transactions = Transaction.all
     @capital_increases = CapitalIncrease.all
     
-    @buyer_transactions = []
-    @seller_transactions = []
-    @stock_transacitons = []
-    
     if params[:buyer_id].present? && params[:buyer_id] != "0"
       @transactions = @transactions.buyer_id(params[:buyer_id])
     end
