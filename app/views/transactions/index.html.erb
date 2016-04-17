@@ -82,18 +82,18 @@
     <% @transactions.each do |t| %>
     <tr>
       <td style="white-space: nowrap"><%= t.date_signed %></td>
-   	  <td>
+   	  <td style="white-space: nowrap">
    	    <% if @identities[t.buyer_id].class.name == "Stockholder" %>
-   	    <%= link_to @identities[t.buyer_id].name_zh, stockholder_path(@identities[t.buyer_id]), {"style" => "white-space: nowrap"} %>
+   	    <%= link_to @identities[t.buyer_id].name_zh, stockholder_path(@identities[t.buyer_id]) %>
    	    <% elsif @identities[t.buyer_id].class.name == "Company" %>
-   	    <%= link_to @identities[t.buyer_id].name_zh, company_path(@identities[t.buyer_id]), {"style" => "white-space: nowrap"} %>
+   	    <%= link_to @identities[t.buyer_id].name_zh, company_path(@identities[t.buyer_id]) %>
    	    <% end %>
    	  </td>
-   	  <td>
+   	  <td style="white-space: nowrap">
    	    <% if @identities[t.seller_id].class.name == "Stockholder" %>
-   	    <%= link_to @identities[t.seller_id].name_zh, stockholder_path(@identities[t.seller_id]), {"style" => "white-space: nowrap"} %>
+   	    <%= link_to @identities[t.seller_id].name_zh, stockholder_path(@identities[t.seller_id]) %>
    	    <% elsif @identities[t.seller_id].class.name == "Company" %>
-   	    <%= link_to @identities[t.seller_id].name_zh, company_path(@identities[t.seller_id]), {"style" => "white-space: nowrap"} %>
+   	    <%= link_to @identities[t.seller_id].name_zh, company_path(@identities[t.seller_id]) %>
    	    <% end %>
    	  </td>
    	  <td style="white-space: nowrap"><%= @company_names[t.company_id] %> / <%= t.stock_class %> / <%= t.date_issued %></td>

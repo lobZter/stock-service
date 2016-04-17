@@ -85,7 +85,7 @@ class Identity < ActiveRecord::Base
   end
   
   def recent_capital_increase
-    @capital_increases = self.capital_increases.sort_by{|s| s[:updated_at]}.reverse
+    @capital_increases = self.capital_increases.sort_by{|s| s[:date_issued]}.reverse
     array = Array.new
     
     @capital_increases.each do |c|
