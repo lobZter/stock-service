@@ -54,7 +54,7 @@ class TransactionsController < ApplicationController
     
 
     if @transaction.save
-      redirect_to transactions_path
+      redirect_to edit_transaction_path(@transaction)
     else
       set_data()
       if @transaction.errors.messages.key?(:stock_num) && @transaction.errors.messages[:stock_num][0] == "交易股數大於賣方擁有股數"
@@ -78,7 +78,7 @@ class TransactionsController < ApplicationController
   # PUT /transactions/:id
   def update
     if @transaction.update(transaction_params)
-      redirect_to transactions_path
+      redirect_to edit_transaction_path(@transaction)
     else
       set_data()
       render :action => :edit

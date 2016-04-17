@@ -39,7 +39,7 @@ class Identity < ActiveRecord::Base
   end
   
   def stock_show
-    @stocks = self.stocks
+    @stocks = self.stocks.sort_by{|s| s[:updated_at]}.reverse
     
     stock_info_array = Array.new
     stock_num_array = Array.new
@@ -61,24 +61,10 @@ class Identity < ActiveRecord::Base
   
   def recent_transactions
     @transactions = Transaction.where("buyer_id=?", self.id)
+    @transactions += Transaction.where("seller_id=?", self.id)
+    @transactions = @transactions.sort_by{|t| t[:date_signed]}.reverse
     array = Array.new
     
-    @transactions.each do |t|
-      hash= Hash.new
-      hash[:id] = t.id
-      hash[:buyer_id] = t.buyer_id
-      hash[:buyer_name] = Identity.find(t.buyer_id).self_detail.name_zh
-      hash[:seller_id] = t.seller_id
-      hash[:seller_name] = Identity.find(t.seller_id).self_detail.name_zh
-      hash[:company_id] = t.company_id
-      hash[:company_name] = Company.find(t.company_id).name_zh
-      hash[:stock_class] = t.stock_class
-      hash[:date_issued] = t.date_issued
-      hash[:stock_num] = t.stock_num
-      hash[:date_signed] = t.date_signed
-      array.push(hash)
-    end
-    @transactions = Transaction.where("seller_id=?", self.id)
     @transactions.each do |t|
       hash= Hash.new
       hash[:id] = t.id
@@ -99,7 +85,7 @@ class Identity < ActiveRecord::Base
   end
   
   def recent_capital_increase
-    @capital_increases = self.capital_increases
+    @capital_increases = self.capital_increases.sort_by{|s| s[:updated_at]}.reverse
     array = Array.new
     
     @capital_increases.each do |c|
