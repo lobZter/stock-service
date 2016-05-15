@@ -160,7 +160,7 @@
   </div>
   
   <div class="panel panel-default">
-    <div class="panel-heading">和約上傳區</div>
+    <div class="panel-heading">檔案上傳區</div>
     <div class="panel-body">
       <div class="row" style="margin-top: 0px">
         <div class="col-md-3">
@@ -338,6 +338,32 @@
         </div>
       <% end %>
       
+      <div class="row">
+        <div class="col-md-3">
+          <div class="form-group">
+            <%= f.label :contract_8, "銀行水單" %>
+            <%= f.file_field :contract_8, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true", "multiple": "true" %>
+          </div>
+        </div>
+      </div>
+      
+      <div class="row">
+        <% if @transaction.contract_8.to_s != "" %>
+          <% @transaction.contract_8.each do |c_8| %>
+            <div class="col-md-3" style="text-align:center">
+              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(c_8.url)) %>
+                <%= image_tag c_8.url, {class: "img-responsive", onclick: "setModal(this);"} %>
+              <% else %>
+                <a href="<%= c_8.url %>" target="_blank">
+                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
+                  <p style="color: #333333"><%= URI.decode(File.basename(c_8.url)) %></p>  
+                </a>
+              <% end %>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      
       <div class="form-group">
         <%= f.label :remark_contract, "合約備註" %>
         <%= f.text_area :remark_contract, {class: 'form-control', rows: 5} %>
@@ -345,6 +371,7 @@
     </div>
   </div>
   
+  <!--picture display-->
   <% if !(@transaction.new_record?) %>
     <div class="modal fade" id="image_modal" role="dialog">
       <div class="modal-dialog" role="document">
@@ -359,17 +386,35 @@
   <% end %>
       
   <div class="panel panel-default">
-    <div class="panel-heading">郵寄資料上傳</div>
+    <div class="panel-heading">其他</div>
     <div class="panel-body">   
     
       <div class="row" style="margin-top: 0px">
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="form-group">
-            <%= f.label :contract_8, "銀行水單" %>
-            <%= f.file_field :contract_8, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true", "multiple": "true" %>
+            <%= f.label :signed_buyer, "簽署日期 - 買方" %>
+            <div class="input-group date" id="transaction_datetimepicker5">
+              <%= f.text_field :signed_buyer , class: "form-control" %>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+            <span class="help-block no-margin-bottom">未簽署請留白</span>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
+          <div class="form-group">
+            <%= f.label :signed_seller, "簽署日期 - 賣方" %>
+            <div class="input-group date" id="transaction_datetimepicker6">
+              <%= f.text_field :signed_seller , class: "form-control" %>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+            <span class="help-block no-margin-bottom">未簽署請留白</span>
+          </div>
+        </div>
+        <div class="col-md-3">
           <div class="form-group">
             <%= f.label :send_buyer, "合約郵寄日期 - 買方" %>
             <div class="input-group date" id="transaction_datetimepicker3">
@@ -378,10 +423,10 @@
                   <span class="glyphicon glyphicon-calendar"></span>
               </span>
             </div>
-            <span class="help-block no-margin-bottom">填寫寄送日期，未寄送請留白</span>
+            <span class="help-block no-margin-bottom">未寄送請留白</span>
           </div>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3">
           <div class="form-group">
             <%= f.label :send_seller, "合約郵寄日期 - 賣方" %>
             <div class="input-group date" id="transaction_datetimepicker4">
@@ -390,31 +435,32 @@
                   <span class="glyphicon glyphicon-calendar"></span>
               </span>
             </div>
-            <span class="help-block no-margin-bottom">填寫寄送日期，未寄送請留白</span>
+            <span class="help-block no-margin-bottom">未寄送請留白</span>
           </div>
         </div>
       </div>
       
       <div class="row">
-        <% if @transaction.contract_8.to_s != "" %>
-          <% @transaction.contract_8.each do |c_8| %>
-            <div class="col-md-4" style="text-align:center">
-              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(c_8.url)) %>
-                <%= image_tag c_8.url, {class: "img-responsive", onclick: "setModal(this);"} %>
-              <% else %>
-                <a href="<%= c_8.url %>" target="_blank">
-                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= URI.decode(File.basename(c_8.url)) %></p>  
-                </a>
-              <% end %>
-            </div>
-          <% end %>
-        <% end %>
+        <div class="col-md-3">
+          <%= f.label :is_printed, "資料是否列印" %>
+          <br/>
+          <label>
+            <%= f.check_box :is_printed %> 已列印
+          </label>
+        </div>
+        <div class="col-md-3">
+          <%= f.label :is_completed, "合約狀態" %>
+          <br/>
+          <%= f.radio_button :is_completed, '0', :checked => true %> 
+          <%= label :is_completed, '進行中' %>
+          <%= f.radio_button :is_completed, '1' %>
+          <%= label :is_completed, '已完成' %>
+        </div>
       </div>
       
     </div>
   </div>
 
-  <%= f.submit "完成", class: "btn btn-default btn-primary col-md-12"%>
+  <%= f.submit "完成", {class: "btn btn-default btn-primary col-md-12"}%>
 
 <% end %>

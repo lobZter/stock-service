@@ -102,6 +102,14 @@ $('body.transactions_new').ready ->
   $('#transaction_datetimepicker4').datetimepicker({
      format: 'YYYY/MM/DD'
   });
+  
+  $('#transaction_datetimepicker5').datetimepicker({
+     format: 'YYYY/MM/DD'
+  });
+  
+  $('#transaction_datetimepicker6').datetimepicker({
+     format: 'YYYY/MM/DD'
+  });
 
   $('.calculate-fund').change ->
     $('#transaction_fund').val($('#transaction_fund_original').val()/$('#transaction_exchange_rate').val())

@@ -150,7 +150,8 @@ class TransactionsController < ApplicationController
         :contract_0_needed, :contract_1_needed, :contract_2_needed, :contract_3_needed, 
         :contract_4_needed, :contract_5_needed, :contract_6_needed, :contract_7_needed, 
         :send_buyer, :send_seller, :remark, :remark_contract,
-        :fund_original, :currency_original, :exchange_rate, :stock).except(:stock)
+        :fund_original, :currency_original, :exchange_rate, :stock,
+        :is_completed, :is_printed, :is_uploaded, :signed_buyer, :signed_seller).except(:stock)
   end
 
   def set_identity(identity_id)
