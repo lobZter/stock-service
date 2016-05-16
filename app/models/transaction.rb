@@ -61,6 +61,7 @@ class Transaction < ActiveRecord::Base
   validate :check_stock_num, :on => :create
   validate :check_buyer_seller, :on => :create
   validate :readonly_field, :on => :update
+  validate :status
 
   private
   def check_buyer_seller
@@ -121,6 +122,49 @@ class Transaction < ActiveRecord::Base
     self.errors.add(:stock_price, "stock_price can't be changed") if self.stock_price_changed?
     self.errors.add(:stock_num, "stock_num can't be changed") if self.stock_num_changed?
     self.errors.add(:date_signed, "date_signed can't be changed") if self.date_signed_changed?
+  end
+  
+  def status
+    self.is_completed = true
+    self.is_lacking = false
+    
+    if (self.contract_0_needed && !self.contract_0?) ||
+       (self.contract_1_needed && !self.contract_1?) ||
+       (self.contract_2_needed && !self.contract_2?) ||
+       (self.contract_3_needed && !self.contract_3?) ||
+       (self.contract_4_needed && !self.contract_4?) ||
+       (self.contract_5_needed && !self.contract_5?) ||
+       (self.contract_6_needed && !self.contract_6?) ||
+       (self.contract_7_needed && !self.contract_7?) ||
+       !self.contract_8?
+      self.is_completed = false
+      self.is_lacking = true
+    end
+    
+    seller = Identity.find(self.seller_id).self_detail
+    buyer = Identity.find(self.buyer_id).self_detail
+    
+    if seller.class.name == "Stockholder"
+      if not seller.copy_passport? && seller.copy_signature? && seller.copy_mail_addr?
+        self.is_completed = false
+        self.is_lacking = true
+      end
+    end
+    
+    if buyer.class.name == "Stockholder"
+      if not buyer.copy_passport? && buyer.copy_signature? && buyer.copy_mail_addr?
+        self.is_completed = false
+        self.is_lacking = true
+      end
+    end
+    
+    if not self.send_buyer? && send_seller? && signed_buyer? && signed_seller?
+      self.is_completed = false
+    end
+    
+    if not self.is_printed?
+      self.is_completed = false
+    end
   end
 
 end

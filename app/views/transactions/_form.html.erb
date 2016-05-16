@@ -448,20 +448,6 @@
             <span class="help-block no-margin-bottom">未寄送請留白</span>
           </div>
         </div>
-        <div class="col-md-4">
-          <%= f.label :is_completed, "合約狀態" %>
-          <br/>
-          <label>
-            <% if !(@transaction.new_record?) %>
-              <%= f.radio_button :is_completed, true, :checked => true %> 進行中
-            <% else %>
-              <%= f.radio_button :is_completed, true %> 進行中
-            <% end %>
-          </label>
-          <label>
-            <%= f.radio_button :is_completed, false %> 已完成
-          </label>
-        </div>
       </div>
       
     </div>
