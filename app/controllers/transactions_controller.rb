@@ -22,7 +22,7 @@ class TransactionsController < ApplicationController
     if params[:company_id].present? && params[:stock_class].present? && params[:date_issued].present?
       if params[:company_id] != "undefined" && params[:stock_class] != "undefined" && params[:date_issued] != "undefined"
         @transactions = @transactions.stock(params[:company_id], params[:stock_class], params[:date_issued])
-      end  
+      end
     end
     if params[:set_completed]
       @transactions = @transactions.filter_completed 

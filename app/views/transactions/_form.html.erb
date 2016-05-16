@@ -390,7 +390,7 @@
     <div class="panel-body">   
     
       <div class="row" style="margin-top: 0px">
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="form-group">
             <%= f.label :signed_buyer, "簽署日期 - 買方" %>
             <div class="input-group date" id="transaction_datetimepicker5">
@@ -402,7 +402,7 @@
             <span class="help-block no-margin-bottom">未簽署請留白</span>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="form-group">
             <%= f.label :signed_seller, "簽署日期 - 賣方" %>
             <div class="input-group date" id="transaction_datetimepicker6">
@@ -414,7 +414,17 @@
             <span class="help-block no-margin-bottom">未簽署請留白</span>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
+          <%= f.label :is_printed, "資料是否列印" %>
+          <br/>
+          <label>
+            <%= f.check_box :is_printed %> 已列印
+          </label>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-md-4">
           <div class="form-group">
             <%= f.label :send_buyer, "合約郵寄日期 - 買方" %>
             <div class="input-group date" id="transaction_datetimepicker3">
@@ -426,7 +436,7 @@
             <span class="help-block no-margin-bottom">未寄送請留白</span>
           </div>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <div class="form-group">
             <%= f.label :send_seller, "合約郵寄日期 - 賣方" %>
             <div class="input-group date" id="transaction_datetimepicker4">
@@ -438,23 +448,15 @@
             <span class="help-block no-margin-bottom">未寄送請留白</span>
           </div>
         </div>
-      </div>
-      
-      <div class="row">
-        <div class="col-md-3">
-          <%= f.label :is_printed, "資料是否列印" %>
-          <br/>
-          <label>
-            <%= f.check_box :is_printed %> 已列印
-          </label>
-        </div>
-        <div class="col-md-3">
+        <div class="col-md-4">
           <%= f.label :is_completed, "合約狀態" %>
           <br/>
-          <%= f.radio_button :is_completed, '0', :checked => true %> 
-          <%= label :is_completed, '進行中' %>
-          <%= f.radio_button :is_completed, '1' %>
-          <%= label :is_completed, '已完成' %>
+          <label>
+            <%= f.radio_button :is_completed, true %> 進行中
+          </label>
+          <label>
+            <%= f.radio_button :is_completed, false %> 已完成
+          </label>
         </div>
       </div>
       
