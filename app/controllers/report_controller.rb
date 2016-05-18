@@ -8,7 +8,7 @@ class ReportController < ApplicationController
     end
     
     if params.has_key?(:company_id) && params.has_key?(:stock_class) && params.has_key?(:date_issued)
-      @identity = Identity.find("company_id=?", params[:company_id])
+      @identity = Identity.find_by("company_id": params[:company_id])
       @capital_increase = CapitalIncrease.where("identity_id=? AND stock_class=? AND date_issued=? AND date_issued<=?",
         @identity.id,
         params[:stock_class],
@@ -76,7 +76,7 @@ class ReportController < ApplicationController
     @currency_array = [nil, "USD 美金", "RMB 人民幣", "NTD 新台幣"]
     
     if params.has_key?(:company_id) && params.has_key?(:stock_class) && params.has_key?(:date_issued)
-      @identity = Identity.find("company_id=?", params[:company_id])
+      @identity = Identity.find_by("company_id": params[:company_id])
       @capital_increase = CapitalIncrease.where("identity_id=? AND stock_class=? AND date_issued=?",
         @identity.id,
         params[:stock_class],
