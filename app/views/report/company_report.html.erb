@@ -1,1 +1,51 @@
-company_report
+<div>
+  <h2><strong>已完成交易股東</strong></h2>
+  <table class="table table-hover text-center">
+    <thead>
+      <tr>
+     	  <th class="text-center">姓名</th>
+     	  <th class="text-center">股數</th>
+        <th class="text-center">占比</th>
+        <th class="text-center">股票類型</th>
+        <th class="text-center">狀態</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @complete_tuple.each do |t| %>
+        <tr>
+          <td><%= t[:name_zh] %></td>
+     	    <td><%= t[:stock_num] %></td>
+     	    <td><%= t[:percentage] %></td>
+     	    <td><%= t[:stock_class] %></td>
+     	    <td><strong><font color="green">已完成</font></strong></td>
+   	    </tr>
+   	  <% end %>
+    </tbody>
+  </table>
+  
+  
+  <h2><strong>未完成交易股東</strong></h2>
+  <table class="table table-hover text-center">
+    <thead>
+      <tr>
+     	  <th class="text-center">姓名</th>
+     	  <th class="text-center">股數</th>
+        <th class="text-center">占比</th>
+        <th class="text-center">股票類型</th>
+        <th class="text-center">狀態</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @ongoing_tuple.each do |t| %>
+        <tr>
+          <td><%= t[:name_zh] %></td>
+     	    <td><%= t[:stock_num] %></td>
+     	    <td><%= t[:percentage] %></td>
+     	    <td><%= t[:stock_class] %></td>
+     	    <td><strong><font color="red">未完成</font></strong></td>
+   	    </tr>
+   	  <% end %>
+    </tbody>
+  </table>
+  <%= link_to "報表下載", company_report_path(format: "csv") %>
+</div>
