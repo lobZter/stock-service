@@ -47,5 +47,5 @@
    	  <% end %>
     </tbody>
   </table>
-  <%= link_to "報表下載", company_report_path(format: "csv") %>
+  <%= link_to "報表下載", url_for(params.merge(:format => :csv)) %>
 </div>

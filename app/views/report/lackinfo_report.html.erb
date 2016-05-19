@@ -64,4 +64,4 @@
   </div>
 <% end %>
 
-<%= link_to "報表下載", lackinfo_report_path(format: "csv") %>
+<%= link_to "報表下載", url_for(params.merge(:format => :csv)) %>
