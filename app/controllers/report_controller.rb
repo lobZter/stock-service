@@ -1,7 +1,6 @@
 class ReportController < ApplicationController
   
   def company_report
-    
     time = DateTime.now.to_date
     if(params.has_key?(:time))
       time = params[:time]
@@ -13,7 +12,7 @@ class ReportController < ApplicationController
         @identity.id,
         params[:stock_class],
         params[:date_issued],
-        time)
+        time)[0]
     else
       @capital_increase = CapitalIncrease.find(1)
     end
@@ -36,7 +35,6 @@ class ReportController < ApplicationController
       @complete_tuple.push(tuple)
     end
     
-   
     @ongoing_tuple = Array.new
     @ongoing.each do |c|
       tuple = Hash.new
@@ -69,7 +67,6 @@ class ReportController < ApplicationController
         send_data csv_str, filename: "company_report.csv", type: "text/csv"
       end
     end
-
   end
   
   def contract_report
@@ -80,7 +77,7 @@ class ReportController < ApplicationController
       @capital_increase = CapitalIncrease.where("identity_id=? AND stock_class=? AND date_issued=?",
         @identity.id,
         params[:stock_class],
-        params[:date_issued])
+        params[:date_issued])[0]
     else
       @capital_increase = CapitalIncrease.find(1)
     end
