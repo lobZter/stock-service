@@ -155,7 +155,48 @@
         </div>
       </div>
     </div>
+  </div> 
+    <div id="room_fileds">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h3 class="panel-title">公司人員</h3>
+        </div>
+        <div class="panel-body">
+          <div class="form-group">
+            <%= f.label :company_id, "公司名" %>
+            <%= f.text_field :company_id, class: 'form-control' , name: 'staff[company_id][]' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :stockholder_id, "ID" %>
+          <%= f.text_field :stockholder_id, class: 'form-control', name: 'staff[stockholder_id][]'  %>
+          </div>
+          <div class="form-group">
+            <%= f.label :job_title, "職稱" %>
+            <%= f.text_field :job_title, class: 'form-control', name: 'staff[job_title][]' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :name, "名字" %>
+            <%= f.text_field :name, class: 'form-control', name: 'staff[name][]' %>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+    <button type="button" class="btn btn-primary" onclick="add_fields()">ADD</button>
+    
   </div>
+  
+  <script>
+             function add_fields() {
+              var objTo = document.getElementById('room_fileds');
+              var divtest = document.createElement("div");
+              //divtest.getElementsByClassName('ClassForInputName').setAttribute('name', 'staff[' + ++counter + '][name]');
+              divtest.innerHTML = "<%= escape_javascript(render 'dyform') %>";
+             
+              objTo.appendChild(divtest);
+             
+          }
+  </script>
   
   <!-- 帳戶資訊 -->
   <% @bank_hashes.each_with_index  do |bank_hash, index| %>
@@ -269,4 +310,3 @@
   <%= f.submit "完成", class: 'btn btn-default btn-primary col-md-12' %>
   </div>
 <% end %>
-

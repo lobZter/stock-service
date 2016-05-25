@@ -90,8 +90,9 @@
         <td><%= @company.cfo_name %></td>
         <td><%= @company.ceo_name %></td>
         <td><%= @company.accounting_name %></td>
-        <td><%= @company.registered_agent_name %></td>
-        
+         <% @company.staffs.each do |staffs| %>
+        <td><%= staffs.name %></td>
+        <% end %>
       </tr>
       <tr>
         <th>護照號碼</th>

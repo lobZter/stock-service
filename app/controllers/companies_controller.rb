@@ -4,7 +4,17 @@ class CompaniesController < ApplicationController
 
   def create
     @company = Company.new(company_params)
+    @staff   = Staff.new(staff_params)
+    
     if @company.save
+      
+      params[:staff][:company_id].length.times do |i|
+     
+      Staff.create(:company_id =>  params[:staff][:company_id][i] , :stockholder_id =>  params[:staff][:stockholder_id][i] , :name =>  params[:staff][:name][i] , :job_title => params[:staff][:job_title][i] )
+
+      end
+      #Staff.create(:company_id => @staff.company_id , :stockholder_id => @staff.stockholder_id , :name => @staff.name , :job_title => @staff.job_title )
+      
       @identity = Identity.create(:company_id => @company.id, :stockholder_id => nil)
       @company.identity_id = @identity.id
       @company.save
@@ -20,8 +30,10 @@ class CompaniesController < ApplicationController
         :stock_checked => false,
         :is_first => true
       )
-
-      redirect_to company_path(@company)
+    respond_to do |format|
+      format.html {  redirect_to company_path(@company) }
+      format.js
+    end
     else
       set_data()
       render :action => :new
@@ -30,6 +42,8 @@ class CompaniesController < ApplicationController
   
   def new
     @company = Company.new
+    @staffs = Staff.new
+    @company.staffs.build
   end
   
   def edit
@@ -103,6 +117,12 @@ class CompaniesController < ApplicationController
       :us_account_bank, :us_account_num, :us_account_name, :us_account_bank_addr,
       :cn_account_bank, :cn_account_num, :cn_account_name, :cn_account_bank_addr,
       :tw_account_bank, :tw_account_num, :tw_account_name, :tw_account_bank_addr,
-      :date_establish, :date_accounting, :fund, :currency, :stock_class, :stock_price, :stock_num)
+      :date_establish, :date_accounting, :fund, :currency, :stock_class, :stock_price, :stock_num ,
+      
+      )
   end
+  def staff_params
+    params.require(:staff).permit(:name , :stockholder_id , :company_id , :job_title)
+  end
+ 
 end

@@ -2,6 +2,7 @@ class Company < ActiveRecord::Base
   has_one :identity
   belongs_to :identity
   belongs_to :stocks
+  has_many :staffs
   
   validates_presence_of :name_zh, 
     :date_establish,
