@@ -1,67 +1,88 @@
-<h1><%= @company.name_zh %></h1>
-<% @report.each do |r| %>
-  <div>
-    <h3><strong><%= r[:stockholder_info][0] %></strong></h3>
-    <table class="table table-hover text-center">
-      <thead>
-        <tr>
-       	  <th class="text-center">英文姓名</th>
-       	  <th class="text-center">護照號碼</th>
-          <th class="text-center">中文地址</th>
-          <th class="text-center">英文地址</th>
-          <th class="text-center">email</th>
-          <th class="text-center">護照影本</th>
-          <th class="text-center">簽名頁影本</th>
-          <th class="text-center">郵寄地址影本</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td><%= r[:stockholder_info][1] %></td>
-          <td><%= r[:stockholder_info][2] %></td>
-          <td><%= r[:stockholder_info][3] %></td>
-          <td><%= r[:stockholder_info][4] %></td>
-          <td><%= r[:stockholder_info][5] %></td>
-          <td><%= r[:stockholder_info][6] %></td>
-          <td><%= r[:stockholder_info][7] %></td>
-          <td><%= r[:stockholder_info][8] %></td>
-   	    </tr>
-      </tbody>
-    </table>
+<div class="row">
+  <form action="lackinfo_report" method="get">
+    <div class="col-md-4">
+      <select name="id" class="form-control main_select2">
+        <% @companies.each do |c| %>
+          <option value="<%= c.id %>"><%= c.name_zh %></option>
+        <% end %>
+      </select>
+    </div>
+    
+    <div class="col-md-2">
+      <button type="submit" class="btn btn-default">
+        <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+      </button>
+    </div>
+  </form>
+</div>
 
-    <table class="table table-hover text-center">
-      <thead>
-        <tr>
-          <th></th>
-       	  <th class="text-center">意向書</th>
-       	  <th class="text-center">Regular S</th>
-          <th class="text-center">USD合約</th>
-          <th class="text-center">RMB合約</th>
-          <th class="text-center">購買協議</th>
-          <th class="text-center">W8BEN</th>
-          <th class="text-center">換股協議</th>
-          <th class="text-center">聲明書</th>
-          <th class="text-center">銀行水單</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% r[:contract_lack].length.times do |i| %>
+<% @report.each do |r| %>
+  <div class="row">
+    <h3><strong><%= r[:stockholder_info][0] %></strong></h3>
+    <div class="well">
+      <table class="table table-hover text-center">
+        <thead>
           <tr>
-            <th><%= r[:contract_info][i] %></th>
-            <td><%= r[:contract_lack][i][0] %></td>
-            <td><%= r[:contract_lack][i][1] %></td>
-            <td><%= r[:contract_lack][i][2] %></td>
-            <td><%= r[:contract_lack][i][3] %></td>
-            <td><%= r[:contract_lack][i][4] %></td>
-            <td><%= r[:contract_lack][i][5] %></td>
-            <td><%= r[:contract_lack][i][6] %></td>
-            <td><%= r[:contract_lack][i][7] %></td>
-            <td><%= r[:contract_lack][i][8] %></td>
+         	  <th class="text-center">英文姓名</th>
+         	  <th class="text-center">護照號碼</th>
+            <th class="text-center">中文地址</th>
+            <th class="text-center">英文地址</th>
+            <th class="text-center">email</th>
+            <th class="text-center">護照影本</th>
+            <th class="text-center">簽名頁影本</th>
+            <th class="text-center">郵寄地址影本</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><%= r[:stockholder_info][1] %></td>
+            <td><%= r[:stockholder_info][2] %></td>
+            <td><%= r[:stockholder_info][3] %></td>
+            <td><%= r[:stockholder_info][4] %></td>
+            <td><%= r[:stockholder_info][5] %></td>
+            <td><%= r[:stockholder_info][6] %></td>
+            <td><%= r[:stockholder_info][7] %></td>
+            <td><%= r[:stockholder_info][8] %></td>
      	    </tr>
-     	  <% end %>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+  
+      <table class="table table-hover text-center">
+        <thead>
+          <tr>
+            <th></th>
+         	  <th class="text-center">意向書</th>
+         	  <th class="text-center">Regular S</th>
+            <th class="text-center">USD合約</th>
+            <th class="text-center">RMB合約</th>
+            <th class="text-center">購買協議</th>
+            <th class="text-center">W8BEN</th>
+            <th class="text-center">換股協議</th>
+            <th class="text-center">聲明書</th>
+            <th class="text-center">銀行水單</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% r[:contract_lack].length.times do |i| %>
+            <tr>
+              <th><%= r[:contract_info][i] %></th>
+              <td><%= r[:contract_lack][i][0] %></td>
+              <td><%= r[:contract_lack][i][1] %></td>
+              <td><%= r[:contract_lack][i][2] %></td>
+              <td><%= r[:contract_lack][i][3] %></td>
+              <td><%= r[:contract_lack][i][4] %></td>
+              <td><%= r[:contract_lack][i][5] %></td>
+              <td><%= r[:contract_lack][i][6] %></td>
+              <td><%= r[:contract_lack][i][7] %></td>
+              <td><%= r[:contract_lack][i][8] %></td>
+       	    </tr>
+       	  <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 <% end %>
 
-<%= link_to "報表下載", url_for(params.merge(:format => :csv)) %>
+<div class="row" style="text-align: right">
+  <%= link_to "報表下載", url_for(params.merge(:format => :csv)), {class: "btn btn-primary col-md-12"} %>
+</div>

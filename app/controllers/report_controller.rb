@@ -15,10 +15,10 @@ class ReportController < ApplicationController
       end_time.gsub! '/', '-'
     end
     
-    if params.has_key?(:id)
+    if params.has_key?(:id) && params[:id] != ""
       @capital_increase = CapitalIncrease.find(params[:id])
     else
-      @capital_increase = CapitalIncrease.find(1)
+      @capital_increase = @capital_increases[0]
     end
     
     @identity = Identity.find(@capital_increase.identity_id)
@@ -76,16 +76,14 @@ class ReportController < ApplicationController
   
   def contract_report
     @currency_array = [nil, "USD 美金", "RMB 人民幣", "NTD 新台幣"]
+    @capital_increases = CapitalIncrease.all
     
-    if params.has_key?(:company_id) && params.has_key?(:stock_class) && params.has_key?(:date_issued)
-      @identity = Identity.find_by("company_id": params[:company_id])
-      @capital_increase = CapitalIncrease.where("identity_id=? AND stock_class=? AND date_issued=?",
-        @identity.id,
-        params[:stock_class],
-        params[:date_issued])[0]
+    if params.has_key?(:id) && params[:id] != ""
+      @capital_increase = CapitalIncrease.find(params[:id])
     else
-      @capital_increase = CapitalIncrease.find(1)
+      @capital_increase = @capital_increases[0]
     end
+    @identity = Identity.find(@capital_increase.identity_id)
     
     @transactions = Transaction.where("company_id=? AND stock_class=? AND date_issued=?",
       @capital_increase.identity.company_id,
@@ -155,7 +153,12 @@ class ReportController < ApplicationController
   end
   
   def lackinfo_report
-    @company = params.has_key?(:company_id) ? Company.find(params["company_id"]) : Company.find(1)
+    @companies = Company.all
+    if params.has_key?(:id) && params[:id] != ""
+      @company = Company.find(params[:id])
+    else
+      @company = @companies[0]
+    end
     
     if params.has_key?(:company_id)
       @transactions = Transaction.where("company_id=? AND is_lacking=?", params[:company_id], true).order(buyer_id: :asc, id: :asc)

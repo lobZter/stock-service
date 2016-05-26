@@ -1,7 +1,7 @@
 <div class="row">
   <form action="company_report" method="get">
     <div class="col-md-4">
-      <select id="capital_increase_id" name="id" class="form-control main_select2">
+      <select name="id" class="form-control main_select2">
         <% @capital_increases.each do |c| %>
           <option value="<%= c.id %>"><%= c.identity.self_detail.name_zh %> / <%= c.stock_class %> / <%= c.date_issued %></option>
         <% end %>
@@ -39,54 +39,58 @@
 
 <div class="row">
   <h3><strong>已完成交易股東</strong></h3>
-  <table class="table table-hover text-center">
-    <thead>
-      <tr>
-     	  <th class="text-center">姓名</th>
-     	  <th class="text-center">股數</th>
-        <th class="text-center">占比</th>
-        <th class="text-center">股票類型</th>
-        <th class="text-center">狀態</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @complete_tuple.each do |t| %>
+    <div class="well">
+    <table class="table table-hover text-center">
+      <thead>
         <tr>
-          <td><%= t[:name_zh] %></td>
-     	    <td><%= t[:stock_num] %></td>
-     	    <td><%= t[:percentage] %></td>
-     	    <td><%= t[:stock_class] %></td>
-     	    <td><strong><font color="green">已完成</font></strong></td>
-   	    </tr>
-   	  <% end %>
-    </tbody>
-  </table>
+       	  <th class="text-center">姓名</th>
+       	  <th class="text-center">股數</th>
+          <th class="text-center">占比</th>
+          <th class="text-center">股票類型</th>
+          <th class="text-center">狀態</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @complete_tuple.each do |t| %>
+          <tr>
+            <td><%= t[:name_zh] %></td>
+       	    <td><%= t[:stock_num] %></td>
+       	    <td><%= t[:percentage] %></td>
+       	    <td><%= t[:stock_class] %></td>
+       	    <td><strong><font color="green">已完成</font></strong></td>
+     	    </tr>
+     	  <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div class="row"> 
   <h3><strong>未完成交易股東</strong></h3>
-  <table class="table table-hover text-center">
-    <thead>
-      <tr>
-     	  <th class="text-center">姓名</th>
-     	  <th class="text-center">股數</th>
-        <th class="text-center">占比</th>
-        <th class="text-center">股票類型</th>
-        <th class="text-center">狀態</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @ongoing_tuple.each do |t| %>
+  <div class="well">
+    <table class="table table-hover text-center">
+      <thead>
         <tr>
-          <td><%= t[:name_zh] %></td>
-     	    <td><%= t[:stock_num] %></td>
-     	    <td><%= t[:percentage] %></td>
-     	    <td><%= t[:stock_class] %></td>
-     	    <td><strong><font color="red">未完成</font></strong></td>
-   	    </tr>
-   	  <% end %>
-    </tbody>
-  </table>
+       	  <th class="text-center">姓名</th>
+       	  <th class="text-center">股數</th>
+          <th class="text-center">占比</th>
+          <th class="text-center">股票類型</th>
+          <th class="text-center">狀態</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @ongoing_tuple.each do |t| %>
+          <tr>
+            <td><%= t[:name_zh] %></td>
+       	    <td><%= t[:stock_num] %></td>
+       	    <td><%= t[:percentage] %></td>
+       	    <td><%= t[:stock_class] %></td>
+       	    <td><strong><font color="red">未完成</font></strong></td>
+     	    </tr>
+     	  <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
 
 <div class="row" style="text-align: right">
