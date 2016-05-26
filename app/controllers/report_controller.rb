@@ -159,13 +159,9 @@ class ReportController < ApplicationController
     else
       @company = @companies[0]
     end
-    
-    if params.has_key?(:company_id)
-      @transactions = Transaction.where("company_id=? AND is_lacking=?", params[:company_id], true).order(buyer_id: :asc, id: :asc)
-    else
-      @transactions = Transaction.where("company_id=? AND is_lacking=?", 1, true).order(buyer_id: :asc, id: :asc)
-    end
-    
+
+    @transactions = Transaction.where("company_id=? AND is_lacking=?", @company.id, true).order(buyer_id: :asc, id: :asc)
+   
     @report = Array.new
     @s = nil
     @next_s = nil

@@ -16,6 +16,10 @@
   </form>
 </div>
 
+<div class="row">
+  <h1><strong><%= @company.name_zh %></strong></h1>
+</div>
+
 <% @report.each do |r| %>
   <div class="row">
     <h3><strong><%= r[:stockholder_info][0] %></strong></h3>
