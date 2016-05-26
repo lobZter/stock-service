@@ -1,28 +1,33 @@
 class ReportController < ApplicationController
   
   def company_report
-    time = DateTime.now.to_date
-    if(params.has_key?(:time))
-      time = params[:time]
+    @capital_increases = CapitalIncrease.all
+    
+    start_time = Time.new(1970, 1, 1, 12, 10).to_date
+    if(params.has_key?(:start_time) && params[:start_time] != "")
+      start_time = params[:start_time]
+      start_time.gsub! '/', '-'
     end
     
-    if params.has_key?(:company_id) && params.has_key?(:stock_class) && params.has_key?(:date_issued)
-      @identity = Identity.find_by("company_id": params[:company_id])
-      @capital_increase = CapitalIncrease.where("identity_id=? AND stock_class=? AND date_issued=? AND date_issued<=?",
-        @identity.id,
-        params[:stock_class],
-        params[:date_issued],
-        time)[0]
+    end_time = DateTime.now.to_date
+    if(params.has_key?(:end_time) && params[:end_time] != "")
+      end_time = params[:end_time]
+      end_time.gsub! '/', '-'
+    end
+    
+    if params.has_key?(:id)
+      @capital_increase = CapitalIncrease.find(params[:id])
     else
       @capital_increase = CapitalIncrease.find(1)
     end
     
-    @transactions = Transaction.where("company_id=? AND stock_class=? AND date_issued=? AND date_signed<=?",
-      @capital_increase.identity.company_id, @capital_increase.stock_class, @capital_increase.date_issued, time)
+    @identity = Identity.find(@capital_increase.identity_id)
+     
+    @transactions = Transaction.where("company_id=? AND stock_class=? AND date_issued=? AND date_signed>=? AND date_signed<=?",
+      @capital_increase.identity.company_id, @capital_increase.stock_class, @capital_increase.date_issued, start_time, end_time)
       .order(buyer_id: :asc, company_id: :asc, stock_class: :asc, date_issued: :asc, id: :asc)
     @complete = @transactions.where("is_completed=?", true)
     @ongoing = @transactions.where("is_completed=?", false)
-  
     
     @complete_tuple = Array.new
     @complete.each do |c|
