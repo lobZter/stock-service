@@ -1,1 +1,14 @@
 <%= render :partial => 'capital_increases/form' %>
+<div id="fields"></div>
+<button class="btn btn-primary" onclick="add_stockholder()">新增投資人</button>
+<script>
+             function add_stockholder() {
+              var objTo = document.getElementById('fields');
+              var divtest = document.createElement("div");
+              //divtest.getElementsByClassName('ClassForInputName').setAttribute('name', 'staff[' + ++counter + '][name]');
+              divtest.innerHTML = "<%= escape_javascript(render 'dystockform') %>";
+             
+              objTo.appendChild(divtest);
+             
+          }
+</script>
