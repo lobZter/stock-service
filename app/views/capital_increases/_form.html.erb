@@ -109,4 +109,17 @@
   </div>
 </div>
 
+<div id="fields"></div>
+<button type="button" class="btn btn-primary" onclick="add_stockholder()">新增頭資人</button>
+<script>
+             function add_stockholder() {
+              var objTo = document.getElementById('fields');
+              var divtest = document.createElement("div");
+              //divtest.getElementsByClassName('ClassForInputName').setAttribute('name', 'staff[' + ++counter + '][name]');
+              divtest.innerHTML = "<%= escape_javascript(render 'dystockform') %>";
+             
+              objTo.appendChild(divtest);
+             
+          }
+</script>
 <% end %>

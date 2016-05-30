@@ -20,8 +20,12 @@ class CapitalIncreasesController < ApplicationController
   # POST /capital_increases
   def create
     @capital_increase = CapitalIncrease.new(capital_increase_params.merge({:stock_checked => false, :is_first => false}))
-
+    @investor = Investor.new(investor_params)
+    
     if @capital_increase.save
+      params[:investor][:stockholder_id].length.times do |i|
+      Investor.create(:stockholder_id =>  params[:investor][:stockholder_id][i] , :fund =>  params[:investor][:fund][i])
+      end
       redirect_to root_path
     else
       set_data()
@@ -125,5 +129,8 @@ class CapitalIncreasesController < ApplicationController
   def capital_increase_params
     params.require(:capital_increase).permit(:identity_id, :date_issued, :fund, :currency,
         :stock_price, :stock_num, :remark, :created_at, :updated_at, :stock_class, :date_decreased)
+  end
+  def investor_params
+    params.require(:investor).permit(:stockholder_id, :fund , :stock_price , :stock_num)
   end
 end

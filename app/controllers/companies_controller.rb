@@ -7,11 +7,8 @@ class CompaniesController < ApplicationController
     @staff   = Staff.new(staff_params)
     
     if @company.save
-      
       params[:staff][:company_id].length.times do |i|
-     
       Staff.create(:company_id =>  params[:staff][:company_id][i] , :stockholder_id =>  params[:staff][:stockholder_id][i] , :name =>  params[:staff][:name][i] , :job_title => params[:staff][:job_title][i] )
-
       end
       #Staff.create(:company_id => @staff.company_id , :stockholder_id => @staff.stockholder_id , :name => @staff.name , :job_title => @staff.job_title )
       
