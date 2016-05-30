@@ -13,7 +13,6 @@ class CompaniesController < ApplicationController
       Staff.create(:company_id =>  params[:staff][:company_id][i] , :stockholder_id =>  params[:staff][:stockholder_id][i] , :name =>  params[:staff][:name][i] , :job_title => params[:staff][:job_title][i] )
 
       end
-      #Staff.create(:company_id => @staff.company_id , :stockholder_id => @staff.stockholder_id , :name => @staff.name , :job_title => @staff.job_title )
       
       @identity = Identity.create(:company_id => @company.id, :stockholder_id => nil)
       @company.identity_id = @identity.id
@@ -41,6 +40,7 @@ class CompaniesController < ApplicationController
   end
   
   def new
+    @stockholders = Stockholder.all
     @company = Company.new
     @staffs = Staff.new
     @company.staffs.build

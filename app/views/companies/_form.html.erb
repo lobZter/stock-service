@@ -42,45 +42,69 @@
       </div>
     </div>
   </div>
-
   
   <!-- 公司人員 -->
-  <div id="room_fileds">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h3 class="panel-title">公司人員</h3>
-      </div>
-      <div class="panel-body">
-        <div class="form-group">
-          <%= f.label :company_id, "公司名" %>
-          <%= f.text_field :company_id, class: 'form-control' , name: 'staff[company_id][]' %>
+  <button type="button" id="add_btn" class="btn btn-primary" style="margin-bottom: 4px">新增公司人員</button>
+  <div id="staff_zone" class="row" style="margin-top: 0px">
+    <div id="first_staff" class="col-md-4" style="margin-bottom: 16px">
+      <div class="panel panel-default" style="margin-bottom: 4px">
+        <div class="panel-heading">
+          <h3 class="panel-title">公司人員</h3>
         </div>
-        <div class="form-group">
-          <%= f.label :stockholder_id, "ID" %>
-        <%= f.text_field :stockholder_id, class: 'form-control', name: 'staff[stockholder_id][]'  %>
-        </div>
-        <div class="form-group">
-          <%= f.label :job_title, "職稱" %>
-          <%= f.text_field :job_title, class: 'form-control', name: 'staff[job_title][]' %>
-        </div>
-        <div class="form-group">
-          <%= f.label :name, "名字" %>
-          <%= f.text_field :name, class: 'form-control', name: 'staff[name][]' %>
+        <div class="panel-body">
+          <div class="form-group">
+            <%= f.label :job_title, "職稱" %>
+            <%= f.text_field :job_title, class: 'form-control', name: 'staff[job_title][]' %>
+          </div>
+          <div class="form-group">
+            <%= f.label :stockholder_id, "員工" %>
+            <select class="staff_select2" style="width: 100%" name="staff[stockholder_id][]">
+              <%= options_for_select(@stockholders.map{ |s| [s.name_zh, s.id]}) %>
+            </select>
+          </div>
         </div>
       </div>
+      <button type="button" id="remove_btn" class="remove_btn btn btn-danger">移除</button>
     </div>
   </div>
-  <button type="button" class="btn btn-primary" onclick="add_fields()">ADD</button>
   
   <script>
-    function add_fields() {
-      var objTo = document.getElementById('room_fileds');
-      var divtest = document.createElement("div");
-      //divtest.getElementsByClassName('ClassForInputName').setAttribute('name', 'staff[' + ++counter + '][name]');
-      divtest.innerHTML = "<%= escape_javascript(render 'dyform') %>";
-     
-      objTo.appendChild(divtest);
-    }
+    $(function() {
+      $('#add_btn').click(function() {
+        var staff_form_str =
+          '<div id="first_staff" class="col-md-4" style="margin-bottom: 16px">'+
+            '<div class="panel panel-default" style="margin-bottom: 4px">'+
+              '<div class="panel-heading">'+
+                '<h3 class="panel-title">公司人員</h3>'+
+              '</div>'+
+            '<div class="panel-body">'+
+              '<div class="form-group">'+
+                '<%= f.label :job_title, "職稱" %>'+
+                '<%= f.text_field :job_title, class: "form-control", name: "staff[job_title][]" %>'+
+              '</div>'+
+                '<div class="form-group">'+
+                '<%= f.label :stockholder_id, "員工" %>'+
+                '<select class="staff_select2" style="width: 100%" name="staff[stockholder_id][]">'+
+                <% @stockholders.each do |s| %>
+                  '<option value=<%= s.id%>><%= s.name_zh%></option>'+
+                <% end %>
+                '</select>'+
+              '</div>'+
+            '</div>'+
+          '</div>'+
+          '<button type="button" id="remove_btn" class="remove_btn btn btn-danger">移除</button>';
+        
+        var staff_form = $('<div/>').html(staff_form_str);
+        staff_form.find(".staff_select2").select2({theme: "bootstrap"})
+        staff_form.find("#remove_btn").click(function() {
+          $(this).parent().remove();
+        });
+        $("#staff_zone").append(staff_form);
+      });  
+    });
+    
+   
+    
   </script>
   
   <!-- 帳戶資訊 -->
