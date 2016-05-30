@@ -9,9 +9,8 @@
   <% end %>
 </div>
 
-
 <div class="well">
-  <div class="row no-margin-top">
+  <div class="row" style="margin-top: 0px">
     <div class="col-md-6">
       <h3><strong>公司資料</strong></h3>
       <table class="table">
@@ -65,56 +64,8 @@
       </table>
     </div>
   </div>
-  
-  <h3><strong>負責人員</strong></h3>
-    
-  <table class="table">
-    <col width="150">
-    <col width="190">
-    <col width="190">
-    <col width="190">
-    <col width="190">
-    <col width="190">
-    <thead>
-      <th class="caption_style"></th>
-      <th class="caption_style">董事長</th>
-      <th class="caption_style">財務長</th>
-      <th class="caption_style">執行長</th>
-      <th class="caption_style">會計師事務所</th>
-      <th class="caption_style">Registered Agent</th>
-    </thead>
-    <tbody>
-      <tr>
-        <th>姓名</th>
-        <td><%= @company.chairman_name %></td>
-        <td><%= @company.cfo_name %></td>
-        <td><%= @company.ceo_name %></td>
-        <td><%= @company.accounting_name %></td>
-         <% @company.staffs.each do |staffs| %>
-        <td><%= staffs.name %></td>
-        <% end %>
-      </tr>
-      <tr>
-        <th>護照號碼</th>
-        <td><%= @company.chairman_passport %></td>
-        <td><%= @company.cfo_passport %></td>
-        <td><%= @company.ceo_passport %></td>
-        <td><%= @company.accounting_passport %></td>
-        <td><%= @company.registered_agent_passport %></td>
-      </tr>
-      <tr>
-        <th>電子郵件</th>
-        <td><%= @company.chairman_email %></td>
-        <td><%= @company.cfo_email %></td>
-        <td><%= @company.ceo_email %></td>
-        <td><%= @company.accounting_email %></td>
-        <td><%= @company.registered_agent_email %></td>
-      </tr>
-    </tbody>
-  </table>
 
-  <h3 class="margin-top-40"><strong>匯款帳戶資訊</strong></h3>
-
+  <h3 style="margin-top: 20px"><strong>匯款帳戶資訊</strong></h3>
   <table class="table">
     <col width="150">
     <col width="316">
@@ -154,7 +105,26 @@
     </tbody>
   </table>
   
-  <h3 class="margin-top-40"><strong>持有股票</strong></h3>
+  <h3 style="margin-top: 20px"><strong>公司人員</strong></h3>
+  <table class="table">
+    <col width="10">
+    <col width="200">
+    <thead>
+      <th>職稱</th>
+      <th>姓名</th>
+    </thead>
+    <tbody>
+      <% @staffs.each do |s| %>
+      <tr>
+        <td><%= s.job_title %></td>
+        <td><%= Stockholder.find(s.stockholder_id).name_zh %></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  
+  <h3 class="margin-top: 20px"><strong>持有股票</strong></h3>
   <table class="table table-hover">
     <thead>
       <th>發行公司</th>
@@ -176,7 +146,7 @@
     <% end %>
   </table>
   
-  <h3 class="margin-top-40"><strong>近期交易</strong></h3>
+  <h3 class="margin-top: 20px"><strong>近期交易</strong></h3>
   <table class="table table-hover">
     <thead>
       <th>買方</th>
@@ -200,7 +170,7 @@
     <% end %>
   </table>
     
-  <h3 class="margin-top-40"><strong>近期增資</strong></h3>
+  <h3 class="margin-top: 20px"><strong>近期增資</strong></h3>
   <table class="table table-hover">
     <thead>
       <th>股票類型</th>
