@@ -168,6 +168,12 @@ class Transaction < ActiveRecord::Base
     if not self.is_printed?
       self.is_lacking = true
     end
+    
+    if not self.date_completed?
+      if self.is_signed == true && self.is_lacking == false
+        self.date_completed = DateTime.now.to_date
+      end
+    end
   end
 
 end

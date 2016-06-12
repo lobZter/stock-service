@@ -25,24 +25,28 @@ class ReportController < ApplicationController
      
     @transactions = Transaction.where("company_id=? AND stock_class=? AND date_issued=? AND date_signed>=? AND date_signed<=?",
       @capital_increase.identity.company_id, @capital_increase.stock_class, @capital_increase.date_issued, start_time, end_time)
-      .order(buyer_id: :asc, company_id: :asc, stock_class: :asc, date_issued: :asc, id: :asc)
-    @complete = @transactions.where("is_completed=?", true)
-    @ongoing = @transactions.where("is_completed=?", false)
+      .order(stock_num: :desc, buyer_id: :asc, company_id: :asc, stock_class: :asc, date_issued: :asc, id: :asc)
+      
+    @complete = @transactions.where("is_signed=? AND is_lacking=?", true, false)
+    @ongoing = @transactions.where("is_signed=? OR is_lacking=?", false, true)
     
     @complete_tuple = Array.new
     @complete.each do |c|
       tuple = Hash.new
+      tuple[:transaction_id] = c.id
       tuple[:name_zh] = Identity.find(c.buyer_id).self_detail.name_zh
       tuple[:stock_num] = c.stock_num
       tuple[:percentage] = c.stock_num / @capital_increase.stock_num
       tuple[:stock_class] = c.stock_class
       tuple[:state] = "交易完成"
+      tuple[:date_completed] = c.date_completed
       @complete_tuple.push(tuple)
     end
     
     @ongoing_tuple = Array.new
     @ongoing.each do |c|
       tuple = Hash.new
+      tuple[:transaction_id] = c.id
       tuple[:name_zh] = Identity.find(c.buyer_id).self_detail.name_zh
       tuple[:stock_num] = c.stock_num
       tuple[:percentage] = c.stock_num / @capital_increase.stock_num
