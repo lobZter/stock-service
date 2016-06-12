@@ -16,9 +16,9 @@
   </form>
 </div>
 
-<div class="row">
-  <h1><strong><%= @company.name_zh %></strong></h1>
-</div>
+<h1><strong>
+  <%= link_to @company.name_zh, url_for(params.merge(:format => :csv)) %>
+</strong></h1>
 
 <% @report.each do |r| %>
   <div class="row">
@@ -29,6 +29,7 @@
           <tr>
          	  <th class="text-center">英文姓名</th>
          	  <th class="text-center">護照號碼</th>
+         	  <th class="text-center">國籍</th>
             <th class="text-center">中文地址</th>
             <th class="text-center">英文地址</th>
             <th class="text-center">email</th>
@@ -39,14 +40,15 @@
         </thead>
         <tbody>
           <tr>
-            <td><%= r[:stockholder_info][1] %></td>
-            <td><%= r[:stockholder_info][2] %></td>
-            <td><%= r[:stockholder_info][3] %></td>
-            <td><%= r[:stockholder_info][4] %></td>
-            <td><%= r[:stockholder_info][5] %></td>
-            <td><%= r[:stockholder_info][6] %></td>
-            <td><%= r[:stockholder_info][7] %></td>
-            <td><%= r[:stockholder_info][8] %></td>
+            <td><%= to_icon(r[:stockholder_info][1]) %></td>
+            <td><%= to_icon(r[:stockholder_info][2]) %></td>
+            <td><%= to_icon(r[:stockholder_info][3]) %></td>
+            <td><%= to_icon(r[:stockholder_info][4]) %></td>
+            <td><%= to_icon(r[:stockholder_info][5]) %></td>
+            <td><%= to_icon(r[:stockholder_info][6]) %></td>
+            <td><%= to_icon(r[:stockholder_info][7]) %></td>
+            <td><%= to_icon(r[:stockholder_info][8]) %></td>
+            <td><%= to_icon(r[:stockholder_info][9]) %></td>
      	    </tr>
         </tbody>
       </table>
@@ -70,15 +72,15 @@
           <% r[:contract_lack].length.times do |i| %>
             <tr>
               <th><%= r[:contract_info][i] %></th>
-              <td><%= r[:contract_lack][i][0] %></td>
-              <td><%= r[:contract_lack][i][1] %></td>
-              <td><%= r[:contract_lack][i][2] %></td>
-              <td><%= r[:contract_lack][i][3] %></td>
-              <td><%= r[:contract_lack][i][4] %></td>
-              <td><%= r[:contract_lack][i][5] %></td>
-              <td><%= r[:contract_lack][i][6] %></td>
-              <td><%= r[:contract_lack][i][7] %></td>
-              <td><%= r[:contract_lack][i][8] %></td>
+              <td><%= to_icon(r[:contract_lack][i][0]) %></td>
+              <td><%= to_icon(r[:contract_lack][i][1]) %></td>
+              <td><%= to_icon(r[:contract_lack][i][2]) %></td>
+              <td><%= to_icon(r[:contract_lack][i][3]) %></td>
+              <td><%= to_icon(r[:contract_lack][i][4]) %></td>
+              <td><%= to_icon(r[:contract_lack][i][5]) %></td>
+              <td><%= to_icon(r[:contract_lack][i][6]) %></td>
+              <td><%= to_icon(r[:contract_lack][i][7]) %></td>
+              <td><%= to_icon(r[:contract_lack][i][8]) %></td>
        	    </tr>
        	  <% end %>
         </tbody>
@@ -86,7 +88,3 @@
     </div>
   </div>
 <% end %>
-
-<div class="row" style="text-align: right">
-  <%= link_to "報表下載", url_for(params.merge(:format => :csv)), {class: "btn btn-primary col-md-12"} %>
-</div>

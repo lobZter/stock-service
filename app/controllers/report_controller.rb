@@ -196,6 +196,7 @@ class ReportController < ApplicationController
             @s.name_zh,
             @s.name_en? ? "O" : "X",
             @s.passport? ? "O" : "X",
+            @s.country? ? "O" : "X",
             @s.address_zh? ? "O" : "X",
             @s.address_en? ? "O" : "X",
             @s.email? ? "O" : "X",
@@ -242,7 +243,7 @@ class ReportController < ApplicationController
       format.html
       format.csv do
         head = 'EF BB BF'.split(' ').map{|a|a.hex.chr}.join()
-        stockholder_col = ["", "英文姓名", "護照號碼", "中文地址", "英文地址", "email",	"護照影本",	"簽名頁影本",	"郵寄地址影本"]
+        stockholder_col = ["", "英文姓名", "護照號碼", "國籍", "中文地址", "英文地址", "email",	"護照影本",	"簽名頁影本",	"郵寄地址影本"]
         transactions_col = ["", "意向書",	"Regular S", "USD合約",	"RMB合約", "購買協議", "W8BEN", "換股協議", "聲明書", "銀行水單"]
           
         csv_str = CSV.generate(csv = head) do |csv|
