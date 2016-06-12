@@ -25,9 +25,9 @@ class TransactionsController < ApplicationController
       end
     end
     if params[:set_completed]
-      @transactions = @transactions.filter_completed 
+      @transactions = @transactions.filter_completed
     elsif params[:set_not_completed]
-      @transactions = @transactions.filter_not_completed  
+      @transactions = @transactions.filter_not_completed
     end
     @transactions = @transactions.sort_by{|t| t[:date_signed]}.reverse
     

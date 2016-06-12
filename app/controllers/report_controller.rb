@@ -90,9 +90,10 @@ class ReportController < ApplicationController
       @capital_increase.stock_class,
       @capital_increase.date_issued)
     
-    @complete = @transactions.where("is_completed=?", true)
-    @ongoing = @transactions.where("is_completed=? AND is_lacking=?", false, false)
-    @lacking = @transactions.where("is_lacking=?", true)
+    @complete = @transactions.where("is_signed=? AND is_lacking=?", true, false)
+    @lacking = @transactions.where("is_signed=? AND is_lacking=?", true, true)
+    @not_signed = @transactions.where("is_signed=? AND is_lacking=?", false, false)
+    @not_complete = @transactions.where("is_signed=? AND is_lacking=?", false, true)
     
     respond_to do |format|
       format.html
@@ -111,28 +112,12 @@ class ReportController < ApplicationController
      	              t.signed_buyer ? t.signed_buyer : "-",
      	              t.signed_seller ? t.signed_seller : "-",
        	            t.date_signed,
-       	            "合約已歸檔",
+       	            "已完成",
        	            Date.parse(t.updated_at.to_s)]
           end
           
           csv << [""]
-          csv << ["進行中合約"]
-          csv << column_names
-          @ongoing.each do |t|
-            csv << [Identity.find(t.buyer_id).self_detail.name_zh.to_s,
-     	              t.fund_original.to_s + "/" + @currency_array[t.currency_original],
-     	              t.stock_price.to_s + "/" + @currency_array[Company.find(t.company_id).currency],
-     	              t.stock_num,
-     	              t.is_printed ? "已列印" : "未列印",
-     	              t.signed_buyer ? t.signed_buyer : "-",
-     	              t.signed_seller ? t.signed_seller : "-",
-       	            t.date_signed,
-       	            t.is_printed ? "進行中" : "等待印出",
-       	            Date.parse(t.updated_at.to_s)]
-          end
-          
-          csv << [""]
-          csv << ["待補合約"]
+          csv << ["已簽署 / 資料待補"]
           csv << column_names
           @lacking.each do |t|
             csv << [Identity.find(t.buyer_id).self_detail.name_zh.to_s,
@@ -143,7 +128,39 @@ class ReportController < ApplicationController
      	              t.signed_buyer ? t.signed_buyer : "-",
      	              t.signed_seller ? t.signed_seller : "-",
        	            t.date_signed,
-       	            "資訊待補",
+       	            "資料待補",
+       	            Date.parse(t.updated_at.to_s)]
+          end
+          
+          csv << [""]
+          csv << ["未完成簽署 / 資料齊全"]
+          csv << column_names
+          @not_signed.each do |t|
+            csv << [Identity.find(t.buyer_id).self_detail.name_zh.to_s,
+     	              t.fund_original.to_s + "/" + @currency_array[t.currency_original],
+     	              t.stock_price.to_s + "/" + @currency_array[Company.find(t.company_id).currency],
+     	              t.stock_num,
+     	              t.is_printed ? "已列印" : "未列印",
+     	              t.signed_buyer ? t.signed_buyer : "-",
+     	              t.signed_seller ? t.signed_seller : "-",
+       	            t.date_signed,
+       	            "待簽約",
+       	            Date.parse(t.updated_at.to_s)]
+          end
+          
+          csv << [""]
+          csv << ["未完成簽署 / 資料待補"]
+          csv << column_names
+          @not_complete.each do |t|
+            csv << [Identity.find(t.buyer_id).self_detail.name_zh.to_s,
+     	              t.fund_original.to_s + "/" + @currency_array[t.currency_original],
+     	              t.stock_price.to_s + "/" + @currency_array[Company.find(t.company_id).currency],
+     	              t.stock_num,
+     	              t.is_printed ? "已列印" : "未列印",
+     	              t.signed_buyer ? t.signed_buyer : "-",
+     	              t.signed_seller ? t.signed_seller : "-",
+       	            t.date_signed,
+       	            "資料待補",
        	            Date.parse(t.updated_at.to_s)]
           end
         end

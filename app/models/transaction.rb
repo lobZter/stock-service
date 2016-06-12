@@ -125,9 +125,10 @@ class Transaction < ActiveRecord::Base
   end
   
   def status
-    self.is_completed = true
+    self.is_signed = true
     self.is_lacking = false
     
+    # check is_signed (all contracts, signed_buyer, signed_seller)
     if (self.contract_0_needed && !self.contract_0?) ||
        (self.contract_1_needed && !self.contract_1?) ||
        (self.contract_2_needed && !self.contract_2?) ||
@@ -137,33 +138,35 @@ class Transaction < ActiveRecord::Base
        (self.contract_6_needed && !self.contract_6?) ||
        (self.contract_7_needed && !self.contract_7?) ||
        !self.contract_8?
-      self.is_completed = false
-      self.is_lacking = true
+      self.is_signed = false
     end
     
+    if not self.signed_buyer? && self.signed_seller?
+      self.is_signed = false
+    end
+    
+    # check is_lacking(stockholder information, send_buyer, send_seller, is_printed)
     seller = Identity.find(self.seller_id).self_detail
     buyer = Identity.find(self.buyer_id).self_detail
     
     if seller.class.name == "Stockholder"
       if not seller.copy_passport? && seller.copy_signature? && seller.copy_mail_addr?
-        self.is_completed = false
         self.is_lacking = true
       end
     end
     
     if buyer.class.name == "Stockholder"
       if not buyer.copy_passport? && buyer.copy_signature? && buyer.copy_mail_addr?
-        self.is_completed = false
         self.is_lacking = true
       end
     end
     
-    if not self.send_buyer? && send_seller? && signed_buyer? && signed_seller?
-      self.is_completed = false
+    if not self.send_buyer? && send_seller?
+      self.is_lacking = true
     end
     
     if not self.is_printed?
-      self.is_completed = false
+      self.is_lacking = true
     end
   end
 

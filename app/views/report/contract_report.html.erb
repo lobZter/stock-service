@@ -16,9 +16,9 @@
   </form>
 </div>
 
-<div class="row">
-  <h1><strong><%= @capital_increase.identity.self_detail.name_zh %> / <%= @capital_increase.stock_class %> / <%= @capital_increase.date_issued %></strong></h1>
-</div>
+<h1><strong>
+  <%= link_to @capital_increase.identity.self_detail.name_zh+@capital_increase.stock_class+@capital_increase.date_issued.to_s , url_for(params.merge(:format => :csv)) %>
+</strong></h1>
 
 <div>
   <h3><strong>已完成合約</strong></h3>
@@ -71,63 +71,7 @@
 </div>
 
 <div>
-  <h3><strong>進行中合約</strong></h3>
-  <div class="well">
-    <table class="table table-hover text-center">
-      <thead>
-        <tr>
-      	  <th class="text-center">股東姓名</th>
-       	  <th class="text-center">投資金額/幣別</th>
-       	  <th class="text-center">每股面額/幣別</th>
-       	  <th class="text-center">股數</th>
-          <th class="text-center">資料列印</th>
-          <th class="text-center">買方簽署日</th>
-          <th class="text-center">賣方簽署日</th>
-          <th class="text-center">合約生效日</th>
-          <th class="text-center">合約狀態</th>
-          <th class="text-center">更新日期</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @ongoing.each do |t| %>
-          <tr data-link="<%= edit_transaction_path(t) %>" class="tr-clickable">
-            <td><%= Identity.find(t.buyer_id).self_detail.name_zh %></td>
-       	    <td><%= t.fund_original %>/<%=@currency_array[t.currency_original] %></td>
-       	    <td><%= t.stock_price %>/<%=@currency_array[Company.find(t.company_id).currency] %></td>
-       	    <td><%= t.stock_num %></td>
-       	    <td><%= status_check(true, t.is_printed) %></td>
-       	    <td>
-         	    <% if t.signed_buyer? %>
-         	      <%= t.signed_buyer %>
-         	    <% else %>  
-         	      <span class="glyphicon glyphicon-remove"></span>
-         	    <% end %>
-         	  </td>
-         	  <td>
-         	    <% if t.signed_seller? %>
-         	      <%= t.signed_seller %>
-         	    <% else %>  
-         	      <span class="glyphicon glyphicon-remove"></span>
-         	    <% end %>
-         	  </td>
-       	    <td><%= t.date_signed %></td>
-       	    <td>
-       	      <% if t.is_printed %>
-       	        <strong>進行中</strong>
-       	      <% else %>
-       	        <strong>等待印出</strong>
-       	      <% end %>
-       	    </td>
-       	    <td><%= Date.parse(t.updated_at.to_s) %></td>
-     	    </tr>
-     	  <% end %>
-      </tbody>
-    </table>
-  </div>
-</div>
-
-<div>
-  <h3><strong>待補合約</strong></h3>
+  <h3><strong>已簽署 / 資料待補</strong></h3>
   <div class="well">
     <table class="table table-hover text-center">
       <thead>
@@ -167,7 +111,7 @@
          	    <% end %>
          	  </td>
        	    <td><%= t.date_signed %></td>
-       	    <td><strong>待補資訊</strong></td>
+       	    <td><strong>資料待補</strong></td>
        	    <td><%= Date.parse(t.updated_at.to_s) %></td>
      	    </tr>
      	  <% end %>
@@ -176,6 +120,102 @@
   </div>
 </div>
 
-<div class="row" style="text-align: right">
-  <%= link_to "報表下載", url_for(params.merge(:format => :csv)), {class: "btn btn-primary col-md-12"} %>
+<div>
+  <h3><strong>未完成簽署 / 資料齊全</strong></h3>
+  <div class="well">
+    <table class="table table-hover text-center">
+      <thead>
+        <tr>
+      	  <th class="text-center">股東姓名</th>
+       	  <th class="text-center">投資金額/幣別</th>
+       	  <th class="text-center">每股面額/幣別</th>
+       	  <th class="text-center">股數</th>
+          <th class="text-center">資料列印</th>
+          <th class="text-center">買方簽署日</th>
+          <th class="text-center">賣方簽署日</th>
+          <th class="text-center">合約生效日</th>
+          <th class="text-center">合約狀態</th>
+          <th class="text-center">更新日期</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @not_signed.each do |t| %>
+          <tr data-link="<%= edit_transaction_path(t) %>" class="tr-clickable">
+            <td><%= Identity.find(t.buyer_id).self_detail.name_zh %></td>
+       	    <td><%= t.fund_original %>/<%=@currency_array[t.currency_original] %></td>
+       	    <td><%= t.stock_price %>/<%=@currency_array[Company.find(t.company_id).currency] %></td>
+       	    <td><%= t.stock_num %></td>
+       	    <td><%= status_check(true, t.is_printed) %></td>
+       	    <td>
+         	    <% if t.signed_buyer? %>
+         	      <%= t.signed_buyer %>
+         	    <% else %>  
+         	      <span class="glyphicon glyphicon-remove"></span>
+         	    <% end %>
+         	  </td>
+         	  <td>
+         	    <% if t.signed_seller? %>
+         	      <%= t.signed_seller %>
+         	    <% else %>  
+         	      <span class="glyphicon glyphicon-remove"></span>
+         	    <% end %>
+         	  </td>
+       	    <td><%= t.date_signed %></td>
+       	    <td><strong>待簽署</strong></td>
+       	    <td><%= Date.parse(t.updated_at.to_s) %></td>
+     	    </tr>
+     	  <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div>
+  <h3><strong>未完成簽署 / 資料待補</strong></h3>
+  <div class="well">
+    <table class="table table-hover text-center">
+      <thead>
+        <tr>
+      	  <th class="text-center">股東姓名</th>
+       	  <th class="text-center">投資金額/幣別</th>
+       	  <th class="text-center">每股面額/幣別</th>
+       	  <th class="text-center">股數</th>
+          <th class="text-center">資料列印</th>
+          <th class="text-center">買方簽署日</th>
+          <th class="text-center">賣方簽署日</th>
+          <th class="text-center">合約生效日</th>
+          <th class="text-center">合約狀態</th>
+          <th class="text-center">更新日期</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @not_complete.each do |t| %>
+          <tr data-link="<%= edit_transaction_path(t) %>" class="tr-clickable">
+            <td><%= Identity.find(t.buyer_id).self_detail.name_zh %></td>
+       	    <td><%= t.fund_original %>/<%=@currency_array[t.currency_original] %></td>
+       	    <td><%= t.stock_price %>/<%=@currency_array[Company.find(t.company_id).currency] %></td>
+       	    <td><%= t.stock_num %></td>
+       	    <td><%= status_check(true, t.is_printed) %></td>
+       	    <td>
+         	    <% if t.signed_buyer? %>
+         	      <%= t.signed_buyer %>
+         	    <% else %>  
+         	      <span class="glyphicon glyphicon-remove"></span>
+         	    <% end %>
+         	  </td>
+         	  <td>
+         	    <% if t.signed_seller? %>
+         	      <%= t.signed_seller %>
+         	    <% else %>  
+         	      <span class="glyphicon glyphicon-remove"></span>
+         	    <% end %>
+         	  </td>
+       	    <td><%= t.date_signed %></td>
+       	    <td><strong>資料待補</strong></td>
+       	    <td><%= Date.parse(t.updated_at.to_s) %></td>
+     	    </tr>
+     	  <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>
