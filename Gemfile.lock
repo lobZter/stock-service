@@ -48,6 +48,13 @@ GEM
     arel (6.0.3)
     autoprefixer-rails (6.3.3.1)
       execjs
+    axlsx (2.0.1)
+      htmlentities (~> 4.3.1)
+      nokogiri (>= 1.4.1)
+      rubyzip (~> 1.0.0)
+    axlsx_rails (0.4.0)
+      axlsx (>= 2.0.1)
+      rails (>= 3.1)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     bootstrap-filestyle-rails (1.1.2)
@@ -72,6 +79,7 @@ GEM
     execjs (2.6.0)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    htmlentities (4.3.4)
     i18n (0.7.0)
     jbuilder (2.4.0)
       activesupport (>= 3.0.0, < 5.1)
@@ -123,6 +131,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rake (10.5.0)
     rdoc (4.2.1)
+    rubyzip (1.0.0)
     sass (3.4.21)
     sass-rails (5.0.4)
       railties (>= 4.0.0, < 5.0)
@@ -166,6 +175,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  axlsx (= 2.0.1)
+  axlsx_rails
   bootstrap-filestyle-rails
   bootstrap-sass (~> 3.3.0)
   bootstrap3-datetimepicker-rails (~> 4.17.37)
@@ -177,6 +188,7 @@ DEPENDENCIES
   momentjs-rails (>= 2.9.0)
   mysql2
   rails (= 4.2.5)
+  rubyzip (= 1.0.0)
   sass-rails (~> 5.0)
   sdoc (~> 0.4.0)
   select2-rails

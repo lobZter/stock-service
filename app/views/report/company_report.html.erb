@@ -38,63 +38,53 @@
 </div>
 
 <h1><strong>
-  <%= link_to @capital_increase.identity.self_detail.name_zh+" / "+@capital_increase.stock_class+" / "+@capital_increase.date_issued.to_s , url_for(params.merge(:format => :csv)) %>
+  <%= link_to @capital_increase.identity.self_detail.name_zh+" / "+@capital_increase.stock_class+" / "+@capital_increase.date_issued.to_s , url_for(params.merge(:format => :xls)) %>
 </h1></strong>
 
 <div class="row">
-  <h3><strong>已完成交易股東</strong></h3>
+  <div class="col-md-6">
+    <h3><strong>股東占比</strong></h3>
     <div class="well">
-    <table class="table table-hover text-center">
-      <thead>
-        <tr>
-       	  <th class="text-center">姓名</th>
-       	  <th class="text-center">股數</th>
-          <th class="text-center">占比</th>
-          <th class="text-center">股票類型</th>
-          <th class="text-center">狀態</th>
-          <th class="text-center">完成日期</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @complete_tuple.each do |t| %>
-          <tr data-link="<%= edit_transaction_path(t[:transaction_id]) %>" class="tr-clickable">
-            <td><%= t[:name_zh] %></td>
-       	    <td><%= t[:stock_num] %></td>
-       	    <td><%= t[:percentage] %></td>
-       	    <td><%= t[:stock_class] %></td>
-       	    <td><strong><font color="green">已完成</font></strong></td>
-       	    <td><%= t[:date_completed] %></td>
-     	    </tr>
-     	  <% end %>
-      </tbody>
-    </table>
+      <table class="table table-hover text-center">
+        <thead>
+          <tr>
+         	  <th class="text-center">股東姓名</th>
+         	  <th class="text-center">股數</th>
+            <th class="text-center">占比</th>
+        </thead>
+        <tbody>
+          <% @complete_tuple.each do |t| %>
+            <tr>
+              <td><%= t[:name_zh] %></td>
+         	    <td><%= t[:stock_num] %></td>
+         	    <td><%= t[:percentage] %></td>
+       	    </tr>
+       	  <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
-
-<div class="row"> 
-  <h3><strong>未完成交易股東</strong></h3>
-  <div class="well">
-    <table class="table table-hover text-center">
-      <thead>
-        <tr>
-       	  <th class="text-center">姓名</th>
-       	  <th class="text-center">股數</th>
-          <th class="text-center">占比</th>
-          <th class="text-center">股票類型</th>
-          <th class="text-center">狀態</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @ongoing_tuple.each do |t| %>
-          <tr data-link="<%= edit_transaction_path(t[:transaction_id]) %>" class="tr-clickable">
-            <td><%= t[:name_zh] %></td>
-       	    <td><%= t[:stock_num] %></td>
-       	    <td><%= t[:percentage] %></td>
-       	    <td><%= t[:stock_class] %></td>
-       	    <td><strong><font color="red">未完成</font></strong></td>
-     	    </tr>
-     	  <% end %>
-      </tbody>
-    </table>
+  <div class="col-md-6">
+    <h3><strong>待完成交易</strong></h3>
+    <div class="well">
+      <table class="table table-hover text-center">
+        <thead>
+          <tr>
+         	  <th class="text-center">股東姓名</th>
+         	  <th class="text-center">股數</th>
+            <th class="text-center">占比</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @ongoing_tuple.each do |t| %>
+            <tr data-link="<%= edit_transaction_path(t[:transaction_id]) %>" class="tr-clickable">
+              <td><%= t[:name_zh] %></td>
+         	    <td><%= t[:stock_num] %></td>
+         	    <td><%= t[:percentage] %></td>
+       	    </tr>
+       	  <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
 </div>

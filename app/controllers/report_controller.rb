@@ -25,23 +25,30 @@ class ReportController < ApplicationController
      
     @transactions = Transaction.where("company_id=? AND stock_class=? AND date_issued=? AND date_signed>=? AND date_signed<=?",
       @capital_increase.identity.company_id, @capital_increase.stock_class, @capital_increase.date_issued, start_time, end_time)
-      .order(stock_num: :desc, buyer_id: :asc, company_id: :asc, stock_class: :asc, date_issued: :asc, id: :asc)
       
-    @complete = @transactions.where("is_signed=? AND is_lacking=?", true, false)
-    @ongoing = @transactions.where("is_signed=? OR is_lacking=?", false, true)
+    @complete = @transactions.where("is_signed=? AND is_lacking=?", true, false).order(buyer_id: :asc)
+    @ongoing = @transactions.where("is_signed=? OR is_lacking=?", false, true).order(stock_num: :desc)
+    
     
     @complete_tuple = Array.new
+    @s = nil
+    @last_s = nil
     @complete.each do |c|
-      tuple = Hash.new
-      tuple[:transaction_id] = c.id
-      tuple[:name_zh] = Identity.find(c.buyer_id).self_detail.name_zh
-      tuple[:stock_num] = c.stock_num
-      tuple[:percentage] = c.stock_num / @capital_increase.stock_num
-      tuple[:stock_class] = c.stock_class
-      tuple[:state] = "交易完成"
-      tuple[:date_completed] = c.date_completed
-      @complete_tuple.push(tuple)
+      @s = c.buyer_id
+      if(@s != @last_s)
+        tuple = Hash.new
+        tuple[:name_zh] = Identity.find(c.buyer_id).self_detail.name_zh
+        tuple[:stock_num] = c.stock_num
+        tuple[:percentage] = c.stock_num / @capital_increase.stock_num
+      
+        @complete_tuple.push(tuple)
+      else
+        @complete_tuple[@complete_tuple.length-1][:percentage] += c.stock_num / @capital_increase.stock_num
+        @complete_tuple[@complete_tuple.length-1][:stock_num] += c.stock_num
+      end
+      @last_s = @s
     end
+    @complete_tuple.sort_by{|c| -c[:stock_num]}
     
     @ongoing_tuple = Array.new
     @ongoing.each do |c|
@@ -50,30 +57,30 @@ class ReportController < ApplicationController
       tuple[:name_zh] = Identity.find(c.buyer_id).self_detail.name_zh
       tuple[:stock_num] = c.stock_num
       tuple[:percentage] = c.stock_num / @capital_increase.stock_num
-      tuple[:stock_class] = c.stock_class
-      tuple[:state] = "交易未完成"
       @ongoing_tuple.push(tuple)
     end
         
     respond_to do |format|
       format.html
-      format.csv do
-        head = 'EF BB BF'.split(' ').map{|a|a.hex.chr}.join()
-        column_names = ["姓名", "股數", "占比", "股票類型", "狀態"]
-        csv_str = CSV.generate(csv = head) do |csv|
-          csv << ["已完成交易股東"]
-          csv << column_names
+      format.xls do
+        p = Axlsx::Package.new
+        p.workbook.add_worksheet(:name => "股東占比") do |sheet|
+          sheet.add_row ["股東姓名", "股數", "占比"]
           @complete_tuple.each do |x|
-            csv << x.values
-          end
-          csv << [""]
-          csv << ["未完成交易股東"]
-          csv << column_names
-          @ongoing_tuple.each do |x|
-            csv << x.values
+            sheet.add_row x.values
           end
         end
-        send_data csv_str, filename: "company_report.csv", type: "text/csv"
+        
+        p.workbook.add_worksheet(:name => "待完成交易") do |sheet|
+          sheet.add_row ["股東姓名", "股數", "占比"]
+          @ongoing_tuple.each do |x|
+            sheet.add_row x.except(:transaction_id).values
+          end
+        end
+ 
+        send_data p.to_stream.read,
+          filename: @capital_increase.identity.self_detail.name_zh+"_"+@capital_increase.stock_class+"_"+@capital_increase.date_issued.to_s + ".xlsx", 
+          type: "application/xlsx"
       end
     end
   end
@@ -101,14 +108,13 @@ class ReportController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.csv do
-        head = 'EF BB BF'.split(' ').map{|a|a.hex.chr}.join()
+      format.xls do
         column_names = ["股東姓名", "投資金額/幣別", "每股面額/幣別", "股數", "資料列印", "買方簽署日", "賣方簽署日", "合約生效日", "合約狀態", "更新日期"]
-        csv_str = CSV.generate(csv = head) do |csv|
-          csv << ["已完成合約"]
-          csv << column_names
+        p = Axlsx::Package.new
+        p.workbook.add_worksheet(:name => "已完成合約") do |sheet|
+          sheet.add_row column_names
           @complete.each do |t|
-            csv << [Identity.find(t.buyer_id).self_detail.name_zh.to_s,
+            sheet.add_row [Identity.find(t.buyer_id).self_detail.name_zh.to_s,
      	              t.fund_original.to_s + "/" + @currency_array[t.currency_original],
      	              t.stock_price.to_s + "/" + @currency_array[Company.find(t.company_id).currency],
      	              t.stock_num,
@@ -119,44 +125,12 @@ class ReportController < ApplicationController
        	            "已完成",
        	            Date.parse(t.updated_at.to_s)]
           end
-          
-          csv << [""]
-          csv << ["已簽署 / 資料待補"]
-          csv << column_names
+        end
+        
+        p.workbook.add_worksheet(:name => "已簽署 資料待補") do |sheet|
+          sheet.add_row column_names
           @lacking.each do |t|
-            csv << [Identity.find(t.buyer_id).self_detail.name_zh.to_s,
-     	              t.fund_original.to_s + "/" + @currency_array[t.currency_original],
-     	              t.stock_price.to_s + "/" + @currency_array[Company.find(t.company_id).currency],
-     	              t.stock_num,
-     	              t.is_printed ? "已列印" : "未列印",
-     	              t.signed_buyer ? t.signed_buyer : "-",
-     	              t.signed_seller ? t.signed_seller : "-",
-       	            t.date_signed,
-       	            "資料待補",
-       	            Date.parse(t.updated_at.to_s)]
-          end
-          
-          csv << [""]
-          csv << ["未完成簽署 / 資料齊全"]
-          csv << column_names
-          @not_signed.each do |t|
-            csv << [Identity.find(t.buyer_id).self_detail.name_zh.to_s,
-     	              t.fund_original.to_s + "/" + @currency_array[t.currency_original],
-     	              t.stock_price.to_s + "/" + @currency_array[Company.find(t.company_id).currency],
-     	              t.stock_num,
-     	              t.is_printed ? "已列印" : "未列印",
-     	              t.signed_buyer ? t.signed_buyer : "-",
-     	              t.signed_seller ? t.signed_seller : "-",
-       	            t.date_signed,
-       	            "待簽約",
-       	            Date.parse(t.updated_at.to_s)]
-          end
-          
-          csv << [""]
-          csv << ["未完成簽署 / 資料待補"]
-          csv << column_names
-          @not_complete.each do |t|
-            csv << [Identity.find(t.buyer_id).self_detail.name_zh.to_s,
+            sheet.add_row [Identity.find(t.buyer_id).self_detail.name_zh.to_s,
      	              t.fund_original.to_s + "/" + @currency_array[t.currency_original],
      	              t.stock_price.to_s + "/" + @currency_array[Company.find(t.company_id).currency],
      	              t.stock_num,
@@ -168,7 +142,42 @@ class ReportController < ApplicationController
        	            Date.parse(t.updated_at.to_s)]
           end
         end
-        send_data csv_str, filename: Identity.find(@capital_increase.identity_id).self_detail.name_zh + "_" + @capital_increase.stock_class + "_" + @capital_increase.date_issued.to_s + ".csv", type: "text/csv"
+        
+        p.workbook.add_worksheet(:name => "未完成簽署 資料齊全") do |sheet|
+          sheet.add_row column_names
+          @not_signed.each do |t|
+            sheet.add_row [Identity.find(t.buyer_id).self_detail.name_zh.to_s,
+     	              t.fund_original.to_s + "/" + @currency_array[t.currency_original],
+     	              t.stock_price.to_s + "/" + @currency_array[Company.find(t.company_id).currency],
+     	              t.stock_num,
+     	              t.is_printed ? "已列印" : "未列印",
+     	              t.signed_buyer ? t.signed_buyer : "-",
+     	              t.signed_seller ? t.signed_seller : "-",
+       	            t.date_signed,
+       	            "待簽約",
+       	            Date.parse(t.updated_at.to_s)]
+          end
+        end
+        
+        p.workbook.add_worksheet(:name => "未完成簽署 資料待補") do |sheet|
+          sheet.add_row column_names
+          @not_complete.each do |t|
+            sheet.add_row [Identity.find(t.buyer_id).self_detail.name_zh.to_s,
+     	              t.fund_original.to_s + "/" + @currency_array[t.currency_original],
+     	              t.stock_price.to_s + "/" + @currency_array[Company.find(t.company_id).currency],
+     	              t.stock_num,
+     	              t.is_printed ? "已列印" : "未列印",
+     	              t.signed_buyer ? t.signed_buyer : "-",
+     	              t.signed_seller ? t.signed_seller : "-",
+       	            t.date_signed,
+       	            "資料待補",
+       	            Date.parse(t.updated_at.to_s)]
+          end
+        end
+ 
+        send_data p.to_stream.read,
+          filename: @capital_increase.identity.self_detail.name_zh+"_"+@capital_increase.stock_class+"_"+@capital_increase.date_issued.to_s + ".xlsx", 
+          type: "application/xlsx"
       end
     end
   end
@@ -245,24 +254,29 @@ class ReportController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.csv do
-        head = 'EF BB BF'.split(' ').map{|a|a.hex.chr}.join()
+      format.xls do
         stockholder_col = ["", "英文姓名", "護照號碼", "國籍", "中文地址", "英文地址", "email",	"護照影本",	"簽名頁影本",	"郵寄地址影本"]
         transactions_col = ["", "意向書",	"Regular S", "USD合約",	"RMB合約", "購買協議", "W8BEN", "換股協議", "聲明書", "銀行水單"]
           
-        csv_str = CSV.generate(csv = head) do |csv|
+        p = Axlsx::Package.new
+        p.workbook.add_worksheet(:name => "股東占比") do |sheet|
           @report.each do |r|
-            csv << stockholder_col
-            csv << r[:stockholder_info]
-            csv << transactions_col
+            sheet.add_row stockholder_col
+            sheet.add_row r[:stockholder_info]
+            sheet.add_row transactions_col
             r[:contract_lack].length.times do |i|
               tuple = r[:contract_lack][i]
               tuple.insert(0, r[:contract_info][i])
-              csv << tuple
+              sheet.add_row tuple
             end
+            sheet.add_row [""]
+            sheet.add_row [""]
           end
         end
-        send_data csv_str, filename: @company.name_zh + "_" + "lackinfo" + ".csv", type: "text/csv"
+ 
+        send_data p.to_stream.read,
+          filename: @company.name_zh + "_" + "lackinfo.xlsx", 
+          type: "application/xlsx"
       end
     end
   end

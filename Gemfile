@@ -50,6 +50,14 @@ gem 'bootstrap-filestyle-rails'
 # Daily Task
 gem 'whenever'
 
+# Pie Chart
+#gem "chartkick"
+
+#Axlsx
+gem 'rubyzip', '= 1.0.0'
+gem 'axlsx', '= 2.0.1'
+gem 'axlsx_rails'
+
 # Selected input
 gem "select2-rails"
 
