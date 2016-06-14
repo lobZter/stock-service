@@ -142,26 +142,37 @@
   <!-- 公司人員 -->
   <button type="button" id="add_btn" class="btn btn-primary" style="margin-bottom: 4px">新增公司人員</button>
   <div id="staff_zone" class="row" style="margin-top: 0px">
-    <div id="first_staff" class="col-md-4" style="margin-bottom: 16px">
-      <div class="panel panel-default" style="margin-bottom: 4px">
-        <div class="panel-heading">
-          <h3 class="panel-title">公司人員</h3>
-        </div>
-        <div class="panel-body">
-          <div class="form-group">
-            <label>職稱</label>
-            <input type="text" name="staff[job_title][]" class="form-control">
+    
+    <% @staffs.each do |f| %>
+      <div id="first_staff" class="col-md-4" style="margin-bottom: 16px">
+        <div class="panel panel-default" style="margin-bottom: 4px">
+          <div class="panel-heading">
+            <h3 class="panel-title">公司人員</h3>
           </div>
-          <div class="form-group">
-            <label>員工</label>
-            <select class="staff_select2" style="width: 100%" name="staff[stockholder_id][]">
-              <%= options_for_select(@stockholders.map{ |s| [s.name_zh, s.id]}) %>
-            </select>
+          <div class="panel-body">
+            <div class="form-group">
+              <label>職稱</label>
+              <input type="text" name="staff[job_title][]" class="form-control" value="<%= f.job_title %>">
+            </div>
+            <div class="form-group">
+              <label>員工</label>
+              <select class="staff_select2" style="width: 100%" name="staff[stockholder_id][]">
+                <% @stockholders.each do |s| %>
+                  <% if s.id == f.stockholder_id %>
+                    <option value="<%= s.id %>" selected="selected"><%= s.name_zh %></option>
+                  <% else %>
+                    <option value="<%= s.id %>"><%= s.name_zh %></option>
+                  <% end %>                
+                <% end %>
+              </select>
+            </div>
           </div>
         </div>
+        <button type="button" id="remove_btn" class="remove_btn btn btn-danger">移除</button>
       </div>
-      <button type="button" id="remove_btn" class="remove_btn btn btn-danger">移除</button>
-    </div>
+    <% end %>
+    
+    
   </div>
   
   <script>

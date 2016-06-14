@@ -9,9 +9,11 @@ class CompaniesController < ApplicationController
       
       # Create staffs
       staff_params[:stockholder_id].length.times do |i|
-        Staff.create(:company_id => @company.id,
-          :stockholder_id => staff_params[:stockholder_id][i],
-          :job_title => staff_params[:job_title][i])
+        if(staff_params[:job_title][i] != "")
+          Staff.create(:company_id => @company.id,
+            :stockholder_id => staff_params[:stockholder_id][i],
+            :job_title => staff_params[:job_title][i])
+        end
       end
       
       # Create identities
@@ -43,11 +45,10 @@ class CompaniesController < ApplicationController
   
   def new
     @company = Company.new
-    @staffs = Staff.new
-    @company.staffs.build
   end
   
   def edit
+    @staffs = Staff.where("company_id=?", @company.id)
   end
   
   def show
@@ -62,6 +63,16 @@ class CompaniesController < ApplicationController
   def update
     @company = Company.find(params[:id])
     if @company.update(company_params)
+      Staff.where(company_id: @company.id).destroy_all
+      
+      staff_params[:stockholder_id].length.times do |i|
+        if(staff_params[:job_title][i] != "")
+          Staff.create(:company_id => @company.id,
+            :stockholder_id => staff_params[:stockholder_id][i],
+            :job_title => staff_params[:job_title][i])
+        end
+      end
+      
       redirect_to company_path(@company)
     else
       set_data()
