@@ -39,11 +39,11 @@ class ReportController < ApplicationController
         tuple = Hash.new
         tuple[:name_zh] = Identity.find(c.buyer_id).self_detail.name_zh
         tuple[:stock_num] = c.stock_num
-        tuple[:percentage] = c.stock_num / @capital_increase.stock_num
+        tuple[:percentage] = (c.stock_num / @capital_increase.stock_num).round(5)
       
         @complete_tuple.push(tuple)
       else
-        @complete_tuple[@complete_tuple.length-1][:percentage] += c.stock_num / @capital_increase.stock_num
+        @complete_tuple[@complete_tuple.length-1][:percentage] += (c.stock_num / @capital_increase.stock_num).round(5)
         @complete_tuple[@complete_tuple.length-1][:stock_num] += c.stock_num
       end
       @last_s = @s
@@ -56,7 +56,7 @@ class ReportController < ApplicationController
       tuple[:transaction_id] = c.id
       tuple[:name_zh] = Identity.find(c.buyer_id).self_detail.name_zh
       tuple[:stock_num] = c.stock_num
-      tuple[:percentage] = c.stock_num / @capital_increase.stock_num
+      tuple[:percentage] = (c.stock_num / @capital_increase.stock_num).round(5)
       @ongoing_tuple.push(tuple)
     end
         
