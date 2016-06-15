@@ -1,14 +1,19 @@
 <div class="row">
   <form action="company_report" method="get">
-    <div class="col-md-4">
-      <select name="id" class="form-control main_select2">
-        <% @capital_increases.each do |c| %>
-          <option value="<%= c.id %>"><%= c.identity.self_detail.name_zh %> / <%= c.stock_class %> / <%= c.date_issued %></option>
+    <div class="col-md-3">
+      <select id="select_company_id" name="company_id" class="form-control main_select2">
+        <% @companies.each do |c| %>
+          <option value="<%= c.id %>"><%= c.name_zh %></option>
         <% end %>
       </select>
     </div>
     
     <div class="col-md-3">
+      <select id="select_stock" name="stock" class="form-control main_select2">
+      </select>
+    </div>
+    
+    <div class="col-md-2">
       <div class="input-group date" id="report_datetimepicker1">
         <input type="text" id="start_time" name="start_time" class="form-control" />
         <span class="input-group-addon">
@@ -19,7 +24,7 @@
     </div>
     
     
-    <div class="col-md-3">
+    <div class="col-md-2">
       <div class="input-group date" id="report_datetimepicker2">
         <input type="text" id="end_time" name="end_time" class="form-control" />
         <span class="input-group-addon">
@@ -29,7 +34,7 @@
       <span class="help-block no-margin-bottom">結束</span>
     </div>
       
-    <div class="col-md-2">
+    <div class="col-md-1">
       <button type="submit" class="btn btn-default">
         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
       </button>
@@ -38,8 +43,8 @@
 </div>
 
 <h1><strong>
-  <%= link_to @capital_increase.identity.self_detail.name_zh+" / "+@capital_increase.stock_class+" / "+@capital_increase.date_issued.to_s , url_for(params.merge(:format => :xls)) %>
-</h1></strong>
+  <%= link_to @capital_increase.identity.self_detail.name_zh+" / "+@capital_increase.stock_class+" / "+@capital_increase.date_issued.to_s , url_for(params.merge(:format => :xlsx)) %>
+</strong></h1>
 
 <div class="row">
   <div class="col-md-6">
@@ -51,6 +56,7 @@
          	  <th class="text-center">股東姓名</th>
          	  <th class="text-center">股數</th>
             <th class="text-center">占比</th>
+          </tr>
         </thead>
         <tbody>
           <% @complete_tuple.each do |t| %>
@@ -88,3 +94,5 @@
     </div>
   </div>
 </div>
+
+<%= javascript_include_tag('company_report.js') %>

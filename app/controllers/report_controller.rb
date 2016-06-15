@@ -2,6 +2,7 @@ class ReportController < ApplicationController
   
   def company_report
     @capital_increases = CapitalIncrease.all
+    @companies = Company.all
     
     start_time = Time.new(1970, 1, 1, 12, 10).to_date
     if(params.has_key?(:start_time) && params[:start_time] != "")
@@ -15,8 +16,12 @@ class ReportController < ApplicationController
       end_time.gsub! '/', '-'
     end
     
-    if params.has_key?(:id) && params[:id] != ""
-      @capital_increase = CapitalIncrease.find(params[:id])
+    if params.has_key?(:company_id) && params[:company_id] != "" && params.has_key?(:stock) && params[:stock] != ""
+      stock_hash = JSON.parse params[:stock]
+      puts stock_hash.inspect
+      @identity = Company.find(params[:company_id]).identity
+      @capital_increase = CapitalIncrease.where("identity_id=? AND stock_class=? AND date_issued=?", @identity.id, stock_hash["stock_class"], stock_hash["date_issued"])
+        .where("date_decreased is null OR date_decreased=?", "")[0]
     else
       @capital_increase = @capital_increases[0]
     end
@@ -62,7 +67,7 @@ class ReportController < ApplicationController
         
     respond_to do |format|
       format.html
-      format.xls do
+      format.xlsx do
         p = Axlsx::Package.new
         p.workbook.add_worksheet(:name => "股東占比") do |sheet|
           sheet.add_row ["股東姓名", "股數", "占比"]
@@ -108,7 +113,7 @@ class ReportController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.xls do
+      format.xlsx do
         column_names = ["股東姓名", "投資金額/幣別", "每股面額/幣別", "股數", "資料列印", "買方簽署日", "賣方簽署日", "合約生效日", "合約狀態", "更新日期"]
         p = Axlsx::Package.new
         p.workbook.add_worksheet(:name => "已完成合約") do |sheet|
@@ -254,7 +259,7 @@ class ReportController < ApplicationController
     
     respond_to do |format|
       format.html
-      format.xls do
+      format.xlsx do
         stockholder_col = ["", "英文姓名", "護照號碼", "國籍", "中文地址", "英文地址", "email",	"護照影本",	"簽名頁影本",	"郵寄地址影本"]
         transactions_col = ["", "意向書",	"Regular S", "USD合約",	"RMB合約", "購買協議", "W8BEN", "換股協議", "聲明書", "銀行水單"]
           

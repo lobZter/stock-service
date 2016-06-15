@@ -8,6 +8,9 @@ Rails.application.routes.draw do
   get   'lackinfo_report' => 'report#lackinfo_report'
   resources :stockholders, except: [:destory]
   resources :companies, except: [:destory, :index]
+  resources :companies do
+    resources :stocks, only: [:index]
+  end
   resources :capital_increases, except: [:show]
   resources :transactions, except: [:show]
   resources :identities do 
