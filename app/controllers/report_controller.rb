@@ -17,7 +17,8 @@ class ReportController < ApplicationController
     end
     
     if params.has_key?(:company_id) && params[:company_id] != "" && params.has_key?(:stock) && params[:stock] != ""
-      stock_hash = JSON.parse params[:stock]
+      stock_json = params[:stock].gsub "'", "\""
+      stock_hash = JSON.parse stock_json
       puts stock_hash.inspect
       @identity = Company.find(params[:company_id]).identity
       @capital_increase = CapitalIncrease.where("identity_id=? AND stock_class=? AND date_issued=?", @identity.id, stock_hash["stock_class"], stock_hash["date_issued"])

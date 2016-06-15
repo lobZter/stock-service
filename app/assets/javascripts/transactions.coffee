@@ -39,7 +39,7 @@ setView = () ->
   query.split('&').forEach (part) ->
     if part != ''
       item = part.split('=')
-      result[item[0]] = decodeURIComponent(item[1])
+      result[decodeURIComponent(item[0])] = decodeURIComponent(item[1])
     return
     
   if result["buyer_id"] != undefined
