@@ -1,7 +1,7 @@
 <div class="row">
   <form action="contract_report" method="get">
     <div class="col-md-4">
-      <select name="id" class="form-control main_select2">
+      <select id="select_capital_increase" name="id" class="form-control main_select2">
         <% @capital_increases.each do |c| %>
           <option value="<%= c.id %>"><%= c.identity.self_detail.name_zh %> / <%= c.stock_class %> / <%= c.date_issued %></option>
         <% end %>
@@ -219,3 +219,5 @@
     </table>
   </div>
 </div>
+
+<%= javascript_include_tag('contract_report.js') %>
