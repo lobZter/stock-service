@@ -35,26 +35,38 @@ class ReportController < ApplicationController
     @complete = @transactions.where("is_signed=? AND is_lacking=?", true, false).order(buyer_id: :asc)
     @ongoing = @transactions.where("is_signed=? OR is_lacking=?", false, true).order(stock_num: :desc)
     
-    
-    @complete_tuple = Array.new
-    @s = nil
-    @last_s = nil
-    @complete.each do |c|
-      @s = c.buyer_id
-      if(@s != @last_s)
-        tuple = Hash.new
-        tuple[:name_zh] = Identity.find(c.buyer_id).self_detail.name_zh
-        tuple[:stock_num] = c.stock_num
-        tuple[:percentage] = (c.stock_num / @capital_increase.stock_num).round(5)
-      
-        @complete_tuple.push(tuple)
-      else
-        @complete_tuple[@complete_tuple.length-1][:percentage] += (c.stock_num / @capital_increase.stock_num).round(5)
-        @complete_tuple[@complete_tuple.length-1][:stock_num] += c.stock_num
+    @complete_hash = Hash.new
+    @complete.each do |t|
+      if not @complete_hash.has_key? t.buyer_id
+        @complete_hash[t.buyer_id] = Hash.new
+        @complete_hash[t.buyer_id][:name_zh] = Identity.find(t.buyer_id).self_detail.name_zh
+        @complete_hash[t.buyer_id][:stock_num] = 0
+        @complete_hash[t.buyer_id][:percentage] = 0
       end
-      @last_s = @s
+      
+      if not @complete_hash.has_key? t.seller_id
+        @complete_hash[t.seller_id] = Hash.new
+        @complete_hash[t.seller_id][:name_zh] = Identity.find(t.seller_id).self_detail.name_zh
+        @complete_hash[t.seller_id][:stock_num] = 0
+        @complete_hash[t.seller_id][:percentage] = 0
+      end
     end
-    @complete_tuple.sort_by{|c| -c[:stock_num]}
+    
+    @complete_hash[@capital_increase.identity_id][:stock_num] += @capital_increase.stock_num
+    
+    @complete.each do |t|
+      @complete_hash[t.buyer_id][:stock_num] += t.stock_num
+      @complete_hash[t.seller_id][:stock_num] -= t.stock_num
+    end
+    
+    @complete_tuple = @complete_hash.values
+    
+    puts @complete_tuple
+    @complete_tuple.each do |c|
+      c[:percentage] = (c[:stock_num] / @capital_increase.stock_num).round(5)
+    end
+    @complete_tuple.sort_by! {|a| -a[:percentage]}
+    
     
     @ongoing_tuple = Array.new
     @ongoing.each do |c|

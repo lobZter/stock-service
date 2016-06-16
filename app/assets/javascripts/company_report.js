@@ -13,8 +13,6 @@ function setStockOption() {
       $('#select_stock').append("<option value=\"" + val + "\">" + show + "</option>");
       i++;
     }
-      
-    $('#select_stock').append("<option value='0'>0</option>");
   });
   
 }
