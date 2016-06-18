@@ -1,5 +1,11 @@
 $('body.report_company_report').ready ->
 
+  $('tr[data-link]').click ->
+    window.location = $(this).data('link')
+    return
+    
+  return
+
   $('#report_datetimepicker1')
   .datetimepicker({
      format: 'YYYY/MM/DD'
@@ -13,15 +19,13 @@ $('body.report_company_report').ready ->
   return
   
 $('body.report_contract_report').ready ->
-
   $('tr[data-link]').click ->
     window.location = $(this).data('link')
     return
     
   return
   
-$('body.report_company_report').ready ->
-
+$('body.report_lackinfo_report').ready ->
   $('tr[data-link]').click ->
     window.location = $(this).data('link')
     return

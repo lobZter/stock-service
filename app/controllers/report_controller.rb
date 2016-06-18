@@ -1,4 +1,5 @@
 class ReportController < ApplicationController
+  layout 'fluid_application', :only => :lackinfo_report
   
   def company_report
     @capital_increases = CapitalIncrease.all
@@ -201,6 +202,7 @@ class ReportController < ApplicationController
   end
   
   def lackinfo_report
+    @currency_array = [nil, "USD 美金", "RMB 人民幣", "NTD 新台幣"]
     @companies = Company.all
     if params.has_key?(:id) && params[:id] != ""
       @company = Company.find(params[:id])
@@ -209,86 +211,74 @@ class ReportController < ApplicationController
     end
 
     @transactions = Transaction.where("company_id=? AND is_lacking=?", @company.id, true).order(buyer_id: :asc, id: :asc)
-   
     @report = Array.new
-    @s = nil
-    @next_s = nil
     @tuple = nil
+    @stockholder_id = @transactions[0].buyer_id;
     
-    @transactions.length.times do |i|
-      t = @transactions[i]
-      @s = Identity.find(t.buyer_id).self_detail
-      @next_s = @transactions[i+1] ? Identity.find(@transactions[i+1].buyer_id).self_detail : nil
+    @transactions.each do |t|
+      @identity = Identity.find(t.buyer_id).self_detail
+      @tuple = Hash.new
       
-      if @next_s != @s
-        
-        @tuple = Hash.new
-        @tuple[:stockholder_info] = [
-            @s.name_zh,
-            @s.name_en? ? "O" : "X",
-            @s.passport? ? "O" : "X",
-            @s.country? ? "O" : "X",
-            @s.address_zh? ? "O" : "X",
-            @s.address_en? ? "O" : "X",
-            @s.email? ? "O" : "X",
-            @s.copy_passport? ? "O" : "X",
-            @s.copy_signature? ? "O" : "X",
-            @s.copy_mail_addr? ? "O" : "X"
-          ]
-        @tuple[:contract_info] = Array.new
-        @tuple[:contract_info].push(t.stock_class + " / " + t.date_issued.to_s)
-        @tuple[:contract_lack] = Array.new
-        lackinfo = [
-            t.contract_0_needed ? (t.contract_0? ? "O" : "X") : "-",
-            t.contract_1_needed ? (t.contract_1? ? "O" : "X") : "-",
-            t.contract_2_needed ? (t.contract_2? ? "O" : "X") : "-",
-            t.contract_3_needed ? (t.contract_3? ? "O" : "X") : "-",
-            t.contract_4_needed ? (t.contract_4? ? "O" : "X") : "-",
-            t.contract_5_needed ? (t.contract_5? ? "O" : "X") : "-",
-            t.contract_6_needed ? (t.contract_6? ? "O" : "X") : "-",
-            t.contract_7_needed ? (t.contract_7? ? "O" : "X") : "-",
-            t.contract_8? ? "O" : "X"
-          ]
-        @tuple[:contract_lack].push(lackinfo)
-        
-        @report.push(@tuple)
-        
-      else
-        lackinfo = [
-            t.contract_0_needed ? (t.contract_0? ? "O" : "X") : "-",
-            t.contract_1_needed ? (t.contract_1? ? "O" : "X") : "-",
-            t.contract_2_needed ? (t.contract_2? ? "O" : "X") : "-",
-            t.contract_3_needed ? (t.contract_3? ? "O" : "X") : "-",
-            t.contract_4_needed ? (t.contract_4? ? "O" : "X") : "-",
-            t.contract_5_needed ? (t.contract_5? ? "O" : "X") : "-",
-            t.contract_6_needed ? (t.contract_6? ? "O" : "X") : "-",
-            t.contract_7_needed ? (t.contract_7? ? "O" : "X") : "-",
-            t.contract_8? ? "O" : "X"
-          ]
-        @tuple[:contract_lack].push(lackinfo)
+      @tuple[:transaction_id] = t.id
       
+      if @identity.class.name == "Stockholder"
+        @tuple[:name_zh] = @identity.name_zh
+        @tuple[:fund] = t.fund_original.to_s + "/" + @currency_array[t.currency_original]
+        @tuple[:stock_price] = t.stock_price.to_s + "/" + @currency_array[@company.currency]
+        @tuple[:stock_num] = t.stock_num.to_s
+        @tuple[:name_en] = @identity.name_en? ? "O" : "X"
+        @tuple[:passport] = @identity.passport? ? "O" : "X"
+        @tuple[:country] = @identity.country? ? "O" : "X"
+        @tuple[:address_zh] = @identity.address_zh? ? "O" : "X"
+        @tuple[:address_en] = @identity.address_en? ? "O" : "X"
+        @tuple[:email] = @identity.email? ? "O" : "X"
+        @tuple[:copy_passport] = @identity.copy_passport? ? "O" : "X"
+        @tuple[:copy_signature] = @identity.copy_signature? ? "O" : "X"
+        @tuple[:copy_mail_addr] = @identity.copy_mail_addr? ? "O" : "X"
       end
+      
+      if @identity.class.name == "Company"
+        @tuple[:name_zh] = @identity.name_zh
+        @tuple[:fund] = t.fund_original + "/" + @currency_array[t.currency_original]
+        @tuple[:stock_price] = t.stock_price + "/" + @currency_array[@company.currency]
+        @tuple[:stock_num] = t.stock_num
+        @tuple[:name_en] = @identity.name_en? ? "O" : "X"
+        @tuple[:passport] = "-"
+        @tuple[:country] = "-"
+        @tuple[:address_zh] = "-"
+        @tuple[:address_en] = "-"
+        @tuple[:email] = "-"
+        @tuple[:copy_passport] = "-"
+        @tuple[:copy_signature] = "-"
+        @tuple[:copy_mail_addr] = "-"
+      end
+      
+      @tuple[:contract_0] = t.contract_0_needed ? (t.contract_0? ? "O" : "X") : "-"
+      @tuple[:contract_1] = t.contract_1_needed ? (t.contract_1? ? "O" : "X") : "-"
+      @tuple[:contract_2] = t.contract_2_needed ? (t.contract_2? ? "O" : "X") : "-"
+      @tuple[:contract_3] = t.contract_3_needed ? (t.contract_3? ? "O" : "X") : "-"
+      @tuple[:contract_4] = t.contract_4_needed ? (t.contract_4? ? "O" : "X") : "-"
+      @tuple[:contract_5] = t.contract_5_needed ? (t.contract_5? ? "O" : "X") : "-"
+      @tuple[:contract_6] = t.contract_6_needed ? (t.contract_6? ? "O" : "X") : "-"
+      @tuple[:contract_7] = t.contract_7_needed ? (t.contract_7? ? "O" : "X") : "-"
+      @tuple[:contract_8] = t.contract_8? ? "O" : "X"
+      
+      @report.push(@tuple)
     end
     
     respond_to do |format|
       format.html
       format.xlsx do
-        stockholder_col = ["", "英文姓名", "護照號碼", "國籍", "中文地址", "英文地址", "email",	"護照影本",	"簽名頁影本",	"郵寄地址影本"]
-        transactions_col = ["", "意向書",	"Regular S", "USD合約",	"RMB合約", "購買協議", "W8BEN", "換股協議", "聲明書", "銀行水單"]
+        head_col = ["中文名字", "投資金額/幣別", "每股面額/幣別",	"股數",
+          "英文名字", "護照號碼", "國籍", "中文地址", "英文地址", "email",
+          "護照影本",	"簽名頁影本",	"郵寄地址影本",
+          "意向書",	"Regular S", "USD合約",	"RMB合約", "購買協議", "W8BEN", "換股協議", "聲明書", "銀行水單"]
           
         p = Axlsx::Package.new
-        p.workbook.add_worksheet(:name => "股東占比") do |sheet|
+        p.workbook.add_worksheet(:name => "未完成交易") do |sheet|
+          sheet.add_row head_col
           @report.each do |r|
-            sheet.add_row stockholder_col
-            sheet.add_row r[:stockholder_info]
-            sheet.add_row transactions_col
-            r[:contract_lack].length.times do |i|
-              tuple = r[:contract_lack][i]
-              tuple.insert(0, r[:contract_info][i])
-              sheet.add_row tuple
-            end
-            sheet.add_row [""]
-            sheet.add_row [""]
+            sheet.add_row r.except(:transaction_id).values
           end
         end
  

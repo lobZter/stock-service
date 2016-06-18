@@ -20,71 +20,64 @@
   <%= link_to @company.name_zh, url_for(params.merge(:format => :xlsx)) %>
 </strong></h1>
 
-<% @report.each do |r| %>
-  <div class="row">
-    <h3><strong><%= r[:stockholder_info][0] %></strong></h3>
-    <div class="well">
-      <table class="table table-hover text-center">
-        <thead>
-          <tr>
-         	  <th class="text-center">英文姓名</th>
-         	  <th class="text-center">護照號碼</th>
-         	  <th class="text-center">國籍</th>
-            <th class="text-center">中文地址</th>
-            <th class="text-center">英文地址</th>
-            <th class="text-center">email</th>
-            <th class="text-center">護照影本</th>
-            <th class="text-center">簽名頁影本</th>
-            <th class="text-center">郵寄地址影本</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td><%= to_icon(r[:stockholder_info][1]) %></td>
-            <td><%= to_icon(r[:stockholder_info][2]) %></td>
-            <td><%= to_icon(r[:stockholder_info][3]) %></td>
-            <td><%= to_icon(r[:stockholder_info][4]) %></td>
-            <td><%= to_icon(r[:stockholder_info][5]) %></td>
-            <td><%= to_icon(r[:stockholder_info][6]) %></td>
-            <td><%= to_icon(r[:stockholder_info][7]) %></td>
-            <td><%= to_icon(r[:stockholder_info][8]) %></td>
-            <td><%= to_icon(r[:stockholder_info][9]) %></td>
+<div class="row">
+  <div class="well">
+    <table class="table table-hover text-center">
+      <thead>
+        <tr>
+       	  <th class="text-center">中文名字</th>
+       	  <th class="text-center">投資金額/幣別</th>
+       	  <th class="text-center">每股面額/幣別	</th>
+       	  <th class="text-center">股數</th>
+       	  <th class="text-center">英文名字</th>
+       	  <th class="text-center">護照號碼</th>
+       	  <th class="text-center">國籍</th>
+          <th class="text-center">中文地址</th>
+          <th class="text-center">英文地址</th>
+          <th class="text-center">email</th>
+          <th class="text-center">護照影本</th>
+          <th class="text-center">簽名頁影本</th>
+          <th class="text-center">郵寄地址影本</th>
+          <th class="text-center">意向書</th>
+       	  <th class="text-center">Regular S</th>
+          <th class="text-center">USD合約</th>
+          <th class="text-center">RMB合約</th>
+          <th class="text-center">購買協議</th>
+          <th class="text-center">W8BEN</th>
+          <th class="text-center">換股協議</th>
+          <th class="text-center">聲明書</th>
+          <th class="text-center">銀行水單</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @report.each do |r| %>
+          <tr data-link="<%= edit_transaction_path(r[:transaction_id]) %>" class="tr-clickable">
+            <td><strong><%= r[:name_zh] %></strong></td>
+            <td><%= r[:fund] %></td>
+            <td><%= r[:stock_price] %></td>
+            <td><%= r[:stock_num] %></td>
+            <td><%= to_icon(r[:name_en]) %></td>
+            <td><%= to_icon(r[:passport]) %></td>
+            <td><%= to_icon(r[:country]) %></td>
+            <td><%= to_icon(r[:address_zh]) %></td>
+            <td><%= to_icon(r[:address_en]) %></td>
+            <td><%= to_icon(r[:email]) %></td>
+            <td><%= to_icon(r[:copy_passport]) %></td>
+            <td><%= to_icon(r[:copy_signature]) %></td>
+            <td><%= to_icon(r[:copy_mail_addr]) %></td>
+            
+            <td><%= to_icon(r[:contract_0]) %></td>
+            <td><%= to_icon(r[:contract_1]) %></td>
+            <td><%= to_icon(r[:contract_2]) %></td>
+            <td><%= to_icon(r[:contract_3]) %></td>
+            <td><%= to_icon(r[:contract_4]) %></td>
+            <td><%= to_icon(r[:contract_5]) %></td>
+            <td><%= to_icon(r[:contract_6]) %></td>
+            <td><%= to_icon(r[:contract_7]) %></td>
+            <td><%= to_icon(r[:contract_8]) %></td>
      	    </tr>
-        </tbody>
-      </table>
-  
-      <table class="table table-hover text-center">
-        <thead>
-          <tr>
-            <th></th>
-         	  <th class="text-center">意向書</th>
-         	  <th class="text-center">Regular S</th>
-            <th class="text-center">USD合約</th>
-            <th class="text-center">RMB合約</th>
-            <th class="text-center">購買協議</th>
-            <th class="text-center">W8BEN</th>
-            <th class="text-center">換股協議</th>
-            <th class="text-center">聲明書</th>
-            <th class="text-center">銀行水單</th>
-          </tr>
-        </thead>
-        <tbody>
-          <% r[:contract_lack].length.times do |i| %>
-            <tr>
-              <th><%= r[:contract_info][i] %></th>
-              <td><%= to_icon(r[:contract_lack][i][0]) %></td>
-              <td><%= to_icon(r[:contract_lack][i][1]) %></td>
-              <td><%= to_icon(r[:contract_lack][i][2]) %></td>
-              <td><%= to_icon(r[:contract_lack][i][3]) %></td>
-              <td><%= to_icon(r[:contract_lack][i][4]) %></td>
-              <td><%= to_icon(r[:contract_lack][i][5]) %></td>
-              <td><%= to_icon(r[:contract_lack][i][6]) %></td>
-              <td><%= to_icon(r[:contract_lack][i][7]) %></td>
-              <td><%= to_icon(r[:contract_lack][i][8]) %></td>
-       	    </tr>
-       	  <% end %>
-        </tbody>
-      </table>
-    </div>
+        <% end %>
+      </tbody>
+    </table>
   </div>
-<% end %>
+</div>
