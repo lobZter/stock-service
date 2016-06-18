@@ -1,3 +1,11 @@
+function showHide(id) {
+  
+  if($("#"+id).is(':visible'))
+    $("#"+id).slideUp();
+  else
+    $("#"+id).slideDown();
+}
+
 function setInput() {
   var result = {};
   
