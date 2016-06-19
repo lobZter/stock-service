@@ -39,6 +39,17 @@ class CompaniesController < ApplicationController
       redirect_to company_path(@company)
     else
       set_data()
+      
+      @staffs = Array.new
+      
+      staff_params[:stockholder_id].length.times do |i|
+        @staff = Staff.new({
+          :stockholder_id => staff_params[:stockholder_id][i],
+          :job_title => staff_params[:job_title][i]})
+        @staffs.push(@staff)
+      end
+      
+      
       render :action => :new
     end
   end

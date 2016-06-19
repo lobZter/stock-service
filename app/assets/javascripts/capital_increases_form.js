@@ -58,3 +58,10 @@ function checkForm() {
   return false;
   
 }
+
+
+$(function() {
+  $('.fund-input').change(function(){
+    
+  });
+});
