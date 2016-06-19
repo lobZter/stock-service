@@ -58,7 +58,12 @@ $('body.capital_increases_new').ready ->
     setStockClass()
     return
     
-    
+  $(".investor_select2").select2({theme: "bootstrap"})
+  
+  $(".remove_btn").click ->
+    $(this).parent().remove()
+    return
+  
   return
   
   

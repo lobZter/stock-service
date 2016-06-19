@@ -63,7 +63,7 @@ class CompaniesController < ApplicationController
   def update
     @company = Company.find(params[:id])
     if @company.update(company_params)
-      Staff.where(company_id: @company.id).destroy_all
+      Staff.where("company_id=?", @company.id).destroy_all
       
       staff_params[:stockholder_id].length.times do |i|
         if(staff_params[:job_title][i] != "")

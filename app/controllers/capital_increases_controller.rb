@@ -22,6 +22,18 @@ class CapitalIncreasesController < ApplicationController
     @capital_increase = CapitalIncrease.new(capital_increase_params.merge({:stock_checked => false, :is_first => false}))
 
     if @capital_increase.save
+      # Create investors
+      investor_params[:stockholder_id].length.times do |i|
+        if(investor_params[:fund][i] != "" && investor_params[:stock_num][i] != "")
+          
+          Investor.create(:capital_increase_id => @capital_increase.id,
+            :stockholder_id => investor_params[:stockholder_id][i],
+            :fund => investor_params[:fund][i],
+            :stock_price => @capital_increase.stock_price,
+            :stock_num => investor_params[:stock_num][i])
+        end
+      end
+      
       redirect_to root_path
     else
       set_data()
@@ -47,11 +59,25 @@ class CapitalIncreasesController < ApplicationController
   
   # GET /capital_increases/:id/edit
   def edit
+    @investors = Investor.where("capital_increase_id=?", @capital_increase.id)
   end
   
   # PUT /capital_increases/:id
   def update
     if @capital_increase.update(capital_increase_params)
+      Investor.where("capital_increase_id=?", @capital_increase.id).destroy_all
+      
+      investor_params[:stockholder_id].length.times do |i|
+        if(investor_params[:fund][i] != "" && investor_params[:stock_num][i] != "")
+          
+          Investor.create(:capital_increase_id => @capital_increase.id,
+            :stockholder_id => investor_params[:stockholder_id][i],
+            :fund => investor_params[:fund][i],
+            :stock_price => @capital_increase.stock_price,
+            :stock_num => investor_params[:stock_num][i])
+        end
+      end
+      
       redirect_to capital_increases_path
     else
       set_data()
@@ -63,7 +89,6 @@ class CapitalIncreasesController < ApplicationController
   def destroy
     
     if !@capital_increase.is_first
-    
       if @capital_increase.stock_checked
     
         remaining_stock = Stock.where("company_id=?", @capital_increase.identity.company_id)
@@ -103,7 +128,6 @@ class CapitalIncreasesController < ApplicationController
       else
         @capital_increase.destroy
       end
-      
     else
       flash[:errors] = "此筆為起始資本 無法刪除此筆增資"
     end
@@ -115,6 +139,7 @@ class CapitalIncreasesController < ApplicationController
   private
   def set_data
     @companies = Company.all
+    @stockholders = Stockholder.all
     @currency_array = Currency.types
   end
   
@@ -125,5 +150,9 @@ class CapitalIncreasesController < ApplicationController
   def capital_increase_params
     params.require(:capital_increase).permit(:identity_id, :date_issued, :fund, :currency,
         :stock_price, :stock_num, :remark, :created_at, :updated_at, :stock_class, :date_decreased)
+  end
+  
+  def investor_params
+    params.require(:investor).permit({stockholder_id: []}, {fund: []}, {stock_num: []})
   end
 end
