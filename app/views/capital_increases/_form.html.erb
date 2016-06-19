@@ -1,6 +1,8 @@
 <%= render :partial => 'layouts/flash' %>
 
-<%= form_for @capital_increase do |f| %>
+<div id="flash"></div>
+
+<%= form_for @capital_increase, :html => {"onsubmit": "return checkForm(this);"} do |f| %>
 <div class="panel panel-default">
   <div class="panel-heading">公司增資</div>
   <div class="panel-body">
@@ -110,11 +112,11 @@
               </div>
               <div class="form-group">
                 <label>金額</label>
-                <input type="text" name="investor[fund][]" class="form-control" value="<%= i.fund %>">
+                <input type="text" name="investor[fund][]" class="fund-input form-control" value="<%= i.fund %>">
               </div>
               <div class="form-group">
                 <label>股數</label>
-                <input type="text" name="investor[stock_num][]" class="form-control" value="<%= i.stock_num %>">
+                <input type="text" name="investor[stock_num][]" class="stock_num-input form-control" value="<%= i.stock_num %>">
               </div>
             </div>
             <button type="button" id="remove_btn" class="remove_btn btn btn-danger btn-sm">移除</button>
@@ -171,3 +173,5 @@
     });  
   });
 </script>
+
+<%= javascript_include_tag('capital_increases_form.js') %>
