@@ -1,13 +1,20 @@
 function checkForm() {
   
+  $('#flash').empty();
+  
   var flash_str = 
     '<div class="alert alert-danger">'+
     '<ul class="custom-list" style="display: inline-block">';
   
   var fundTotal = parseInt($('#capital_increase_fund').val());
+  
   if(!isNaN(fundTotal)) {
     $('.fund-input').each(function(){
       var val = parseInt($(this).val());
+      console.log(val);
+      console.log(typeof(val));
+      console.log(isNaN(val));
+  
       if(!isNaN(val))
         fundTotal -= val;
     });
@@ -18,21 +25,25 @@ function checkForm() {
     flash_str += '<li>投資人總資金和不符</li>';
   }
   
-  var StockNumTotal = parseInt($('#capital_increase_stock_num').val());
-  if(!isNaN(StockNumTotal)) {
+  var stockNumTotal = parseInt($('#capital_increase_stock_num').val());
+  if(!isNaN(stockNumTotal)) {
     $('.stock_num-input').each(function(){
       var val = parseInt($(this).val());
       if(!isNaN(val))
-        StockNumTotal -= val;
+        stockNumTotal -= val;
     });
-    if(StockNumTotal != 0)
+    if(stockNumTotal != 0)
       flash_str += '<li>投資人總股數和不符</li>';
   }
   else {
     flash_str += '<li>投資人總股數和不符</li>';
   }
   
-  if(fundTotal == 0 && StockNumTotal == 0)
+  // console.log(fundTotal);
+  // console.log(stockNumTotal);
+  
+  
+  if(fundTotal == 0 && stockNumTotal == 0)
     return true;
   
   flash_str += 
@@ -42,7 +53,7 @@ function checkForm() {
     '</button>'+
     '</div>';
     
-  $('#flash').empty();
+  
   $('#flash').append(flash_str);
   return false;
   

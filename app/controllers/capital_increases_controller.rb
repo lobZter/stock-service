@@ -36,6 +36,16 @@ class CapitalIncreasesController < ApplicationController
       
       redirect_to root_path
     else
+      @investors = Array.new
+      
+      investor_params[:stockholder_id].length.times do |i|
+        @investor = Investor.new({
+          :stockholder_id => investor_params[:stockholder_id][i],
+          :fund => investor_params[:fund][i],
+          :stock_num => investor_params[:stock_num][i]})
+        @investors.push(@investor)
+      end
+      
       set_data()
       puts @capital_increase.errors.messages.inspect
       if @capital_increase.errors.messages.key?(:stock_num) && @capital_increase.errors.messages[:stock_num][0] == "減資失敗: 擁有股票數量不足"
@@ -47,6 +57,9 @@ class CapitalIncreasesController < ApplicationController
       elsif @capital_increase.errors.messages.key?(:date_issued) && @capital_increase.errors.messages[:date_issued][0] == "增資失敗: 不可增資同發行日期之股票"
         flash.now[:date_issued] = @capital_increase.errors.messages[:date_issued][0]
       end
+      
+      
+      
       render :action => :new
     end
 
