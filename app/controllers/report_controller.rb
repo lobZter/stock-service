@@ -37,6 +37,11 @@ class ReportController < ApplicationController
     @ongoing = @transactions.where("is_signed=? OR is_lacking=?", false, true).order(stock_num: :desc)
     
     @complete_hash = Hash.new
+    @complete_hash[@capital_increase.identity_id] = Hash.new
+    @complete_hash[@capital_increase.identity_id][:stock_num] = @capital_increase.stock_num
+    @complete_hash[@capital_increase.identity_id][:name_zh] = Identity.find(@capital_increase.identity_id).self_detail.name_zh
+    @complete_hash[@capital_increase.identity_id][:percentage] = 0
+    
     @complete.each do |t|
       if not @complete_hash.has_key? t.buyer_id
         @complete_hash[t.buyer_id] = Hash.new
@@ -52,8 +57,6 @@ class ReportController < ApplicationController
         @complete_hash[t.seller_id][:percentage] = 0
       end
     end
-    
-    @complete_hash[@capital_increase.identity_id][:stock_num] += @capital_increase.stock_num
     
     @complete.each do |t|
       @complete_hash[t.buyer_id][:stock_num] += t.stock_num
