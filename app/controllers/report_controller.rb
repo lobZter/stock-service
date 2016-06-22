@@ -20,7 +20,7 @@ class ReportController < ApplicationController
     if params.has_key?(:company_id) && params[:company_id] != "" && params.has_key?(:stock) && params[:stock] != ""
       stock_json = params[:stock].gsub "'", "\""
       stock_hash = JSON.parse stock_json
-      puts stock_hash.inspect
+      
       @identity = Company.find(params[:company_id]).identity
       @capital_increase = CapitalIncrease.where("identity_id=? AND stock_class=? AND date_issued=?", @identity.id, stock_hash["stock_class"], stock_hash["date_issued"])
         .where("date_decreased is null OR date_decreased=?", "")[0]
@@ -33,7 +33,7 @@ class ReportController < ApplicationController
     @transactions = Transaction.where("company_id=? AND stock_class=? AND date_issued=? AND date_signed>=? AND date_signed<=?",
       @capital_increase.identity.company_id, @capital_increase.stock_class, @capital_increase.date_issued, start_time, end_time)
       
-    @complete = @transactions.where("is_signed=? AND is_lacking=?", true, false).order(buyer_id: :asc)
+    @complete = @transactions.where("is_signed=? AND is_lacking=?", true, false)
     @ongoing = @transactions.where("is_signed=? OR is_lacking=?", false, true).order(stock_num: :desc)
     
     @complete_hash = Hash.new
@@ -64,8 +64,6 @@ class ReportController < ApplicationController
     end
     
     @complete_tuple = @complete_hash.values
-    
-    puts @complete_tuple
     @complete_tuple.each do |c|
       c[:percentage] = (c[:stock_num] / @capital_increase.stock_num).round(5)
     end

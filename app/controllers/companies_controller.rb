@@ -69,6 +69,7 @@ class CompaniesController < ApplicationController
     @transactions = @identity.recent_transactions
     @capital_increases = @identity.recent_capital_increase
     @staffs = Staff.where("company_id=?", @company.id)
+    @stock_percentage = @company.stock_percentage
   end
   
   def update

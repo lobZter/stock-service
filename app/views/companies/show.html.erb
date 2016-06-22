@@ -123,8 +123,33 @@
     </tbody>
   </table>
   
+  <h3 class="margin-top: 20px" style="display: inline-block"><strong>股東</strong></h3> <span class="help-block" style="display: inline-block">交易完成之持股</span>
+  <table class="table table-hover">
+    <thead>
+      <th>股東</th>
+      <th>持有股數</th>
+      <th>占比</th>
+    </thead>
+    <% if @stock_percentage.size == 0 %>
+      <tr><td colspan="3">無資料</td></tr>
+    <% else %>
+      <% @stock_percentage.each do |s| %>
+        <tr>
+          <% if s[:percentage] >= 0.95 %>
+            <td><strong><%= s[:name_zh] %></strong></td>
+            <td><strong><%= s[:stock_num] %></strong></td>
+            <td><strong><%= s[:percentage] %></strong></td>
+          <% else %>
+            <td><%= s[:name_zh] %></td>
+            <td><%= s[:stock_num] %></td>
+            <td><%= s[:percentage] %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+  </table>
   
-  <h3 class="margin-top: 20px"><strong>持有股票</strong></h3>
+  <h3 class="margin-top: 20px" style="display: inline-block"><strong>持股</strong></h3> <span class="help-block" style="display: inline-block">包括未完成交易之持股</span>
   <table class="table table-hover">
     <thead>
       <th>發行公司</th>
