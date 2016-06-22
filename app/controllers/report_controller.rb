@@ -216,7 +216,6 @@ class ReportController < ApplicationController
     @transactions = Transaction.where("company_id=? AND is_lacking=?", @company.id, true).order(buyer_id: :asc, id: :asc)
     @report = Array.new
     @tuple = nil
-    @stockholder_id = @transactions[0].buyer_id;
     
     @transactions.each do |t|
       @identity = Identity.find(t.buyer_id).self_detail
