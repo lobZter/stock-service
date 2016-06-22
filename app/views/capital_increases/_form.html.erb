@@ -23,7 +23,7 @@
           <datalist id="stock_class_list">
           </datalist>
         <% else %>
-          <input class="form-control" value="<%= @capital_increase.stock_class %>" readonly >
+          <input id="capital_increase_stock_class" class="form-control" value="<%= @capital_increase.stock_class %>" readonly >
         <% end %>
         <span class="help-block no-margin-bottom">可填新類型，也可選既有的類型</span>
       </div>
@@ -49,7 +49,7 @@
         <% if @capital_increase.new_record? %>
           <%= f.text_field :fund, {class: 'form-control auto-calculate'} %>
         <% else %>
-          <input class="form-control" value="<%= @capital_increase.fund %>" readonly >
+          <input id="capital_increase_fund" class="form-control" value="<%= @capital_increase.fund %>" readonly >
         <% end %>
         <span class="help-block no-margin-bottom">減資請填負數</span>
       </div>
@@ -76,7 +76,7 @@
         <% if @capital_increase.new_record? %>
         <%= f.text_field :stock_num, {class: 'form-control'} %>
         <% else %>
-          <input class="form-control" value="<%= @capital_increase.stock_num %>" readonly >
+          <input id="capital_increase_stock_num" class="form-control" value="<%= @capital_increase.stock_num %>" readonly >
         <% end %>
         <span class="help-block no-margin-bottom">減資請填負數</span>
       </div>
