@@ -78,6 +78,7 @@ class TransactionsController < ApplicationController
   # PUT /transactions/:id
   def update
     if @transaction.update(transaction_params)
+      flash[:saved] = "以儲存"
       redirect_to edit_transaction_path(@transaction)
     else
       set_data()

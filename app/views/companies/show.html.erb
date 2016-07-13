@@ -136,7 +136,7 @@
       <% @stock_percentage.each do |s| %>
         <tr>
           <% if s[:percentage] >= 0.95 %>
-            <td><strong><%= s[:name_zh] %></strong></td>
+            <td><strong><%= s[:name_zh] %> *</strong></td>
             <td><strong><%= s[:stock_num] %></strong></td>
             <td><strong><%= s[:percentage] %></strong></td>
           <% else %>

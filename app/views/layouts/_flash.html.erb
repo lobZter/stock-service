@@ -1,12 +1,23 @@
 <% if !flash.empty? %>
-  <div class="alert alert-danger">
-    <ul class="custom-list" style="display: inline-block">
-      <% flash.each do |key, value| %>
-        <li ><%= value %></li>
-      <% end %>
-    </ul>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
+  <% if flash[:saved] %>
+    <div class="alert alert-success">
+      <ul class="success-list" style="display: inline-block">
+        <li><%= flash[:saved] %></li>
+      </ul>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>  
+  <% else %>
+    <div class="alert alert-danger">
+      <ul class="custom-list" style="display: inline-block">
+        <% flash.each do |key, value| %>
+          <li ><%= value %></li>
+        <% end %>
+      </ul>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+  <% end %>
 <% end %>
