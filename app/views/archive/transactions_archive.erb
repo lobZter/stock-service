@@ -1,0 +1,80 @@
+<div class="row" style="margin-left: 0px; margin-right: 0px; margin-top:30px">
+<table class="table table-hover text-center">
+  <thead>
+    <tr>
+      <th class="text-center" style="font-size: 0.5em;">交易日期</th>
+   	  <th class="text-center" style="font-size: 0.5em;">買方</th>
+   	  <th class="text-center" style="font-size: 0.5em;">賣方</th>
+   	  <th class="text-center" style="font-size: 0.5em;">股票</th>
+   	  <th class="text-center" style="font-size: 0.5em;">股數</th>
+      <th class="text-center" style="font-size: 0.5em;" width="60px" >意向書</th>
+      <th class="text-center" style="font-size: 0.5em;" width="60px" >Regular S</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >USD合約</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >RMB合約</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >購買協議</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >W8BEN</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >換股協議</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >聲明書</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >銀行水單</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >合約寄買方</th>
+   	  <th class="text-center" style="font-size: 0.5em;" width="60px" >合約寄賣方</th>
+   	  <% if session[:is_admin] %>
+   	  <th class="text-center" style="font-size: 0.5em" width="60px" >編輯</th>
+   	  <th class="text-center" style="font-size: 0.5em" width="60px" >刪除</th>
+   	  <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @transactions.each do |t| %>
+    <tr>
+      <td style="white-space: nowrap"><%= t.date_signed %></td>
+   	  <td style="white-space: nowrap">
+   	    <% if @identities[t.buyer_id].class.name == "Stockholder" %>
+   	    <%= link_to @identities[t.buyer_id].name_zh, stockholder_path(@identities[t.buyer_id]) %>
+   	    <% elsif @identities[t.buyer_id].class.name == "Company" %>
+   	    <%= link_to @identities[t.buyer_id].name_zh, company_path(@identities[t.buyer_id]) %>
+   	    <% end %>
+   	  </td>
+   	  <td style="white-space: nowrap">
+   	    <% if @identities[t.seller_id].class.name == "Stockholder" %>
+   	    <%= link_to @identities[t.seller_id].name_zh, stockholder_path(@identities[t.seller_id]) %>
+   	    <% elsif @identities[t.seller_id].class.name == "Company" %>
+   	    <%= link_to @identities[t.seller_id].name_zh, company_path(@identities[t.seller_id]) %>
+   	    <% end %>
+   	  </td>
+   	  <td style="white-space: nowrap"><%= @company_names[t.company_id] %> / <%= t.stock_class %> / <%= t.date_issued %></td>
+   	  <td style="white-space: nowrap"><%= t.stock_num %></td>
+   	  
+   	  <td><%= status_check(t.contract_0_needed, t.contract_0?) %></td>
+   	  <td><%= status_check(t.contract_1_needed, t.contract_1?) %></td>
+   	  <td><%= status_check(t.contract_2_needed, t.contract_2?) %></td>
+   	  <td><%= status_check(t.contract_3_needed, t.contract_3?) %></td>
+   	  <td><%= status_check(t.contract_4_needed, t.contract_4?) %></td>
+   	  <td><%= status_check(t.contract_5_needed, t.contract_5?) %></td>
+   	  <td><%= status_check(t.contract_6_needed, t.contract_6?) %></td>
+   	  <td><%= status_check(t.contract_7_needed, t.contract_7?) %></td>
+   	  <td><%= status_check(true, t.contract_8?) %></td>
+   	  
+   	  <td>
+   	    <% if t.send_buyer? %>
+   	      <%= t.send_buyer %>
+   	    <% else %>  
+   	      <span class="glyphicon glyphicon-remove"></span>
+   	    <% end %>
+   	  </td>
+   	  <td>
+   	    <% if t.send_seller? %>
+   	      <%= t.send_seller %>
+   	    <% else %>  
+   	      <span class="glyphicon glyphicon-remove"></span>
+   	    <% end %>
+   	  </td>
+      <% if session[:is_admin] %>
+   	  <td><%= link_to 'Edit', edit_transaction_path(t), class: "btn btn-success btn-xs" %></td>
+   	  <td><%= button_to 'Del', transaction_path(t), {method: "delete", class: "btn btn-danger btn-xs", data: {confirm: "確定刪除?"}} %></td>
+   	  <% end %>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+</div>
