@@ -54,6 +54,7 @@ class TransactionsController < ApplicationController
     
 
     if @transaction.save
+      flash[:saved] = "以儲存"
       redirect_to edit_transaction_path(@transaction)
     else
       set_data()
@@ -69,10 +70,12 @@ class TransactionsController < ApplicationController
   # GET /transactions/new
   def new
     @transaction = Transaction.new
+    @title = "新增交易"
   end
   
   # GET /transactions/:id/edit
   def edit
+    @title = "修改交易"
   end
   
   # PUT /transactions/:id

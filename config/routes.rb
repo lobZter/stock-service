@@ -11,8 +11,8 @@ Rails.application.routes.draw do
   get   'transaction_archive' => 'archive#transaction_archive'
   get   'capital_increase_archive' => 'archive#capital_increase_archive'
   
-  resources :stockholders, except: [:destory]
-  resources :companies, except: [:destory, :index]
+  resources :stockholders
+  resources :companies
   resources :companies do
     resources :stocks, only: [:index]
   end

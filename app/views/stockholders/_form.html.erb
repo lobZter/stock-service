@@ -1,121 +1,121 @@
 <%= form_for @stockholder do |f| %>
   
-  <div class="panel panel-default">
-    <div class="panel-heading">基本資料</div>
-    <div class="panel-body">
-      
-      <div class="form-group">
-        <%= f.label :name_zh, "中文姓名" %>
-        <%= f.text_field :name_zh, class: "form-control", placeholder: "請輸入中文姓名" %>
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">基本資料</div>
+      <div class="panel-body">
+        
+        <div class="form-group">
+          <%= f.label :name_zh, "中文姓名*" %>
+          <%= f.text_field :name_zh, class: "form-control" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :name_en, "英文姓名" %>
+          <%= f.text_field :name_en, class: "form-control" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :passport, "護照號碼*" %>
+          <%= f.text_field :passport, class: "form-control" %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :country, "國籍" %>
+          <%= f.text_field :country, class: "form-control" %>
+        </div>
+        
+        <label>是否成年(年滿21歲)</label>
+        <div class="checkbox" style="margin-top:8px">
+          <label>
+            <%= f.check_box :is21 %> 已成年
+          </label>
+        </div>
+  
+        <div class="form-group">
+          <%= f.label :representative, "代理人" %>
+          <%= f.text_field :representative, class: "form-control" %>
+          <span class="help-block">若未成年請填寫此欄</span>
+        </div>
+        
+        <div class="form-group">
+          <label for="stockholder_copy_passport">上傳護照影本</label>
+          <%= f.file_field :copy_passport, class: "filestyle", "data-buttonText": "選擇檔案", "data-buttonBefore": "true" %>
+        </div>
+        <div class="form-group">
+          <label for="stockholder_copy_signature">上傳簽名頁影本</label>
+          <%= f.file_field :copy_signature, class: "filestyle", "data-buttonText": "選擇檔案", "data-buttonBefore": "true" %>
+        </div>
+        <div class="form-group">
+          <label for="stockholder_copy_signature">上傳郵寄地址影本</label>
+          <%= f.file_field :copy_mail_addr, class: "filestyle", "data-buttonText": "選擇檔案", "data-buttonBefore": "true" %>
+        </div>
+        
       </div>
-      
-      <div class="form-group">
-        <%= f.label :name_en, "英文姓名" %>
-        <%= f.text_field :name_en, class: "form-control", placeholder: "請輸入英文姓名" %>
-      </div>
-      
-      <div class="form-group">
-        <%= f.label :passport, "護照號碼" %>
-        <%= f.text_field :passport, class: "form-control", placeholder: "請輸入護照號碼" %>
-      </div>
-      
-      <div class="form-group">
-        <%= f.label :country, "國籍" %>
-        <%= f.text_field :country, class: "form-control", placeholder: "請輸入國籍" %>
-      </div>
-      
-      <label>是否成年(年滿21歲)</label>
-      <div class="checkbox" style="margin-top:8px">
-        <label>
-          <%= f.check_box :is21 %> 已成年
-        </label>
-      </div>
-
-      <div class="form-group">
-        <%= f.label :representative, "代理人" %>
-        <%= f.text_field :representative, class: "form-control", placeholder: "請輸入代理人姓名" %>
-        <span class="help-block">若未成年請填寫此欄</span>
-      </div>
-      
-      <div class="form-group">
-        <label for="stockholder_copy_passport">上傳護照影本</label>
-        <%= f.file_field :copy_passport, class: "filestyle", "data-buttonText": "選擇檔案", "data-buttonBefore": "true" %>
-      </div>
-      <div class="form-group">
-        <label for="stockholder_copy_signature">上傳簽名頁影本</label>
-        <%= f.file_field :copy_signature, class: "filestyle", "data-buttonText": "選擇檔案", "data-buttonBefore": "true" %>
-      </div>
-      <div class="form-group">
-        <label for="stockholder_copy_signature">上傳郵寄地址影本</label>
-        <%= f.file_field :copy_mail_addr, class: "filestyle", "data-buttonText": "選擇檔案", "data-buttonBefore": "true" %>
-      </div>
-      
     </div>
   </div>
   
-  <div class="row">
-    <div class="col-md-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">聯絡方式</div>
-        <div class="panel-body">
-          
-          <div class="form-group">
-            <%= f.label :phone, "電話" %>
-            <%= f.text_field :phone, class: "form-control"%>
-          </div>
-          
-          <div class="form-group">
-            <%= f.label :wechat, "微信" %>
-            <%= f.text_field :wechat, class: "form-control" %>
-          </div>
-          
-          <div class="form-group">
-            <%= f.label :address_zh, "郵寄地址 - 中文" %>
-            <%= f.text_field :address_zh, class: "form-control"%>
-          </div>
-          
-          <div class="form-group">
-            <%= f.label :address_en, "郵寄地址 - 英文" %>
-            <%= f.text_field :address_en, class: "form-control"%>
-          </div>
-            
-          <div class="form-group">
-            <%= f.label :email, "電子郵件" %>
-            <%= f.text_field :email, class: "form-control" %>
-          </div>
-          
+  
+  <div class="col-md-6">
+    <div class="panel panel-default">
+      <div class="panel-heading">聯絡方式</div>
+      <div class="panel-body">
+        
+        <div class="form-group">
+          <%= f.label :phone, "電話" %>
+          <%= f.text_field :phone, class: "form-control"%>
         </div>
-      </div>
-    </div>  
-    <div class="col-md-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">匯款帳號</div>
-        <div class="panel-body">
-          
-          <div class="form-group">
-            <%= f.label :account_bank, "匯出銀行" %>
-            <%= f.text_field :account_bank, class: "form-control" %>
-          </div>
-            
-          <div class="form-group">
-            <%= f.label :account_num, "帳號" %>
-            <%= f.text_field :account_num, class: "form-control" %>
-          </div>
-            
-          <div class="form-group">
-            <%= f.label :account_owner, "戶名" %>
-            <%= f.text_field :account_owner, class: "form-control" %>
-          </div>
-              
-          <div class="form-group">
-            <%= f.label :account_owner_id, "身分證件號" %>
-            <%= f.text_field :account_owner_id, class: "form-control" %>
-          </div>
-          
+        
+        <div class="form-group">
+          <%= f.label :wechat, "微信" %>
+          <%= f.text_field :wechat, class: "form-control" %>
         </div>
+        
+        <div class="form-group">
+          <%= f.label :address_zh, "郵寄地址 - 中文" %>
+          <%= f.text_field :address_zh, class: "form-control"%>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :address_en, "郵寄地址 - 英文" %>
+          <%= f.text_field :address_en, class: "form-control"%>
+        </div>
+          
+        <div class="form-group">
+          <%= f.label :email, "電子郵件" %>
+          <%= f.text_field :email, class: "form-control" %>
+        </div>
+        
       </div>
-    </div>  
-  </div>
+    </div>
+    
+    <div class="panel panel-default">
+      <div class="panel-heading">匯款帳號</div>
+      <div class="panel-body">
+        
+        <div class="form-group">
+          <%= f.label :account_bank, "匯出銀行" %>
+          <%= f.text_field :account_bank, class: "form-control" %>
+        </div>
+          
+        <div class="form-group">
+          <%= f.label :account_num, "帳號" %>
+          <%= f.text_field :account_num, class: "form-control" %>
+        </div>
+          
+        <div class="form-group">
+          <%= f.label :account_owner, "戶名" %>
+          <%= f.text_field :account_owner, class: "form-control" %>
+        </div>
+            
+        <div class="form-group">
+          <%= f.label :account_owner_id, "身分證件號" %>
+          <%= f.text_field :account_owner_id, class: "form-control" %>
+        </div>
+        
+      </div>
+    </div>
+  </div>  
   
   <%= f.submit "完成", class: "btn btn-default btn-primary col-md-12"%>
   

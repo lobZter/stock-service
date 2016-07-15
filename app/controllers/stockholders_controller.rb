@@ -4,14 +4,22 @@ class StockholdersController < ApplicationController
   # GET /stockholders/index
   # GET /stockholders
   def index
-    @stockholders = Stockholder.all
-    
-    if params[:set_not_completed]
-      @stockholders = @stockholders.filter_not_completed
-    end
-    
-    if params[:set_completed]
-      @stockholders = @stockholders.filter_completed
+    if params[:id]
+      @stockholder = Stockholder.find(params[:id])
+      @identity = @stockholder.identity
+      @stocks = @identity.stock_show
+      @transactions = @identity.recent_transactions
+      render :action => :show
+    else
+      @stockholders = Stockholder.all
+      
+      if params[:set_not_completed]
+        @stockholders = @stockholders.filter_not_completed
+      end
+      
+      if params[:set_completed]
+        @stockholders = @stockholders.filter_completed
+      end
     end
     
   end

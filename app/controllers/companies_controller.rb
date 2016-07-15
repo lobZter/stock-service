@@ -2,6 +2,20 @@ class CompaniesController < ApplicationController
   before_action :set_company, :only => [:show, :edit, :update]
   before_action :set_data, :only => [:new, :edit]
 
+  def index
+    if params[:id]
+      @company = Company.find(params[:id])
+      @currency_array = [nil, "USD 美金", "RMB 人民幣", "NTD 新台幣"]
+      @identity = @company.identity
+      @stocks = @identity.stock_show
+      @transactions = @identity.recent_transactions
+      @capital_increases = @identity.recent_capital_increase
+      @staffs = Staff.where("company_id=?", @company.id)
+      @stock_percentage = @company.stock_percentage
+      render :action => :show
+    end
+  end
+
   def create
     @company = Company.new(company_params)
     
