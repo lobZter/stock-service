@@ -10,7 +10,7 @@ class TransactionsController < ApplicationController
     @identities = Hash.new
     @company_names = Hash.new
     @stocks = Array.new
-    @transactions = Transaction.all
+    @transactions = Transaction.all.not_deleted
     @capital_increases = CapitalIncrease.all
     
     if params[:buyer_id].present? && params[:buyer_id] != "0"
@@ -126,7 +126,7 @@ class TransactionsController < ApplicationController
       seller_stock.update({:stock_num => stock_num})
     end
     
-    @transaction.destroy
+    @transaction.update({is_deleted: true})
     redirect_to transactions_path
   end
   

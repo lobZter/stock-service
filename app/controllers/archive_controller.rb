@@ -6,11 +6,11 @@ class ArchiveController < ApplicationController
   def company_archive
   end
   
-  def transactions_archive
+  def transaction_archive
     @transactions = Transaction.where("is_deleted=?", true)
   end
   
-  def capital_increases_archive
+  def capital_increase_archive
   end
   
 end

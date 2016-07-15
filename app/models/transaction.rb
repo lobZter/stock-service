@@ -40,12 +40,14 @@ class Transaction < ActiveRecord::Base
       (send_seller IS NULL)",
     true, true, true, true, true, true, true, true
   )}
-    
+  
   scope :buyer_id, -> (buyer_id) { where(buyer_id: buyer_id) }
   scope :seller_id, -> (seller_id) { where(seller_id: seller_id) }
   scope :stock, -> (company_id, stock_class, date_issued) { 
     where(company_id: company_id, stock_class: stock_class, date_issued: date_issued)
   }
+  scope :deleted, -> { where("is_deleted=?", true)}
+  scope :not_deleted, -> { where("is_deleted=?", false)}
   
   validates_presence_of :seller_id,
     :buyer_id,

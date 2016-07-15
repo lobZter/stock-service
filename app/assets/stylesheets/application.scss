@@ -22,6 +22,10 @@
 @import "bootstrap";
 @import "bootstrap-datetimepicker";
 
+body {
+  font-family: "微軟正黑體", "Microsoft JhengHei", sans-serif;
+  color: #333;
+}
 
 /* Header */
 #logo {
@@ -35,8 +39,32 @@
   }
 }
 
-.margin-top-40 {
-  margin-top: 40px;
+.text-right {
+  text-align: right;
+}
+
+.large {
+  font-size: 40px;
+}
+
+.xlarge {
+  font-size: 56px;
+}
+
+.xxlarge {
+  font-size: 72px;
+}
+
+.pull-left {
+  float: left!important;
+}
+
+.pull-right {
+  float: right!important;
+}
+
+.no-margin {
+  margin: 0px;
 }
 
 .no-margin-top {
@@ -46,6 +74,11 @@
 .no-margin-bottom {
   margin-bottom: 0px;
 }
+
+.margin-top-40 {
+  margin-top: 40px;
+}
+
 
 .field_with_errors {
   input{
@@ -83,4 +116,164 @@
     float: left;
     margin-top: 1px;
     margin-left: -17px;
+}
+
+.my-row {
+  display: table;
+  width: 100%;
+}
+
+//----------------//
+// card conponent //
+//--------------- //
+.card {
+  display: block;
+  background: #FFFFFF;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 3px;
+  margin-bottom: 15px;
+  // hidden negative margins parts
+  overflow: hidden;
+}
+
+.card-icon {
+  border-top-left-radius: 3px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 3px;
+  // negative margins make Bootstrap columns all the same height
+  margin-bottom: -99999px;
+  padding-bottom: 99999px;
+  text-align: center;
+  font-size: 50px;
+  background: #ddd;
+  color: #fff;
+}
+
+.card-content {
+  color: #777;
+  padding: 5px 10px 5px 0px;
+    
+  a {
+    color: #777;
+    &:hover {
+      color: #333;
+      text-decoration: none;
+    }
+  }
+}
+
+.card-btn {
+  text-align: center;
+}
+
+.card-center-btn {
+  border-style: solid;
+  border-width: 0px 1px 0px 1px;
+  border-color: #eeeeee;
+}
+
+.card-primary {
+  border-color: #337ab7;
+  
+  .card-icon {
+    color: #fff;
+    border-color: #337ab7;
+    background-color: #337ab7;
+  }
+  
+  .card-content {
+    color: #337ab7;
+  }
+  
+  .card-center-btn {
+    border-color: #337ab7;
+  }
+  
+  hr {
+    border-color: #337ab7;
+  }
+  
+  a {
+    color: #337ab7;
+  }
+}
+
+.card-yellow {
+  border-color: #f0ad4e;
+  
+  .card-icon {
+    color: #fff;
+    border-color: #f0ad4e;
+    background-color: #f0ad4e;
+  }
+  
+  .card-content {
+    color: #f0ad4e;
+  }
+  
+  .card-center-btn {
+    border-color: #f0ad4e;
+  }
+  
+  hr {
+    border-color: #f0ad4e;
+  }
+  
+  a {
+    color: #f0ad4e;
+  }
+}
+
+.card-green {
+  border-color: #5cb85c;
+  
+  .card-icon {
+    color: #fff;
+    border-color: #5cb85c;
+    background-color: #5cb85c;
+  }
+  
+  .card-content {
+    color: #5cb85c;
+  }
+  
+  .card-center-btn {
+    border-color: #5cb85c;
+  }
+  
+  hr {
+    border-color: #5cb85c;
+  }
+  
+  a {
+    color: #5cb85c;
+  }
+}
+
+.card-red {
+  border-color: #d9534f;
+  
+  .card-icon {
+    color: #fff;
+    border-color: #d9534f;
+    background-color: #d9534f;
+  }
+  
+  .card-content {
+    color: #d9534f;
+  }
+  
+  .card-center-btn {
+    border-color: #d9534f;
+  }
+  
+  hr {
+    border-color: #d9534f;
+  }
+  
+  a {
+    color: #d9534f;
+  }
 }

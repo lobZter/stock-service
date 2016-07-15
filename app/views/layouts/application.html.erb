@@ -3,17 +3,22 @@
 <head>
   <title>iDreams Stock System</title>
   <%= stylesheet_link_tag 'application'%>
-  <%= stylesheet_link_tag params[:controller] %>
   <%= javascript_include_tag 'application' %>
-  <%= javascript_include_tag params[:controller] %>
   <%= csrf_meta_tags %>
 </head>
-<body class="<%= controller_name %>_<%= action_name %>">
-  <% if session[:is_login] %>
-    <%= render 'layouts/header' %>
-  <% end %>
-  <div class="container" style="margin-bottom: 20px">
-    <%= yield %>
+<body>
+  
+  <div id="<%= controller_name %>_<%= action_name %>">
+    
+    <% if session[:is_login] %>
+      <%= render 'layouts/header' %>
+    <% end %>
+    
+    <div class="container" style="padding: 15px;">
+      <%= yield %>
+    </div>
+    
   </div>
+  
 </body>
 </html>

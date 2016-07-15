@@ -2,11 +2,11 @@
   <div class="col-md-11">
     <h2><strong><%= @stockholder.name_zh %> <%= @stockholder.name_en %></strong></h2>
   </div>
-  <% if session[:is_admin] %>
+<% if session[:is_admin] %>
   <h2>
     <%= link_to "修改", edit_stockholder_path(@stockholder), class: "btn btn-default col-md-1" %>
   </h2>
-  <% end %>
+<% end %>
 </div>
 
 <div class="well">
@@ -213,3 +213,4 @@
   </div>
 </div>
 
+<%= javascript_include_tag('setModal.js') %>
