@@ -1,0 +1,14 @@
+<% if contract != "" %>
+  <div class="form-group" style="text-align:center">
+    <!--image file-->
+    <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(contract)) %>
+      <%= image_tag contract, {class: "img-responsive", onclick: "setModal(this);"} %>
+    <!--document file-->
+    <% else %>
+      <a href="<%= contract%>" target="_blank">
+        <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
+        <p style="color: #333333"><%= URI.decode(File.basename(contract)) %></p>  
+      </a>
+    <% end %>
+  </div>
+<% end %>

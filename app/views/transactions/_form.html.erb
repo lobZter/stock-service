@@ -1,460 +1,326 @@
-<%= render :partial => 'layouts/flash' %>
+<%= render :partial => "layouts/flash" %>
 
 <h1 class="page-header" style="margin-top: 0px"><%= @title %></h1>
 
 <%= form_for @transaction, html: { id: :transaction_form } do |f| %>
-  <div class="panel panel-default">
-    <div class="panel-heading">交易明細</div>
-    <div class="panel-body">
-      
-      <div class="form-group">
-        <div class="row">
-          <div class="col-md-4">
-            <%= f.label :buyer_id, "買方" %>
-            <% if @transaction.new_record? %>
-              <%= f.select :buyer_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh + " / " + s.passport, s.identity.id]}), {}, {class: "form-control transaction_select2"} %>
-            <% else %>
-              <input class="form-control" value="<%= Identity.find(@transaction.buyer_id).self_detail.name_zh %>" readonly >
-            <% end %>
-          </div>
-          <div class="col-md-4">
-            <%= f.label :seller_id, "賣方" %>
-            <% if @transaction.new_record? %>
-              <%= f.select :seller_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh + " / " + s.passport, s.identity.id]}), {}, {class: "form-control transaction_select2"} %>
-            <% else %>
-              <input class="form-control" value="<%= Identity.find(@transaction.seller_id).self_detail.name_zh %>" readonly >
-            <% end %>
-           </div>
-          <div class="col-md-4">
-            <%= f.label :stock, "股票" %>
-            <% if @transaction.new_record? %>
-              <select class="form-control" name="transaction[stock]" id="transaction_stock"></select>
-            <% else %>
-              <input class="form-control" value="<%= Company.find(@transaction.company_id).name_zh %> / <%= @transaction.stock_class %> / <%= @transaction.date_issued %>" readonly >
-            <% end %>
-            <span class="help-block no-margin-bottom">發行公司 / 股票類別 / 發行日期</span>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">交易明細</div>
+      <div class="panel-body">
+        
+        <div class="form-group">
+          <%= f.label :buyer_id, "買方*" %>
+          <% if @transaction.new_record? %>
+            <%= f.select :buyer_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh + " / " + s.passport, s.identity.id]}), {}, {class: "form-control transaction_select2"} %>
+          <% else %>
+            <input class="form-control" value="<%= Identity.find(@transaction.buyer_id).self_detail.name_zh %>" readonly >
+          <% end %>
+        </div>
+        <div class="form-group">
+          <%= f.label :seller_id, "賣方*" %>
+          <% if @transaction.new_record? %>
+            <%= f.select :seller_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} + @stockholders.map{ |s| [s.name_zh + " / " + s.passport, s.identity.id]}), {}, {class: "form-control transaction_select2"} %>
+          <% else %>
+            <input class="form-control" value="<%= Identity.find(@transaction.seller_id).self_detail.name_zh %>" readonly >
+          <% end %>
+        </div>
+        <div class="form-group">
+          <%= f.label :stock, "股票*" %>
+          <% if @transaction.new_record? %>
+            <select class="form-control" name="transaction[stock]" id="transaction_stock"></select>
+          <% else %>
+            <input class="form-control" value="<%= Company.find(@transaction.company_id).name_zh %> / <%= @transaction.stock_class %> / <%= @transaction.date_issued %>" readonly >
+          <% end %>
+          <span class="help-block no-margin-bottom">發行公司 / 股票類別 / 發行日期</span>
+        </div>
+        
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <%= f.label :fund_original, "投資金額*" %>
+              <% if @transaction.new_record? %>
+                <%= f.text_field :fund_original, class: "form-control calculate-fund" %>
+              <% elsif @transaction.fund_original.nil? %>
+                <%= f.text_field :fund_original, class: "form-control" %>
+              <% else %>
+                <input class="form-control" value="<%= @transaction.fund_original %>" readonly >
+              <% end %>
+            </div>
+            <div class="col-md-6">
+              <%= f.label :currency_original, "幣別*" %>
+              <% if @transaction.new_record? or @transaction.currency_original.nil? %>
+                <%= f.select :currency_original, @currency_array, {}, { class: 'form-control' } %>
+              <% else %>
+                <input class="form-control" value="<%= @currency_array[@transaction.currency_original-1][0] %>" readonly >
+              <% end %>
+            </div>
           </div>
         </div>
-      </div>
-      
-      <div class="form-group">
-        <div class="row">
-          <div class="col-md-2">
-            <%= f.label :fund_original, "投資金額" %>
-            <% if @transaction.new_record? %>
-              <%= f.text_field :fund_original, class: "form-control calculate-fund" %>
-            <% elsif @transaction.fund_original.nil? %>
-              <%= f.text_field :fund_original, class: "form-control" %>
-            <% else %>
-              <input class="form-control" value="<%= @transaction.fund_original %>" readonly >
-            <% end %>
-          </div>
-          <div class="col-md-2">
-            <%= f.label :currency_original, "幣別" %>
-            <% if @transaction.new_record? or @transaction.currency_original.nil? %>
-              <%= f.select :currency_original, @currency_array, {}, { class: 'form-control' } %>
-            <% else %>
-              <input class="form-control" value="<%= @currency_array[@transaction.currency_original-1][0] %>" readonly >
-            <% end %>
-          </div>
-          <div class="col-md-2">
-            <%= f.label :exchange_rate, "匯率" %>
-            <% if @transaction.new_record? %>
-              <%= f.text_field :exchange_rate, {class: "form-control calculate-fund", value: 1} %>
-            <% else %>
-              <%= f.text_field :exchange_rate, {class: "form-control"} %>
-            <% end %>
-          </div>
-          <div class="col-md-2">
-            <%= f.label :date_paid, "匯率轉換日" %>
-            <% if @transaction.new_record? or @transaction.date_paid.nil? %>
-              <div class="input-group date" id="transaction_datetimepicker1">
-                <%= f.text_field :date_paid , class: "form-control" %>
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-              </div>
-            <% else %>
-              <input class="form-control" value="<%= @transaction.date_paid %>" readonly>
-            <% end %>
+  
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <%= f.label :exchange_rate, "匯率" %>
+              <% if @transaction.new_record? %>
+                <%= f.text_field :exchange_rate, {class: "form-control calculate-fund", value: 1} %>
+              <% else %>
+                <%= f.text_field :exchange_rate, {class: "form-control"} %>
+              <% end %>
+            </div>
+            <div class="col-md-6">
+              <%= f.label :date_paid, "匯率轉換日" %>
+              <% if @transaction.new_record? or @transaction.date_paid.nil? %>
+                <div class="input-group date" id="transaction_datetimepicker1">
+                  <%= f.text_field :date_paid , class: "form-control" %>
+                  <span class="input-group-addon">
+                      <span class="glyphicon glyphicon-calendar"></span>
+                  </span>
+                </div>
+              <% else %>
+                <input class="form-control" value="<%= @transaction.date_paid %>" readonly>
+              <% end %>
+            </div>
           </div>
         </div>
-      </div>
-      
-      <div class="form-group">
-        <div class="row">
-          <div class="col-md-2">
-            <%= f.label :fund, "交易金額" %>
-            <% if @transaction.new_record? %>
-              <%= f.text_field :fund, class: "form-control calculate-stocknum" %>
-            <% else %>
-              <%= f.text_field :fund, {class: 'form-control', readonly: true} %>
-            <% end %>
-            <span class="help-block no-margin-bottom">投資金額 / 匯率</span>
-          </div>
-          <div class="col-md-2">
-            <%= f.label :currency, "認定幣別" %>
-            <%= f.hidden_field :currency %>
-            <% if @transaction.new_record? %>
-              <input class="form-control currency" readonly>
-            <% else %>
-              <input class="form-control" value="<%= @currency_array[@transaction.currency-1][0] %>" readonly>
-            <% end %>
-            <span class="help-block no-margin-bottom">由股票發行公司決定</span>
-          </div>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <div class="row">
-          <div class="col-md-2">
-            <%= f.label :stock_price, "每股價格" %>
-            <% if @transaction.new_record? %>
-              <%= f.text_field :stock_price, class: "form-control calculate-stocknum" %>
-            <% else %>
-              <input class="form-control" value="<%= @transaction.stock_price %>" readonly>
-            <% end %>
-          </div>
-          <div class="col-md-2">
-            <%= f.label :currency, "認定幣別" %>
-            <% if @transaction.new_record? %>
-              <input class="form-control currency" readonly>
-            <% else %>
-              <input class="form-control" value="<%= @currency_array[@transaction.currency-1][0] %>" readonly>
-            <% end %>
-            <span class="help-block no-margin-bottom">由股票發行公司決定</span>
-          </div>
-          <div class="col-md-2">
-            <%= f.label :stock_num, "交易股數" %>
-            <% if @transaction.new_record? %>
-              <%= f.text_field :stock_num, class: "form-control" %>
-            <% else %>
-              <input class="form-control" value="<%= @transaction.stock_num %>" readonly>
-            <% end %>
+        
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <%= f.label :fund, "交易金額*" %>
+              <% if @transaction.new_record? %>
+                <%= f.text_field :fund, class: "form-control calculate-stocknum" %>
+              <% else %>
+                <%= f.text_field :fund, {class: 'form-control', readonly: true} %>
+              <% end %>
+              <span class="help-block no-margin-bottom">投資金額 / 匯率</span>
+            </div>
+            <div class="col-md-6">
+              <%= f.label :currency, "認定幣別" %>
+              <%= f.hidden_field :currency %>
+              <% if @transaction.new_record? %>
+                <input class="form-control currency" readonly>
+              <% else %>
+                <input class="form-control" value="<%= @currency_array[@transaction.currency-1][0] %>" readonly>
+              <% end %>
+              <span class="help-block no-margin-bottom">由股票發行公司決定</span>
+            </div>
           </div>
         </div>
-      </div>
-      
-      <div class="form-group">
-        <div class="row">
-          <div class="col-md-4">
-            <%= f.label :date_signed, "合約生效日" %>
-            <% if @transaction.new_record? %>
-              <div class="input-group date" id="transaction_datetimepicker2">
-                <%= f.text_field :date_signed , class: "form-control" %>
-                <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                </span>
-              </div>
-            <% else %>
-              <input class="form-control" value="<%= @transaction.date_signed %>" readonly>
-            <% end %>
-          </div>
+        
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <%= f.label :stock_price, "每股價格*" %>
+              <% if @transaction.new_record? %>
+                <%= f.text_field :stock_price, class: "form-control calculate-stocknum" %>
+              <% else %>
+                <input class="form-control" value="<%= @transaction.stock_price %>" readonly>
+              <% end %>
+            </div>
+            <div class="col-md-6">
+              <%= f.label :currency, "認定幣別" %>
+              <% if @transaction.new_record? %>
+                <input class="form-control currency" readonly>
+              <% else %>
+                <input class="form-control" value="<%= @currency_array[@transaction.currency-1][0] %>" readonly>
+              <% end %>
+              <span class="help-block no-margin-bottom">由股票發行公司決定</span>
+            </div>
+          </div>  
+        </div>    
+        
+        <div class="form-group">  
+          <%= f.label :stock_num, "交易股數*" %>
+          <% if @transaction.new_record? %>
+            <%= f.text_field :stock_num, class: "form-control" %>
+          <% else %>
+            <input class="form-control" value="<%= @transaction.stock_num %>" readonly>
+          <% end %>
         </div>
+          
+        <div class="form-group">
+          <%= f.label :date_signed, "合約生效日*" %>
+          <% if @transaction.new_record? %>
+            <div class="input-group date" id="transaction_datetimepicker2">
+              <%= f.text_field :date_signed , class: "form-control" %>
+              <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+              </span>
+            </div>
+          <% else %>
+            <input class="form-control" value="<%= @transaction.date_signed %>" readonly>
+          <% end %>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :remark, "備註" %>
+          <%= f.text_area :remark, {class: 'form-control', rows: 5} %>
+        </div>
+        
       </div>
-      
-      <div class="form-group">
-        <%= f.label :remark, "備註" %>
-        <%= f.text_area :remark, {class: 'form-control', rows: 5} %>
-      </div>
-      
     </div>
   </div>
   
-  <div class="panel panel-default">
+  <div class="col-md-4">
+    <div class="panel panel-default">
     <div class="panel-heading">檔案上傳區</div>
     <div class="panel-body">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>
-            <%= f.check_box :contract_0_needed %> 意向書
-            </label>
-            <%= f.file_field :contract_0, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>
-              <%= f.check_box :contract_1_needed %> Regular S
-            </label>
-            <%= f.file_field :contract_1, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>
-              <%= f.check_box :contract_2_needed %> 中文股份買賣合約 - 美金
-            </label>
-            <%= f.file_field :contract_2, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>
-              <%= f.check_box :contract_3_needed %> 中文股份買賣合約 - 人民幣
-            </label>
-            <%= f.file_field :contract_3, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-          </div>
-        </div>
+      <div class="form-group">
+        <label>
+          <%= f.check_box :contract_0_needed %> 意向書
+        </label>
+        <%= f.file_field :contract_0, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
       </div>
-      
-      <% if !(@transaction.new_record?) %>
-        <div class="row">
-          <div class="col-md-3" style="text-align:center">
-            <% if @transaction.contract_0.to_s != "" %>
-              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_0.to_s)) %>
-                <%= image_tag @transaction.contract_0.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
-              <% else %>
-                <a href="<%= @transaction.contract_0.to_s%>" target="_blank">
-                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_0.to_s)) %></p>  
-                </a>
-              <% end %>
-            <% end %>
-          </div>
-          <div class="col-md-3" style="text-align:center">
-            <% if @transaction.contract_1.to_s != "" %>
-              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_1.to_s)) %>
-                <%= image_tag @transaction.contract_1.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
-              <% else %>
-                <a href="<%= @transaction.contract_1.to_s%>" target="_blank">
-                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_1.to_s)) %></p>  
-                </a>
-              <% end %>
-            <% end %>
-          </div>
-          <div class="col-md-3" style="text-align:center">
-            <% if @transaction.contract_2.to_s != "" %>
-              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_2.to_s)) %>
-                <%= image_tag @transaction.contract_2.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
-              <% else %>
-                <a href="<%= @transaction.contract_2.to_s%>" target="_blank">
-                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_2.to_s)) %></p>  
-                </a>
-              <% end %>
-            <% end %>
-          </div>
-          <div class="col-md-3" style="text-align:center">
-            <% if @transaction.contract_3.to_s != "" %>
-              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_3.to_s)) %>
-                <%= image_tag @transaction.contract_3.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
-              <% else %>
-                <a href="<%= @transaction.contract_3.to_s%>" target="_blank">
-                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_3.to_s)) %></p>  
-                </a>
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-      
-      <div class="row">
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>
-              <%= f.check_box :contract_4_needed %> Share Purchase Agreement
-            </label>
-            <%= f.file_field :contract_4, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>
-              <%= f.check_box :contract_5_needed %> W-8 Ben
-            </label>
-            <%= f.file_field :contract_5, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>
-              <%= f.check_box :contract_6_needed %> 換股協議書
-            </label>
-            <%= f.file_field :contract_6, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>
-              <%= f.check_box :contract_7_needed %> 聲明書
-            </label>
-            <%= f.file_field :contract_7, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
-          </div>
-        </div>
+      <%= render :partial => "transactions/image", :locals => { :contract => @transaction.contract_0.to_s } %>
+          
+      <div class="form-group">
+        <label>
+          <%= f.check_box :contract_1_needed %> Regular S
+        </label>
+        <%= f.file_field :contract_1, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
       </div>
-      
-      <% if !(@transaction.new_record?) %>
-        <div class="row">
-          <div class="col-md-3" style="text-align:center">
-            <% if @transaction.contract_4.to_s != "" %>
-              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_4.to_s)) %>
-                <%= image_tag @transaction.contract_4.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
-              <% else %>
-                <a href="<%= @transaction.contract_4.to_s%>" target="_blank">
-                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_4.to_s)) %></p>
-                </a>
-              <% end %>
-            <% end %>
-          </div>
-          <div class="col-md-3" style="text-align:center">
-            <% if @transaction.contract_5.to_s != "" %>
-              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_5.to_s)) %>
-                <%= image_tag @transaction.contract_5.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
-              <% else %>
-                <a href="<%= @transaction.contract_5.to_s%>" target="_blank">
-                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_5.to_s)) %></p>  
-                </a>
-              <% end %>
-            <% end %>
-          </div>
-          <div class="col-md-3" style="text-align:center">
-            <% if @transaction.contract_6.to_s != "" %>
-              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_6.to_s)) %>
-                <%= image_tag @transaction.contract_6.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
-              <% else %>
-                <a href="<%= @transaction.contract_6.to_s%>" target="_blank">
-                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_6.to_s)) %></p>  
-                </a>
-              <% end %>
-            <% end %>
-          </div>
-          <div class="col-md-3" style="text-align:center">
-            <% if @transaction.contract_7.to_s != "" %>
-              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(@transaction.contract_7.to_s)) %>
-                <%= image_tag @transaction.contract_7.to_s, {class: "img-responsive", onclick: "setModal(this);"} %>
-              <% else %>
-                <a href="<%= @transaction.contract_7.to_s%>" target="_blank">
-                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= URI.decode(File.basename(@transaction.contract_7.to_s)) %></p>  
-                </a>
-              <% end %>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
-      
-      <div class="row">
-        <div class="col-md-3">
-          <div class="form-group">
-            <%= f.label :contract_8, "銀行水單" %>
-            <%= f.file_field :contract_8, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true", "multiple": "true" %>
-          </div>
-        </div>
+      <%= render :partial => "transactions/image", :locals => { :contract => @transaction.contract_1.to_s } %>
+    
+      <div class="form-group">
+        <label>
+          <%= f.check_box :contract_2_needed %> 中文股份買賣合約 - 美金
+        </label>
+        <%= f.file_field :contract_2, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
       </div>
+      <%= render :partial => "transactions/image", :locals => { :contract => @transaction.contract_2.to_s } %>
       
-      <div class="row">
-        <% if @transaction.contract_8.to_s != "" %>
-          <% @transaction.contract_8.each do |c_8| %>
-            <div class="col-md-3" style="text-align:center">
-              <% if [".png", ".PNG", ".jpg", ".JPG", ".jpeg", ".JPEG"].include?(File.extname(c_8.url)) %>
-                <%= image_tag c_8.url, {class: "img-responsive", onclick: "setModal(this);"} %>
-              <% else %>
-                <a href="<%= c_8.url %>" target="_blank">
-                  <span class="glyphicon glyphicon-file" aria-hidden="true" style="font-size: 100px; color: #333333"></span>
-                  <p style="color: #333333"><%= URI.decode(File.basename(c_8.url)) %></p>  
-                </a>
-              <% end %>
-            </div>
-          <% end %>
+      <div class="form-group">
+        <label>
+          <%= f.check_box :contract_3_needed %> 中文股份買賣合約 - 人民幣
+        </label>
+        <%= f.file_field :contract_3, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+      </div>
+      <%= render :partial => "transactions/image", :locals => { :contract => @transaction.contract_3.to_s } %>
+      
+      <div class="form-group">
+        <label>
+          <%= f.check_box :contract_4_needed %> Share Purchase Agreement
+        </label>
+        <%= f.file_field :contract_4, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+      </div>
+      <%= render :partial => "transactions/image", :locals => { :contract => @transaction.contract_4.to_s } %>
+      
+      <div class="form-group">
+        <label>
+          <%= f.check_box :contract_5_needed %> W-8 Ben
+        </label>
+        <%= f.file_field :contract_5, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+      </div>
+      <%= render :partial => "transactions/image", :locals => { :contract => @transaction.contract_5.to_s } %>
+      
+      <div class="form-group">
+        <label>
+          <%= f.check_box :contract_6_needed %> 換股協議書
+        </label>
+        <%= f.file_field :contract_6, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+      </div>
+      <%= render :partial => "transactions/image", :locals => { :contract => @transaction.contract_6.to_s } %>
+      
+      <div class="form-group">
+        <label>
+          <%= f.check_box :contract_7_needed %> 聲明書
+        </label>
+        <%= f.file_field :contract_7, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true" %>
+      </div>
+      <%= render :partial => "transactions/image", :locals => { :contract => @transaction.contract_7.to_s } %>
+      
+      <div class="form-group">
+        <%= f.label :contract_8, "銀行水單" %>
+        <%= f.file_field :contract_8, class: "filestyle", "data-buttonText": "", "data-buttonBefore": "true", "multiple": "true" %>
+      </div>
+      <% if @transaction.contract_8.to_s != "" %>
+        <% @transaction.contract_8.each do |c_8| %>
+          <%= render :partial => "transactions/image", :locals => { :contract => c_8.to_s } %>
         <% end %>
-      </div>
+      <% end %>
       
       <div class="form-group">
         <%= f.label :remark_contract, "合約備註" %>
         <%= f.text_area :remark_contract, {class: 'form-control', rows: 5} %>
       </div>
+      
     </div>
   </div>
-  
-  <!--picture display-->
-  <% if !(@transaction.new_record?) %>
-    <div class="modal fade" id="image_modal" role="dialog">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            <img src="" id="enlarge_image" class="img-responsive">
-          </div>
-        </div>
-      </div>
-    </div>
-  <% end %>
-      
-  <div class="panel panel-default">
-    <div class="panel-heading">其他</div>
-    <div class="panel-body">   
+  </div>
     
-      <div class="row" style="margin-top: 0px">
-        <div class="col-md-4">
-          <div class="form-group">
-            <%= f.label :signed_buyer, "簽署日期 - 買方" %>
-            <div class="input-group date" id="transaction_datetimepicker5">
-              <%= f.text_field :signed_buyer , class: "form-control" %>
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-              </span>
-            </div>
-            <span class="help-block no-margin-bottom">未簽署請留白</span>
+  <div class="col-md-4">
+    <div class="panel panel-default">
+      <div class="panel-heading">其他</div>
+      <div class="panel-body">   
+      
+        <div class="form-group">
+          <%= f.label :signed_buyer, "簽署日期 - 買方" %>
+          <div class="input-group date" id="transaction_datetimepicker5">
+            <%= f.text_field :signed_buyer , class: "form-control" %>
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
           </div>
+          <span class="help-block no-margin-bottom">未簽署請留白</span>
         </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <%= f.label :signed_seller, "簽署日期 - 賣方" %>
-            <div class="input-group date" id="transaction_datetimepicker6">
-              <%= f.text_field :signed_seller , class: "form-control" %>
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-              </span>
-            </div>
-            <span class="help-block no-margin-bottom">未簽署請留白</span>
+        
+        <div class="form-group">
+          <%= f.label :signed_seller, "簽署日期 - 賣方" %>
+          <div class="input-group date" id="transaction_datetimepicker6">
+            <%= f.text_field :signed_seller , class: "form-control" %>
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
           </div>
+          <span class="help-block no-margin-bottom">未簽署請留白</span>
         </div>
-        <div class="col-md-4">
+        
+        <div class="form-group">
+          <%= f.label :send_buyer, "合約郵寄日期 - 買方" %>
+          <div class="input-group date" id="transaction_datetimepicker3">
+            <%= f.text_field :send_buyer , class: "form-control" %>
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+          <span class="help-block no-margin-bottom">未寄送請留白</span>
+        </div>
+        
+        <div class="form-group">
+          <%= f.label :send_seller, "合約郵寄日期 - 賣方" %>
+          <div class="input-group date" id="transaction_datetimepicker4">
+            <%= f.text_field :send_seller , class: "form-control" %>
+            <span class="input-group-addon">
+              <span class="glyphicon glyphicon-calendar"></span>
+            </span>
+          </div>
+          <span class="help-block no-margin-bottom">未寄送請留白</span>
+        </div>
+        
+        <div class="form-group">
           <%= f.label :is_printed, "資料是否列印" %>
           <br/>
           <label>
             <%= f.check_box :is_printed %> 已列印
           </label>
         </div>
+  
       </div>
-      
-      <div class="row">
-        <div class="col-md-4">
-          <div class="form-group">
-            <%= f.label :send_buyer, "合約郵寄日期 - 買方" %>
-            <div class="input-group date" id="transaction_datetimepicker3">
-              <%= f.text_field :send_buyer , class: "form-control" %>
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-              </span>
-            </div>
-            <span class="help-block no-margin-bottom">未寄送請留白</span>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <%= f.label :send_seller, "合約郵寄日期 - 賣方" %>
-            <div class="input-group date" id="transaction_datetimepicker4">
-              <%= f.text_field :send_seller , class: "form-control" %>
-              <span class="input-group-addon">
-                <span class="glyphicon glyphicon-calendar"></span>
-              </span>
-            </div>
-            <span class="help-block no-margin-bottom">未寄送請留白</span>
-          </div>
-        </div>
-      </div>
-      
     </div>
+
+    <%= f.submit "完成", {class: "btn btn-default btn-primary col-md-12"}%>
   </div>
 
-  <%= f.submit "完成", {class: "btn btn-default btn-primary col-md-12"}%>
-
 <% end %>
+
+<!--picture display-->
+<div class="modal fade" id="image_modal" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <img src="" id="enlarge_image" class="img-responsive">
+      </div>
+    </div>
+  </div>
+</div>
