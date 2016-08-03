@@ -27,11 +27,6 @@ setStock = ->
       i++
     setCurrency()
   return
-
-@setModal = (image) ->
-  $('#enlarge_image').attr 'src', image.src
-  $('#image_modal').modal 'show'
-  return
   
 setView = () ->
   query = location.search.substr(1)
@@ -81,71 +76,63 @@ setTransactionFilterUrl = () ->
   return
 
 
-$('body.transactions_new').ready ->
-  setStock()
+$ ->
   
-  $(".transaction_select2").select2({theme: "bootstrap"});
+  if $('#transactions_new').is(':visible')
+    setStock()
+    
+    $('.calculate-fund').change ->
+      $('#transaction_fund').val($('#transaction_fund_original').val()/$('#transaction_exchange_rate').val())
+      return
+     
+    $('.calculate-stocknum').change ->
+      $('#transaction_stock_num').val(Math.floor($('#transaction_fund').val()/$('#transaction_stock_price').val()))
+      return
+   
+    $('#transaction_seller_id').change ->
+      setStock()
+      return
+  
+    $('#transaction_stock').change ->
+      setCurrency()
+      return
+  
+  if $('#transactions_index').is(':visible')
+    setView()
+    setTransactionFilterUrl()
+    
+    $('#buyer_filter_input').change ->
+      setTransactionFilterUrl()
+      return
+    
+    $('#seller_filter_input').change ->
+      setTransactionFilterUrl()
+      return
+    
+    $('#stock_filter_input').change ->
+      setTransactionFilterUrl()
+      return
+    
+  $(".bootstrap_select2").select2({theme: "bootstrap"});
   
   # Datetime picker format
   $('#transaction_datetimepicker1').datetimepicker({
-     format: 'YYYY/MM/DD'
+     format: 'YYYY-MM-DD'
   });
-  
   $('#transaction_datetimepicker2').datetimepicker({
-     format: 'YYYY/MM/DD'
+     format: 'YYYY-MM-DD'
   });
-  
   $('#transaction_datetimepicker3').datetimepicker({
-     format: 'YYYY/MM/DD'
+     format: 'YYYY-MM-DD'
+  });
+  $('#transaction_datetimepicker4').datetimepicker({
+     format: 'YYYY-MM-DD'
+  });
+  $('#transaction_datetimepicker5').datetimepicker({
+     format: 'YYYY-MM-DD'
+  });
+  $('#transaction_datetimepicker6').datetimepicker({
+     format: 'YYYY-MM-DD'
   });
     
-  $('#transaction_datetimepicker4').datetimepicker({
-     format: 'YYYY/MM/DD'
-  });
-  
-  $('#transaction_datetimepicker5').datetimepicker({
-     format: 'YYYY/MM/DD'
-  });
-  
-  $('#transaction_datetimepicker6').datetimepicker({
-     format: 'YYYY/MM/DD'
-  });
-
-  $('.calculate-fund').change ->
-    $('#transaction_fund').val($('#transaction_fund_original').val()/$('#transaction_exchange_rate').val())
-    return
-   
-  $('.calculate-stocknum').change ->
-    $('#transaction_stock_num').val(Math.floor($('#transaction_fund').val()/$('#transaction_stock_price').val()))
-    return
- 
-  $('#transaction_seller_id').change ->
-    setStock()
-    return
-
-  $('#transaction_stock').change ->
-    setCurrency()
-    return
-
-  return
-  
-  
-$('body.transactions_index').ready ->
-  setView()
-  setTransactionFilterUrl()
-  
-  $('#buyer_filter_input').change ->
-    setTransactionFilterUrl()
-    return
-  
-  $('#seller_filter_input').change ->
-    setTransactionFilterUrl()
-    return
-  
-  $('#stock_filter_input').change ->
-    setTransactionFilterUrl()
-    return
-
-  $(".transaction_index_select2").select2({theme: "bootstrap"});
-  
   return

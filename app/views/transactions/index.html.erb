@@ -11,7 +11,7 @@
   </div>
   
   <div class="col-md-2" style="padding-left: 0px; display: table">
-    <select id="buyer_filter_input" class="form-control transaction_index_select2" style="display: table-cell">
+    <select id="buyer_filter_input" class="form-control bootstrap_select2" style="display: table-cell">
       <option value="0">買方</option>
       <optgroup label="股東">
       <% @stockholders.each do |s| %>
@@ -24,7 +24,7 @@
     </select>
   </div>
   <div class="col-md-2" style="padding-left: 0px; display: table">
-    <select id="seller_filter_input" class="form-control transaction_index_select2" style="display: table-cell">
+    <select id="seller_filter_input" class="form-control bootstrap_select2" style="display: table-cell">
       <option value="0">賣方</option>
       <optgroup label="股東">
       <% @stockholders.each do |s| %>
@@ -37,7 +37,7 @@
     </select>
   </div>
   <div class="col-md-3" style="padding-left: 0px; display: table">
-    <select id="stock_filter_input" class="form-control transaction_index_select2" style="display: table-cell">
+    <select id="stock_filter_input" class="form-control bootstrap_select2" style="display: table-cell">
       <option value="0">股票</option>
       <% @stocks.each do |s| %>
         <option value="{'company_id': '<%= s[:company_id] %>', 'stock_class': '<%= s[:stock_class] %>', 'date_issued': '<%= s[:date_issued] %>'}">
