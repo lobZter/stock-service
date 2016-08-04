@@ -66,6 +66,7 @@ class Transaction < ActiveRecord::Base
   validate :status
 
   private
+  
   def check_buyer_seller
     return if seller_id.nil? or buyer_id.nil? or company_id.nil? or stock_class.nil? or date_issued.nil? or fund.nil? or currency.nil? or stock_price.nil? or stock_num.nil? or date_signed.nil?
     if self.buyer_id == self.seller_id

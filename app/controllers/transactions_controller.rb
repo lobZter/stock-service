@@ -44,11 +44,14 @@ class TransactionsController < ApplicationController
   
   # POST /transactions
   def create
+    if params[:transaction].key?(:stock)
+      stock_hash = JSON.parse params[:transaction][:stock]
+      stock_hash.delete("id")
+      @transaction = Transaction.new(stock_hash.merge(transaction_params))
+    else
+      @transaction = Transaction.new(transaction_params)
+    end
     
-    stock_hash = JSON.parse params[:transaction][:stock]
-    stock_hash.delete("id")
-    @transaction = Transaction.new(stock_hash.merge(transaction_params))
-
     if @transaction.save
       flash[:saved] = "已儲存"
       redirect_to edit_transaction_path(@transaction)
