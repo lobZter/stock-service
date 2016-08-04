@@ -44,25 +44,23 @@ class TransactionsController < ApplicationController
   
   # POST /transactions
   def create
-    if params[:transaction].key?(:stock)
-      stock_hash = JSON.parse params[:transaction][:stock]
-      stock_hash.delete("id")
-      @transaction = Transaction.new(stock_hash.merge(transaction_params))
-    else
-      @transaction = Transaction.new(transaction_params)
-    end
     
+    stock_hash = JSON.parse params[:transaction][:stock]
+    stock_hash.delete("id")
+    @transaction = Transaction.new(stock_hash.merge(transaction_params))
 
     if @transaction.save
-      flash[:saved] = "以儲存"
+      flash[:saved] = "已儲存"
       redirect_to edit_transaction_path(@transaction)
     else
-      set_data()
       if @transaction.errors.messages.key?(:stock_num) && @transaction.errors.messages[:stock_num][0] == "交易股數大於賣方擁有股數"
         flash.now[:stock_num] = @transaction.errors.messages[:stock_num][0]
       elsif @transaction.errors.messages.key?(:buyer_id) && @transaction.errors.messages[:buyer_id][0] == "賣方與買方相同"
         flash.now[:buyer_id] = @transaction.errors.messages[:buyer_id][0]
       end
+      
+      set_data()
+      @title = "新增交易"
       render :action => :new
     end
   end
@@ -147,15 +145,7 @@ class TransactionsController < ApplicationController
   end
   
   def transaction_params
-    params.require(:transaction).permit( :seller_id, :buyer_id,
-        :fund, :currency, :date_paid, :stock_price, :stock_num, :date_signed,
-        :contract_0, :contract_1, :contract_2, :contract_3, :contract_4, 
-        :contract_5, :contract_6, :contract_7, {contract_8: []},
-        :contract_0_needed, :contract_1_needed, :contract_2_needed, :contract_3_needed, 
-        :contract_4_needed, :contract_5_needed, :contract_6_needed, :contract_7_needed, 
-        :send_buyer, :send_seller, :remark, :remark_contract,
-        :fund_original, :currency_original, :exchange_rate, :stock,
-        :is_completed, :is_printed, :is_uploaded, :signed_buyer, :signed_seller).except(:stock)
+    params.require(:transaction).except(:stock).permit!
   end
 
   def set_identity(identity_id)

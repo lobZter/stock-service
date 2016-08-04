@@ -27,7 +27,7 @@
         <div class="form-group">
           <%= f.label :stock, "股票*" %>
           <% if @transaction.new_record? %>
-            <select class="form-control bootstrap_select2" name="transaction[stock]" id="transaction_stock"></select>
+            <select class="form-control" name="transaction[stock]" id="transaction_stock"></select>
           <% else %>
             <input class="form-control" value="<%= Company.find(@transaction.company_id).name_zh %> / <%= @transaction.stock_class %> / <%= @transaction.date_issued %>" readonly >
           <% end %>
@@ -37,7 +37,7 @@
         <div class="form-group">
           <div class="row">
             <div class="col-md-6">
-              <%= f.label :fund_original, "投資金額*" %>
+              <%= f.label :fund_original, "投資金額" %>
               <% if @transaction.new_record? %>
                 <%= f.text_field :fund_original, class: "form-control calculate-fund" %>
               <% elsif @transaction.fund_original.nil? %>
@@ -47,7 +47,7 @@
               <% end %>
             </div>
             <div class="col-md-6">
-              <%= f.label :currency_original, "幣別*" %>
+              <%= f.label :currency_original, "幣別" %>
               <% if @transaction.new_record? or @transaction.currency_original.nil? %>
                 <%= f.select :currency_original, @currency_array, {}, { class: 'form-control' } %>
               <% else %>
@@ -326,3 +326,4 @@
 </div>
 
 <%= javascript_include_tag('setModal.js') %>
+<%= javascript_include_tag('transaction_form.js') %>
