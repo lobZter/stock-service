@@ -60,39 +60,44 @@ class Transaction < ActiveRecord::Base
     :stock_num,
     :date_signed
   
-  validate :check_stock_num, :on => :create
+  validate :check_stock_num_on_create, :on => :create
   validate :check_buyer_seller, :on => :create
   validate :readonly_field, :on => :update
+  validate :check_stock_num_on_destory, :on => :update, :if => :is_deleted_changed?
   validate :status
 
   private
   
   def check_buyer_seller
     return if seller_id.nil? or buyer_id.nil? or company_id.nil? or stock_class.nil? or date_issued.nil? or fund.nil? or currency.nil? or stock_price.nil? or stock_num.nil? or date_signed.nil?
+    
     if self.buyer_id == self.seller_id
-      self.errors.add(:buyer_id, "賣方與買方相同")
-      self.errors.add(:seller_id, "賣方與買方相同")
+      self.errors.add(:buyer_id, "買方與賣方相同")
     end
   end
   
-  def check_stock_num
+  def check_stock_num_on_create
     return if seller_id.nil? or buyer_id.nil? or company_id.nil? or stock_class.nil? or date_issued.nil? or fund.nil? or currency.nil? or stock_price.nil? or stock_num.nil? or date_signed.nil?
-    seller_stock = Stock.where("company_id=?", self.company_id)
-      .where("stock_class=?", self.stock_class)
-      .where("date_issued=?", self.date_issued)
-      .where("identity_id=?", self.seller_id)[0]
+    
+    seller_stock = Stock
+      .specific_stock(self.company_id, self.stock_class, self.date_issued)
+      .owned_by(self.seller_id)
+      .first
     
     if seller_stock == nil
       self.errors.add(:stock_num, "賣方未擁有此股")
     elsif self.stock_num == 0
       self.errors.add(:stock_num, "交易股數不可為零")
     elsif self.stock_num > seller_stock.stock_num
-      self.errors.add(:stock_num, "交易股數大於賣方擁有股數")
+      self.errors.add(:stock_num, "賣方股數餘額不足")
     else
-      buyer_stock = Stock.where("company_id=?", self.company_id)
-        .where("stock_class=?", self.stock_class)
-        .where("date_issued=?", self.date_issued)
-        .where("identity_id=?", self.buyer_id)[0]
+      # verified, update the stocks
+      buyer_stock = Stock
+        .specific_stock(self.company_id, self.stock_class, self.date_issued)
+        .owned_by(self.buyer_id)
+        .first
+        
+      # update buyer's stock
       if buyer_stock == nil
         Stock.create({
           :identity_id => self.buyer_id,
@@ -105,6 +110,7 @@ class Transaction < ActiveRecord::Base
         buyer_stock.update({:stock_num => stock_num})
       end
       
+      # update seller's stock
       if seller_stock.stock_num - self.stock_num == 0
         seller_stock.destroy
       else
@@ -113,18 +119,64 @@ class Transaction < ActiveRecord::Base
       end
     end
   end
+  
+  def check_stock_num_on_destory
+    # is_deleted: false => true
+    if self.is_deleted
+      buyer_stock = Stock
+        .specific_stock(self.company_id, self.stock_class, self.date_issued)
+        .owned_by(self.buyer_id)
+        .first
+      
+      # check buyer's stock
+      if buyer_stock.nil?
+        self.errors.add(:stock_num, "買方股數餘額不足, 無法刪除此交易")
+        return
+      end
+      
+      if buyer_stock.stock_num < self.stock_num
+        self.errors.add(:stock_num, "買方剩餘股票數量不合, 無法刪除此交易")
+        return
+      end
+      
+      # verified, update the stocks
+      if buyer_stock.stock_num > self.stock_num
+        stock_num = buyer_stock.stock_num - self.stock_num
+        buyer_stock.update({:stock_num => stock_num})
+      else
+        buyer_stock.destroy
+      end
+      
+      seller_stock = Stock
+        .specific_stock(self.company_id, self.stock_class, self.date_issued)
+        .owned_by(self.seller_id)
+        .first
+      
+      if seller_stock.nil?
+        Stock.create({
+          :dentity_id => @transaction.buyer_id,
+          :company_id => @transaction.company_id,
+          :stock_class => @transaction.stock_class,
+          :date_issued => @transaction.date_issued,
+          :stock_num => @transaction.stock_num})
+      else
+        stock_num = seller_stock.stock_num + @transaction.stock_num
+        seller_stock.update({:stock_num => stock_num})
+      end
+    end
+  end
 
   def readonly_field
-    self.errors.add(:seller_id, "seller_id can't be changed") if self.seller_id_changed?
-    self.errors.add(:buyer_id, "buyer_id can't be changed") if self.buyer_id_changed?
-    self.errors.add(:company_id, "company_id can't be changed") if self.company_id_changed?
-    self.errors.add(:stock_class, "stock_class can't be changed") if self.stock_class_changed?
-    self.errors.add(:date_issued, "date_issued can't be changed") if self.date_issued_changed?
-    self.errors.add(:fund, "fund can't be changed") if self.fund_changed?
-    self.errors.add(:currency, "currency can't be changed") if self.currency_changed?
-    self.errors.add(:stock_price, "stock_price can't be changed") if self.stock_price_changed?
-    self.errors.add(:stock_num, "stock_num can't be changed") if self.stock_num_changed?
-    self.errors.add(:date_signed, "date_signed can't be changed") if self.date_signed_changed?
+    self.errors.add(:seller_id, "READONLY") if self.seller_id_changed?
+    self.errors.add(:buyer_id, "READONLY") if self.buyer_id_changed?
+    self.errors.add(:company_id, "READONLY") if self.company_id_changed?
+    self.errors.add(:stock_class, "READONLY") if self.stock_class_changed?
+    self.errors.add(:date_issued, "READONLY") if self.date_issued_changed?
+    self.errors.add(:fund, "READONLY") if self.fund_changed?
+    self.errors.add(:currency, "READONLY") if self.currency_changed?
+    self.errors.add(:stock_price, "READONLY") if self.stock_price_changed?
+    self.errors.add(:stock_num, "READONLY") if self.stock_num_changed?
+    self.errors.add(:date_signed, "READONLY") if self.date_signed_changed?
   end
   
   def status

@@ -1,12 +1,11 @@
 class TransactionsController < ApplicationController
   before_action :set_transaction, :only => [:edit, :update, :destroy]
-  before_action :set_data, :only => [:new, :edit]
   layout 'fluid_application', :only => :index
   
   # GET /transactions
   # GET /transactions/index
   def index
-    set_data()
+    set_data("交易列表")
     @identities = Hash.new
     @company_names = Hash.new
     @stocks = Array.new
@@ -56,82 +55,50 @@ class TransactionsController < ApplicationController
       flash[:saved] = "已儲存"
       redirect_to edit_transaction_path(@transaction)
     else
-      if @transaction.errors.messages.key?(:stock_num) && @transaction.errors.messages[:stock_num][0] == "交易股數大於賣方擁有股數"
-        flash.now[:stock_num] = @transaction.errors.messages[:stock_num][0]
-      elsif @transaction.errors.messages.key?(:buyer_id) && @transaction.errors.messages[:buyer_id][0] == "賣方與買方相同"
-        flash.now[:buyer_id] = @transaction.errors.messages[:buyer_id][0]
+      # set flash by error messages
+      @transaction.errors.messages.each do |key, msg|
+        flash.now[key] = msg.first
       end
       
-      set_data()
-      @title = "新增交易"
+      set_data("新增交易")
       render :action => :new
     end
   end
  
   # GET /transactions/new
   def new
+    set_data("新增交易")
     @transaction = Transaction.new
-    @title = "新增交易"
   end
   
   # GET /transactions/:id/edit
   def edit
-    @title = "修改交易"
+    set_data("修改交易")
   end
   
   # PUT /transactions/:id
   def update
     if @transaction.update(transaction_params)
-      flash[:saved] = "以儲存"
+      flash[:saved] = "已儲存"
       redirect_to edit_transaction_path(@transaction)
     else
-      set_data()
+      set_data("修改交易")
       render :action => :edit
     end
   end
   
   # DELETE /transactions/:id
   def destroy
-    
-    buyer_stock = Stock.where("identity_id=?", @transaction.buyer_id)
-      .where("company_id=?", @transaction.company_id)
-      .where("stock_class=?", @transaction.stock_class)
-      .where("date_issued=?", @transaction.date_issued)[0]
-    
-    if buyer_stock.nil?
-      flash[:errors] = "買方剩餘股票數量不合, 無法刪除此交易"
-      redirect_to transactions_path
-      return
-    elsif buyer_stock.stock_num < @transaction.stock_num
-      flash[:errors] = "買方剩餘股票數量不合, 無法刪除此交易"
-      redirect_to transactions_path
-      return
-    elsif buyer_stock.stock_num > @transaction.stock_num
-      stock_num = buyer_stock.stock_num - @transaction.stock_num
-      buyer_stock.update({:stock_num => stock_num})
-    else
-      buyer_stock.destroy
+  
+    if not @transaction.update({is_deleted: true})
+      # set flash by error messages
+      @transaction.errors.messages.each do |key, msg|
+        flash[key] = msg.first
+      end
     end
-    
-    seller_stock = Stock.where("identity_id=?", @transaction.seller_id)
-      .where("company_id=?", @transaction.company_id)
-      .where("stock_class=?", @transaction.stock_class)
-      .where("date_issued=?", @transaction.date_issued)[0]
-    
-    if seller_stock.nil?
-      Stock.create({
-        :dentity_id => @transaction.buyer_id,
-        :company_id => @transaction.company_id,
-        :stock_class => @transaction.stock_class,
-        :date_issued => @transaction.date_issued,
-        :stock_num => @transaction.stock_num})
-    else
-      stock_num = seller_stock.stock_num + @transaction.stock_num
-      seller_stock.update({:stock_num => stock_num})
-    end
-    
-    @transaction.update({is_deleted: true})
+      
     redirect_to transactions_path
+      
   end
   
   
@@ -141,10 +108,11 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.find(params[:id])
   end
   
-  def set_data
+  def set_data(title)
     @currency_array = Currency.types
     @companies = Company.all
     @stockholders = Stockholder.all
+    @title = title
   end
   
   def transaction_params
