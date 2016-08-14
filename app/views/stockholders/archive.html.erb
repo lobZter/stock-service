@@ -1,0 +1,32 @@
+<h1 class="page-header" style="margin-top: 0px">股東封存列表</h1>
+
+<table class="table table-hover text-center">
+  <thead>
+    <tr>
+   	  <th class="text-center">中文姓名</th>
+   	  <th class="text-center">英文姓名</th>
+   	  <th class="text-center">護照號碼</th>
+   	  <th class="text-center">護照影本</th>
+      <th class="text-center">簽名頁影本</th>
+      <th class="text-center">郵寄地址影本</th>
+      <th class="text-center">資料</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @stockholders.size == 0 %>
+      <tr><td colspan="7">無資料</td></tr>
+    <% else %>
+      <% @stockholders.each do |s| %>
+        <tr>
+       	  <td><%= s.name_zh %></td>
+       	  <td><%= s.name_en %></td>
+       	  <td><%= s.passport %></td>
+       	  <td><%= check_exist(s.copy_passport?) %></td>
+       	  <td><%= check_exist(s.copy_signature?) %></td>
+       	  <td><%= check_exist(s.copy_mail_addr?) %></td>
+       	  <td><%= link_to "Info", stockholder_path(s) , class: "btn btn-primary btn-xs" %></td>
+       	</tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

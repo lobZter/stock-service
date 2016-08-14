@@ -1,16 +1,21 @@
 <div class="row">
-  <div class="col-md-1" style="display: table">
-    <%= link_to "全部", stockholders_path, {class: "btn btn-default", style: "display: table-cell"} %>
+  <div class="col-md-9">
+    <h1 class="page-header" style="margin-top: 0px">股東列表</h1>
   </div>
-    <div class="col-md-1" style="display: table">
-    <%= link_to "已完成", stockholders_path(:set_completed => 1), {class: "btn btn-default", style: "display: table-cell"} %>
-  </div>
-  <div class="col-md-1" style="display: table">
-    <%= link_to "未完成", stockholders_path(:set_not_completed => 1), {class: "btn btn-default", style: "display: table-cell"} %>
-  </div>
+  
+  <h1>
+    <div class="col-md-1">
+      <%= link_to "全部", stockholders_path, {class: "btn btn-default col-md-12"} %>
+    </div>
+      <div class="col-md-1">
+      <%= link_to "已完成", stockholders_path(:set_completed => 1), {class: "btn btn-default col-md-12"} %>
+    </div>
+    <div class="col-md-1">
+      <%= link_to "未完成", stockholders_path(:set_not_completed => 1), {class: "btn btn-default col-md-12"} %>
+    </div>
+  </h1>
 </div>
 
-<div class="row">
 <table class="table table-hover text-center">
   <thead>
     <tr>
@@ -23,25 +28,30 @@
       <th class="text-center">資料</th>
       <% if session[:is_admin] %>
       <th class="text-center">編輯</th>
+      <th class="text-center">刪除</th>
       <% end %>
     </tr>
   </thead>
   <tbody>
-    <% @stockholders.each do |s| %>
-    <tr>
-   	  <td><%= s.name_zh %></td>
-   	  <td><%= s.name_en %></td>
-   	  <td><%= s.passport %></td>
-   	  <td><%= check_exist(s.copy_passport?) %></td>
-   	  <td><%= check_exist(s.copy_signature?) %></td>
-   	  <td><%= check_exist(s.copy_mail_addr?) %></td>
-   	  
-   	  <td><%= link_to "Info", stockholder_path(s) , class: "btn btn-primary btn-xs" %></td>
-   	  <% if session[:is_admin] %>
-   	  <td><%= link_to "Edit", edit_stockholder_path(s) , class: "btn btn-success btn-xs" %></td>
-   	  <% end %>
-   	  </tr>
+    <% if @stockholders.size == 0 %>
+      <tr><td colspan="9">無資料</td></tr>
+      <% else %>
+      <% @stockholders.each do |s| %>
+        <tr>
+       	  <td><%= s.name_zh %></td>
+       	  <td><%= s.name_en %></td>
+       	  <td><%= s.passport %></td>
+       	  <td><%= check_exist(s.copy_passport?) %></td>
+       	  <td><%= check_exist(s.copy_signature?) %></td>
+       	  <td><%= check_exist(s.copy_mail_addr?) %></td>
+       	  
+       	  <td><%= link_to "Info", stockholder_path(s) , class: "btn btn-primary btn-xs" %></td>
+       	  <% if session[:is_admin] %>
+       	  <td><%= link_to "Edit", edit_stockholder_path(s) , class: "btn btn-success btn-xs" %></td>
+       	  <td><%= link_to "Del", edit_stockholder_path(s) , class: "btn btn-danger btn-xs" %></td>
+       	  <% end %>
+       	</tr>
+      <% end %>
     <% end %>
   </tbody>
 </table>
-</div>

@@ -6,6 +6,9 @@ class Stockholder < ActiveRecord::Base
   mount_uploader :copy_signature, PassportUploader
   mount_uploader :copy_mail_addr, PassportUploader
   
+  scope :deleted, -> { where("is_deleted=?", true)}
+  scope :not_deleted, -> { where("is_deleted=?", false)}
+  
   scope :filter_not_completed, -> { where(
     "  (copy_passport IS NULL)
     OR (copy_signature IS NULL)

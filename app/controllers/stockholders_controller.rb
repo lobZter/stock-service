@@ -1,17 +1,12 @@
 class StockholdersController < ApplicationController
-  before_action :set_stockholder, :only => [:show, :edit, :update]
+  before_action :set_stockholder, :only => [:show, :edit, :update, :destroy]
   
-  # GET /stockholders/index
-  # GET /stockholders
   def index
     if params[:id]
-      @stockholder = Stockholder.find(params[:id])
-      @identity = @stockholder.identity
-      @stocks = @identity.stock_show
-      @transactions = @identity.recent_transactions
-      render :action => :show
+      # GET /stockholders?id=#
+      redirect_to stockholder_path(Stockholder.find(params[:id]))
     else
-      @stockholders = Stockholder.all
+      @stockholders = Stockholder.not_deleted
       
       if params[:set_not_completed]
         @stockholders = @stockholders.filter_not_completed
@@ -21,10 +16,8 @@ class StockholdersController < ApplicationController
         @stockholders = @stockholders.filter_completed
       end
     end
-    
   end
   
-  # POST /stockholders
   def create
     @stockholder = Stockholder.new(stockholder_params)
     if @stockholder.save
@@ -36,29 +29,35 @@ class StockholdersController < ApplicationController
     end
   end
   
-  # GET /stockholders/new
   def new
     @stockholder = Stockholder.new
   end
   
-  # GET /stockholders/:id/edit
   def edit
   end
   
-  # GET /stockholders/:id
   def show
-    @identity = @stockholder.identity
-    @stocks = @identity.stock_show
-    @transactions = @identity.recent_transactions
+    # 擁有股票
+    @stocks =  @stockholder.identity.stock_show
+    # 近期交易
+    @transactions = @stockholder.identity.recent_transactions
   end
   
-  # PUT /stockholders/:id
   def update
     if @stockholder.update(stockholder_params)
       redirect_to stockholder_path(@stockholder)
     else
       render :action => :edit
     end
+  end
+  
+  def destroy
+    @stockholder.update({is_deleted: true, date_deleted: DateTime.now.to_date})
+    redirect_to stockholders_path
+  end
+  
+  def archive
+    @stockholders = Stockholder.deleted
   end
   
   
@@ -68,11 +67,7 @@ class StockholdersController < ApplicationController
   end
   
   def stockholder_params
-    params.require(:stockholder).permit(
-      :name_zh, :name_en, :is21, :representative,
-      :passport, :country, :phone, :wechat, :address_zh, :address_en, :email,
-      :account_bank, :account_num, :account_owner, :account_owner_id,
-      :copy_passport, :copy_signature, :copy_mail_addr)
+    params.require(:stockholder).permit!
   end
   
 end

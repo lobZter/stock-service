@@ -2,8 +2,6 @@ class TransactionsController < ApplicationController
   before_action :set_transaction, :only => [:edit, :update, :destroy]
   layout 'fluid_application', :only => :index
   
-  # GET /transactions
-  # GET /transactions/index
   def index
     set_data("交易列表")
     @identities = Hash.new
@@ -41,7 +39,6 @@ class TransactionsController < ApplicationController
     end
   end
   
-  # POST /transactions
   def create
     if params[:transaction].key?(:stock)
       stock_hash = JSON.parse params[:transaction][:stock]
@@ -65,18 +62,15 @@ class TransactionsController < ApplicationController
     end
   end
  
-  # GET /transactions/new
   def new
     set_data("新增交易")
     @transaction = Transaction.new
   end
   
-  # GET /transactions/:id/edit
   def edit
     set_data("修改交易")
   end
   
-  # PUT /transactions/:id
   def update
     if @transaction.update(transaction_params)
       flash[:saved] = "已儲存"
@@ -87,10 +81,8 @@ class TransactionsController < ApplicationController
     end
   end
   
-  # DELETE /transactions/:id
   def destroy
-  
-    if not @transaction.update({is_deleted: true})
+    if not @transaction.update({is_deleted: true, date_deleted: DateTime.now.to_date})
       # set flash by error messages
       @transaction.errors.messages.each do |key, msg|
         flash[key] = msg.first
@@ -98,10 +90,7 @@ class TransactionsController < ApplicationController
     end
       
     redirect_to transactions_path
-      
   end
-  
-  
   
   private
   def set_transaction

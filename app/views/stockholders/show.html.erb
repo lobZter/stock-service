@@ -1,19 +1,21 @@
-<div class="row" style="margin: 0px">
+<div class="row">
   <div class="col-md-11">
-    <h2><strong><%= @stockholder.name_zh %> <%= @stockholder.name_en %></strong></h2>
+    <h1 class="page-header" style="margin-top: 0px">
+      <%= @stockholder.name_zh %> <%= @stockholder.name_en %>
+    </h1>
   </div>
-<% if session[:is_admin] %>
-  <h2>
-    <%= link_to "修改", edit_stockholder_path(@stockholder), class: "btn btn-default col-md-1" %>
-  </h2>
-<% end %>
+  <% if session[:is_admin] %>
+    <h1>
+      <%= link_to "修改", edit_stockholder_path(@stockholder), class: "btn btn-default col-md-1" %>
+    </h1>
+  <% end %>
 </div>
 
 <div class="well">
   <div class="row no-margin-top">
     <div class="col-md-4">
       <table class="table">
-        <h3><strong>基本資料</strong></h3>
+        <h3 class="no-margin-top"><strong>基本資料</strong></h3>
         <col width="120">
         <tr>
           <th>是否成年</th>
@@ -156,7 +158,7 @@
     </div>
     
     <div class="col-md-8">
-      <h3><strong>持有股票</strong></h3>
+      <h3 class="no-margin-top"><strong>持有股票</strong></h3>
       <table class="table table-hover">
         <thead>
           <th>發行公司</th>
