@@ -96,49 +96,10 @@ class CapitalIncreasesController < ApplicationController
   end
   
   def destroy
-    
-    if not @capital_increase.is_first
-      if @capital_increase.stock_checked
-    
-        remaining_stock = Stock.where("company_id=?", @capital_increase.identity.company_id)
-          .where("stock_class=?", @capital_increase.stock_class)
-          .where("date_issued=?", @capital_increase.date_issued)
-          .where("identity_id=?", @capital_increase.identity_id)[0]
-      
-        if @capital_increase.stock_num > 0
-          if remaining_stock.nil?
-            flash[:errors] = "剩餘股票數量不合 無法刪除此筆增資"
-          elsif remaining_stock.stock_num < @capital_increase.stock_num
-            flash[:errors] = "買方剩餘股票數量不合 無法刪除此筆增資"
-          elsif remaining_stock.stock_num > @capital_increase.stock_num
-            stock_num = remaining_stock.stock_num - @capital_increase.stock_num
-            remaining_stock.update({:stock_num => stock_num})
-            @capital_increase.destroy
-          else
-            remaining_stock.destroy
-            @capital_increase.destroy
-          end
-        else
-          if remaining_stock.nil?
-            Stock.create({
-              :identity_id => @capital_increase.identity_id,
-              :company_id => @capital_increase.identity.company_id,
-              :stock_class => @capital_increase.stock_class,
-              :date_issued => @capital_increase.date_issued,
-              :stock_num => -@capital_increase.stock_num})
-            @capital_increase.destroy
-          else
-            stock_num = remaining_stock.stock_num - @capital_increase.stock_num
-            remaining_stock.update({:stock_num => stock_num})
-            @capital_increase.destroy
-          end
-        end
-        
-      else
-        @capital_increase.destroy
+    if not @capital_increase.destroy
+      @capital_increase.errors.messages.each do |key, msg|
+        flash[key] = msg.first
       end
-    else
-      flash[:errors] = "此筆為起始資本 無法刪除此筆增資"
     end
     
     redirect_to capital_increases_path
@@ -147,6 +108,7 @@ class CapitalIncreasesController < ApplicationController
   
   private
   def set_data
+    @stockholders = Stockholder.not_deleted
     @companies = Company.not_deleted
     @currency_array = Currency.types
   end

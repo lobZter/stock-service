@@ -12,8 +12,9 @@ class CapitalIncrease < ActiveRecord::Base
   validates_inclusion_of :is_first, :in => [true, false]
   validates_inclusion_of :is_deleted, :in => [true, false]
   
-  validate :check_stock_num, :on => :create
+  validate :check_stock_num_on_create, :on => :create
   validate :readonly_field, :on => :update
+  validate :check_stock_num_on_destory, :on => :destroy
   
   scope :deleted, -> { where("is_deleted=?", true)}
   scope :not_deleted, -> { where("is_deleted=?", false)}
@@ -21,7 +22,7 @@ class CapitalIncrease < ActiveRecord::Base
   
   
   private
-  def check_stock_num
+  def check_stock_num_on_create
     return if stock_num.nil? or identity_id.nil? or stock_class.nil? or date_issued.nil? or fund.nil? or currency.nil? or stock_price.nil? or stock_num.nil? or stock_checked.nil? or is_first.nil?
     # 減資
     if self.stock_num < 0
@@ -61,6 +62,47 @@ class CapitalIncrease < ActiveRecord::Base
       end
     else
       self.errors.add(:stock_num, "增資失敗: 股票數不可為零")
+    end
+  end
+  
+  def check_stock_num_on_destory
+    if not self.is_first
+      stock = Stock.where("company_id=?", self.identity.company_id)
+        .where("stock_class=?", self.stock_class)
+        .where("date_issued=?", self.date_issued)
+        .where("identity_id=?", self.identity_id)
+        .first
+      
+      # 刪除增資
+      if self.stock_num > 0
+        if stock.nil || stock.stock_num < self.stock_num
+          self.errors.add(:stock_num, "剩餘股票數量不合 無法刪除此筆增資")
+        elsif stock.stock_num > self.stock_num
+          stock_num = stock.stock_num - self.stock_num
+          stock.update({:stock_num => stock_num})
+          self.destroy
+        else
+          stock.destroy
+          self.destroy
+        end
+      # 刪除減資
+      else
+        if stock.nil?
+          Stock.create({
+            :identity_id => self.company.identity.id,
+            :company_id => self.company_id,
+            :stock_class => self.stock_class,
+            :date_issued => self.date_issued,
+            :stock_num => -self.stock_num})
+          self.destroy
+        else
+          stock_num = stock.stock_num - self.stock_num
+          stock.update({:stock_num => stock_num})
+          self.destroy
+        end
+      end
+    else
+      self.errors.add(:is_first, "此筆為起始資本 無法刪除此筆增資")
     end
   end
   
