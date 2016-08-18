@@ -14,7 +14,7 @@ setCurrency = ->
     $('#currency').val(currency[company.currency])
     
 setfilterUrl = ->
-  url = 'capital_increases?identity_id=' + $('#company_filter_input').val()
+  url = 'capital_increases?company_id=' + $('#company_filter_input').val()
   $('#company_filter_btn').attr 'href', url
   return
   

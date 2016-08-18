@@ -9,7 +9,7 @@
             <div class="col-xs-3" style="text-align: center">
               <strong style="font-size: 24px;">股東</strong>
             </div>
-          
+
             <form action="stockholders" class="col-xs-9" style="padding: 0px">
               <div class="input-group">
                 <select name="id" class="form-control">
@@ -75,7 +75,7 @@
             <a class="col-xs-4 card-btn card-center-btn">
               <h4><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 列表</h4>
             </a>
-            <a href="company_archive" class="col-xs-4 card-btn">
+            <a href="companies/archive" class="col-xs-4 card-btn">
               <h4><span class="glyphicon glyphicon glyphicon-trash" aria-hidden="true"></span> 封存</h4>
             </a>
           </div>
@@ -132,14 +132,12 @@
           </div>
           <hr class="no-margin">
           <div class="my-row">
-            <a href="<%= new_transaction_path %>" class="col-xs-4 card-btn">
+            <a href="<%= new_transaction_path %>" class="col-xs-6 card-btn">
               <h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增</h4>
             </a>
-            <a href="<%= transactions_path %>" class="col-xs-4 card-btn card-center-btn">
+            <a href="<%= transactions_path %>" class="col-xs-6 card-btn card-center-btn" style="border-width: 0px 0px 0px 1px">
               <h4><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 列表</h4>
             </a>
-            <a href="transaction_archive" class="col-xs-4 card-btn">
-              <h4><span class="glyphicon glyphicon glyphicon-trash" aria-hidden="true"></span> 封存</h4>
             </a>
           </div>
         </div>
@@ -159,16 +157,12 @@
           </div>
           <hr class="no-margin">
           <div class="my-row">
-            <a href="<%= new_capital_increase_path %>" class="col-xs-4 card-btn">
+            <a href="<%= new_capital_increase_path %>" class="col-xs-6 card-btn">
               <h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增</h4>
             </a>
             
-            <a href="<%= capital_increases_path %>" class="col-xs-4 card-btn card-center-btn">
+            <a href="<%= capital_increases_path %>" class="col-xs-6 card-btn card-center-btn" style="border-width: 0px 0px 0px 1px">
               <h4><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 列表</h4>
-            </a>
-            
-            <a href="capital_increase_archive" class="col-xs-4 card-btn">
-              <h4><span class="glyphicon glyphicon glyphicon-trash" aria-hidden="true"></span> 封存</h4>
             </a>
           </div>
         </div>

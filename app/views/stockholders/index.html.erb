@@ -48,10 +48,11 @@
        	  <td><%= link_to "Info", stockholder_path(s) , class: "btn btn-primary btn-xs" %></td>
        	  <% if session[:is_admin] %>
        	  <td><%= link_to "Edit", edit_stockholder_path(s) , class: "btn btn-success btn-xs" %></td>
-       	  <td><%= link_to "Del", edit_stockholder_path(s) , class: "btn btn-danger btn-xs" %></td>
+       	  <td><%= button_to 'Del', stockholder_path(s), {method: "delete", class: "btn btn-danger btn-xs", data: {confirm: "確定刪除?"}} %></td>
        	  <% end %>
        	</tr>
       <% end %>
+
     <% end %>
   </tbody>
 </table>

@@ -1,6 +1,11 @@
 function checkForm() {
   
+  $('#success_flash').remove();
+  $('#alert_flash').remove();
   $('#flash').empty();
+  
+  if($('.fund-input').size() == 0) 
+    return true;
   
   var flash_str = 
     '<div class="alert alert-danger">'+
@@ -11,13 +16,11 @@ function checkForm() {
   if(!isNaN(fundTotal)) {
     $('.fund-input').each(function(){
       var val = parseInt($(this).val());
-      console.log(val);
-      console.log(typeof(val));
-      console.log(isNaN(val));
   
       if(!isNaN(val))
         fundTotal -= val;
     });
+    
     if(fundTotal != 0)
       flash_str += '<li>投資人總資金和不符</li>';
   }

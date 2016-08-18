@@ -1,6 +1,6 @@
 <% if !flash.empty? %>
   <% if flash[:saved] %>
-    <div class="alert alert-success">
+    <div id="success_flash" class="alert alert-success">
       <ul class="success-list" style="display: inline-block">
         <li><%= flash[:saved] %></li>
       </ul>
@@ -9,7 +9,7 @@
       </button>
     </div>  
   <% else %>
-    <div class="alert alert-danger">
+    <div id="alert_flash" class="alert alert-danger">
       <ul class="custom-list" style="display: inline-block">
         <% flash.each do |key, value| %>
           <li ><%= value %></li>

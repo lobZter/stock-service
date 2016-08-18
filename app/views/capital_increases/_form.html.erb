@@ -1,10 +1,8 @@
-<%= render :partial => 'layouts/flash' %>
-
 <div id="flash"></div>
 
 <%= form_for @capital_increase, :html => {"onsubmit": "return checkForm(this);"} do |f| %>
 <div class="panel panel-default">
-  <div class="panel-heading">公司增資</div>
+  <div class="panel-heading">增資明細</div>
   <div class="panel-body">
 
     <div class="row" style="margin-top: 0px">
@@ -135,7 +133,6 @@
     </div>
   </div>
 </div>
-
 <% end %>
 
 <script>

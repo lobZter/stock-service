@@ -1,15 +1,26 @@
 <div class="row">
-  <div class="col-md-11">
-    <h1 class="page-header" style="margin-top: 0px">
-      <%= @stockholder.name_zh %> <%= @stockholder.name_en %>
-    </h1>
-  </div>
-  <% if session[:is_admin] %>
+  <% if !session[:is_admin] || @stockholder.is_deleted %>
+    <div class="col-md-12">
+      <h1 class="page-header" style="margin-top: 0px">
+        <%= @stockholder.name_zh %> <%= @stockholder.name_en %>
+        <% if @stockholder.is_deleted %>
+           (已封存)
+        <% end %>
+      </h1>
+    </div>
+  <% else %>
+    <div class="col-md-11">
+      <h1 class="page-header" style="margin-top: 0px">
+        <%= @stockholder.name_zh %> <%= @stockholder.name_en %>
+      </h1>
+    </div>
     <h1>
       <%= link_to "修改", edit_stockholder_path(@stockholder), class: "btn btn-default col-md-1" %>
     </h1>
   <% end %>
 </div>
+
+<%= render :partial => "layouts/flash" %>
 
 <div class="well">
   <div class="row no-margin-top">

@@ -84,7 +84,7 @@ class Transaction < ActiveRecord::Base
       .owned_by(self.seller_id)
       .first
     
-    if seller_stock == nil
+    if seller_stock.blank?
       self.errors.add(:stock_num, "賣方未擁有此股")
     elsif self.stock_num == 0
       self.errors.add(:stock_num, "交易股數不可為零")
@@ -98,7 +98,7 @@ class Transaction < ActiveRecord::Base
         .first
         
       # update buyer's stock
-      if buyer_stock == nil
+      if buyer_stock.blank?
         Stock.create({
           :identity_id => self.buyer_id,
           :company_id => self.company_id,

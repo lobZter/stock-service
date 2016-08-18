@@ -27,8 +27,8 @@ class MainController < ApplicationController
     end
     
     def index
-        @companies = Company.all
-        @stockholders = Stockholder.all
+        @stockholders = Stockholder.not_deleted
+        @companies = Company.not_deleted
     end
 
    

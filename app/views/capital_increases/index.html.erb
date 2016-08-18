@@ -1,23 +1,27 @@
-<%= render :partial => 'layouts/flash' %>
-
 <div class="row">
-  <div class="col-md-1" style="display: table">
-    <%= link_to "全部", capital_increases_path, {class: "btn btn-default", style: "display: table-cell"} %>
+  <div class="col-md-8">
+    <h1 class="page-header" style="margin-top: 0px">增資列表</h1>
   </div>
-  <div class="col-md-3" style="padding-left: 0px">
-    <div class="input-group">
-      <select id="company_filter_input" class="form-control capital_increase_index_select2">
-        <% @companies.each do |c| %>
-          <option value="<%= c.identity_id %>"><%= c.name_zh %></option>
-        <% end %>
-      </select>
-      <span class="input-group-btn">
-        <a href="" id="company_filter_btn" class="btn btn-default">
-          <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-        </a>
-      </span>
+  
+  <h1>
+    <div class="col-md-1" style="display: table">
+      <%= link_to "全部", capital_increases_path, {class: "btn btn-default", style: "display: table-cell"} %>
     </div>
-  </div>
+    <div class="col-md-3" style="padding-left: 0px">
+      <div class="input-group col-md-12">
+        <select id="company_filter_input" class="form-control capital_increase_index_select2">
+          <% @companies.each do |c| %>
+            <option value="<%= c.id %>"><%= c.name_zh %></option>
+          <% end %>
+        </select>
+        <span class="input-group-btn">
+          <a href="" id="company_filter_btn" class="btn btn-default">
+            <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+          </a>
+        </span>
+      </div>
+    </div>
+  </h1>
 </div>
 
 <div class="row">
@@ -41,7 +45,7 @@
   <tbody>
   <% @capital_increases.each do |c_i| %>
     <tr>    
-      <td><%= @companies_name[c_i["identity_id"]] %></td>
+      <td><%= c_i.company.name_zh %></td>
       <td><%= c_i["stock_class"] %></td>
       <td><%= c_i["date_issued"] %></td>
       <td><%= c_i["fund"] %></td>

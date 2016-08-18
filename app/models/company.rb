@@ -3,6 +3,7 @@ class Company < ActiveRecord::Base
   belongs_to :identity
   belongs_to :stocks
   has_many :staffs
+  has_many :capital_increases
   
   validates_presence_of :name_zh, 
     :date_establish,
@@ -13,6 +14,9 @@ class Company < ActiveRecord::Base
     :stock_num
     
   validate :check_capital_increase, :on => :update
+  
+  scope :deleted, -> { where("is_deleted=?", true)}
+  scope :not_deleted, -> { where("is_deleted=?", false)}
   
   def stock_percentage
     @capital_increases = CapitalIncrease.where("identity_id=?", self.identity.id)

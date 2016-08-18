@@ -23,6 +23,8 @@ class StockholdersController < ApplicationController
     if @stockholder.save
       @identity = Identity.create(:company_id => nil, :stockholder_id => @stockholder.id)
       @stockholder.update({:identity_id => @identity.id})
+      
+      flash[:saved] = "已儲存"
       redirect_to stockholder_path(@stockholder)
     else
       render :action => :new
@@ -45,6 +47,7 @@ class StockholdersController < ApplicationController
   
   def update
     if @stockholder.update(stockholder_params)
+      flash[:saved] = "已儲存"
       redirect_to stockholder_path(@stockholder)
     else
       render :action => :edit

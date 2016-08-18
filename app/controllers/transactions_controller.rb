@@ -3,7 +3,7 @@ class TransactionsController < ApplicationController
   layout 'fluid_application', :only => :index
   
   def index
-    set_data("交易列表")
+    set_data()
     @identities = Hash.new
     @company_names = Hash.new
     @stocks = Array.new
@@ -57,18 +57,18 @@ class TransactionsController < ApplicationController
         flash.now[key] = msg.first
       end
       
-      set_data("新增交易")
+      set_data()
       render :action => :new
     end
   end
  
   def new
-    set_data("新增交易")
+    set_data()
     @transaction = Transaction.new
   end
   
   def edit
-    set_data("修改交易")
+    set_data()
   end
   
   def update
@@ -76,7 +76,7 @@ class TransactionsController < ApplicationController
       flash[:saved] = "已儲存"
       redirect_to edit_transaction_path(@transaction)
     else
-      set_data("修改交易")
+      set_data()
       render :action => :edit
     end
   end
@@ -97,11 +97,10 @@ class TransactionsController < ApplicationController
     @transaction = Transaction.find(params[:id])
   end
   
-  def set_data(title)
+  def set_data
     @currency_array = Currency.types
-    @companies = Company.all
-    @stockholders = Stockholder.all
-    @title = title
+    @companies = Company.not_deleted
+    @stockholders = Stockholder.not_deleted
   end
   
   def transaction_params
