@@ -1,5 +1,5 @@
 class TransactionsController < ApplicationController
-  before_action :set_transaction, :only => [:edit, :update, :destroy]
+  before_action :set_transaction, :only => [:edit, :update, :destroy, :delete]
   layout 'fluid_application', :only => :index
   
   def index
@@ -82,7 +82,7 @@ class TransactionsController < ApplicationController
   end
   
   def destroy
-    if not @transaction.update({is_deleted: true, date_deleted: DateTime.now.to_date})
+    if not @transaction.destroy
       # set flash by error messages
       @transaction.errors.messages.each do |key, msg|
         flash[key] = msg.first
@@ -91,6 +91,18 @@ class TransactionsController < ApplicationController
       
     redirect_to transactions_path
   end
+  
+  def delete
+    if not @capital_increase.update({is_deleted: true, date_deleted: DateTime.now.to_date})
+      # set flash by error messages
+      @capital_increase.errors.messages.each do |key, msg|
+        flash[key] = msg.first
+      end
+    end
+    
+    redirect_to capital_increases_path
+  end
+  
   
   private
   def set_transaction

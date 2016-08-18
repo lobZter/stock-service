@@ -18,10 +18,12 @@ Rails.application.routes.draw do
   end
   
   resources :capital_increases, except: [:show] do
+    get 'delete', on: :member
     get 'archive', on: :collection
   end
   
-  resources :transactions, except: [:show] do 
+  resources :transactions, except: [:show] do
+    get 'delete', on: :member
     get 'archive', on: :collection
   end
   

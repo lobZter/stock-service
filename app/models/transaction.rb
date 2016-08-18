@@ -23,9 +23,7 @@ class Transaction < ActiveRecord::Base
       (contract_8 IS NULL) OR
       (send_buyer IS NULL) OR
       (send_seller IS NULL)",
-    true, true, true, true, true, true, true, true
-  )}
-  
+    true, true, true, true, true, true, true, true)}
   scope :filter_completed, -> { where.not(
     " ((contract_0_needed = ?) AND (contract_0 IS NULL)) OR 
       ((contract_1_needed = ?) AND (contract_1 IS NULL)) OR
@@ -38,14 +36,11 @@ class Transaction < ActiveRecord::Base
       (contract_8 IS NULL) OR
       (send_buyer IS NULL) OR
       (send_seller IS NULL)",
-    true, true, true, true, true, true, true, true
-  )}
-  
+    true, true, true, true, true, true, true, true)}
+  scope :stock, -> (company_id, stock_class, date_issued) { 
+    where(company_id: company_id, stock_class: stock_class, date_issued: date_issued)}
   scope :buyer_id, -> (buyer_id) { where(buyer_id: buyer_id) }
   scope :seller_id, -> (seller_id) { where(seller_id: seller_id) }
-  scope :stock, -> (company_id, stock_class, date_issued) { 
-    where(company_id: company_id, stock_class: stock_class, date_issued: date_issued)
-  }
   scope :deleted, -> { where("is_deleted=?", true)}
   scope :not_deleted, -> { where("is_deleted=?", false)}
   
@@ -63,7 +58,8 @@ class Transaction < ActiveRecord::Base
   validate :check_stock_num_on_create, :on => :create
   validate :check_buyer_seller, :on => :create
   validate :readonly_field, :on => :update
-  validate :check_stock_num_on_destory, :on => :update, :if => :is_deleted_changed?
+  validate :check_stock_num_on_destory, :on => :destroy
+  validate :check_stock_num_on_delete, :on => :update, :if => :is_deleted_changed?
   validate :status
 
   private
@@ -121,48 +117,52 @@ class Transaction < ActiveRecord::Base
   end
   
   def check_stock_num_on_destory
+    buyer_stock = Stock
+      .specific_stock(self.company_id, self.stock_class, self.date_issued)
+      .owned_by(self.buyer_id)
+      .first
+    
+    # check buyer's stock
+    if buyer_stock.nil?
+      self.errors.add(:stock_num, "買方股數餘額不足, 無法刪除此交易")
+      return
+    end
+    
+    if buyer_stock.stock_num < self.stock_num
+      self.errors.add(:stock_num, "買方剩餘股票數量不合, 無法刪除此交易")
+      return
+    end
+    
+    # verified, update the stocks
+    if buyer_stock.stock_num > self.stock_num
+      stock_num = buyer_stock.stock_num - self.stock_num
+      buyer_stock.update({:stock_num => stock_num})
+    else
+      buyer_stock.destroy
+    end
+    
+    seller_stock = Stock
+      .specific_stock(self.company_id, self.stock_class, self.date_issued)
+      .owned_by(self.seller_id)
+      .first
+    
+    if seller_stock.nil?
+      Stock.create({
+        :dentity_id => @transaction.buyer_id,
+        :company_id => @transaction.company_id,
+        :stock_class => @transaction.stock_class,
+        :date_issued => @transaction.date_issued,
+        :stock_num => @transaction.stock_num})
+    else
+      stock_num = seller_stock.stock_num + @transaction.stock_num
+      seller_stock.update({:stock_num => stock_num})
+    end
+  end
+  
+  def check_stock_num_on_delete
     # is_deleted: false => true
     if self.is_deleted
-      buyer_stock = Stock
-        .specific_stock(self.company_id, self.stock_class, self.date_issued)
-        .owned_by(self.buyer_id)
-        .first
-      
-      # check buyer's stock
-      if buyer_stock.nil?
-        self.errors.add(:stock_num, "買方股數餘額不足, 無法刪除此交易")
-        return
-      end
-      
-      if buyer_stock.stock_num < self.stock_num
-        self.errors.add(:stock_num, "買方剩餘股票數量不合, 無法刪除此交易")
-        return
-      end
-      
-      # verified, update the stocks
-      if buyer_stock.stock_num > self.stock_num
-        stock_num = buyer_stock.stock_num - self.stock_num
-        buyer_stock.update({:stock_num => stock_num})
-      else
-        buyer_stock.destroy
-      end
-      
-      seller_stock = Stock
-        .specific_stock(self.company_id, self.stock_class, self.date_issued)
-        .owned_by(self.seller_id)
-        .first
-      
-      if seller_stock.nil?
-        Stock.create({
-          :dentity_id => @transaction.buyer_id,
-          :company_id => @transaction.company_id,
-          :stock_class => @transaction.stock_class,
-          :date_issued => @transaction.date_issued,
-          :stock_num => @transaction.stock_num})
-      else
-        stock_num = seller_stock.stock_num + @transaction.stock_num
-        seller_stock.update({:stock_num => stock_num})
-      end
+      check_stock_num_on_destory()
     end
   end
 

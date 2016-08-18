@@ -1,5 +1,5 @@
 class CapitalIncreasesController < ApplicationController
-  before_action :set_capital_increase, :only => [:edit, :update, :destroy]
+  before_action :set_capital_increase, :only => [:edit, :update, :destroy, :delete]
   before_action :set_data, :only => [:new, :edit]
   
   def index
@@ -97,6 +97,18 @@ class CapitalIncreasesController < ApplicationController
   
   def destroy
     if not @capital_increase.destroy
+      # set flash by error messages
+      @capital_increase.errors.messages.each do |key, msg|
+        flash[key] = msg.first
+      end
+    end
+    
+    redirect_to capital_increases_path
+  end
+  
+  def delete
+    if not @capital_increase.update({is_deleted: true, date_deleted: DateTime.now.to_date})
+      # set flash by error messages
       @capital_increase.errors.messages.each do |key, msg|
         flash[key] = msg.first
       end

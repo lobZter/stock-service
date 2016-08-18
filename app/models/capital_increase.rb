@@ -8,13 +8,11 @@ class CapitalIncrease < ActiveRecord::Base
     :currency,
     :stock_price,
     :stock_num
-  
-  validates_inclusion_of :is_first, :in => [true, false]
-  validates_inclusion_of :is_deleted, :in => [true, false]
-  
+
   validate :check_stock_num_on_create, :on => :create
   validate :readonly_field, :on => :update
   validate :check_stock_num_on_destory, :on => :destroy
+  validate :check_stock_num_on_delete, :on => :update, :if => :is_deleted_changed?
   
   scope :deleted, -> { where("is_deleted=?", true)}
   scope :not_deleted, -> { where("is_deleted=?", false)}
@@ -80,10 +78,8 @@ class CapitalIncrease < ActiveRecord::Base
         elsif stock.stock_num > self.stock_num
           stock_num = stock.stock_num - self.stock_num
           stock.update({:stock_num => stock_num})
-          self.destroy
         else
           stock.destroy
-          self.destroy
         end
       # 刪除減資
       else
@@ -94,15 +90,20 @@ class CapitalIncrease < ActiveRecord::Base
             :stock_class => self.stock_class,
             :date_issued => self.date_issued,
             :stock_num => -self.stock_num})
-          self.destroy
         else
           stock_num = stock.stock_num - self.stock_num
           stock.update({:stock_num => stock_num})
-          self.destroy
         end
       end
     else
       self.errors.add(:is_first, "此筆為起始資本 無法刪除此筆增資")
+    end
+  end
+  
+  def check_stock_num_on_delete
+    # is_deleted: false => true
+    if self.is_deleted
+      check_stock_num_on_destory()
     end
   end
   
