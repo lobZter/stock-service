@@ -36,12 +36,14 @@ class CapitalIncreasesController < ApplicationController
     else
       # prepare global parameter for displaying inventors
       @investors = Array.new
-      investor_params[:stockholder_id].length.times do |i|
-        @investors.push(
-          Investor.new({
-            :stockholder_id => investor_params[:stockholder_id][i],
-            :fund => investor_params[:fund][i],
-            :stock_num => investor_params[:stock_num][i]}))
+      if check_investor_params
+        investor_params[:stockholder_id].length.times do |i|
+          @investors.push(
+            Investor.new({
+              :stockholder_id => investor_params[:stockholder_id][i],
+              :fund => investor_params[:fund][i],
+              :stock_num => investor_params[:stock_num][i]}))
+        end
       end
       
       # set flash by error messages
@@ -139,7 +141,7 @@ class CapitalIncreasesController < ApplicationController
   
   def check_investor_params
     # no investor
-    if investor_params.empty?
+    if investor_params.blank?
       return false
     end
     
