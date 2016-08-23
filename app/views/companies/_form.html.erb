@@ -10,28 +10,15 @@
         <div class="panel-body">
           <div class="form-group">
             <%= f.label :name_zh, "中文名稱" %>
-            <% if @company.new_record? %>
-              <%= f.text_field :name_zh, class: 'form-control' %>
-            <% else %>
-              <%= f.text_field :name_zh, {class: 'form-control', readonly: true} %>
-            <% end %>
-    
+            <%= f.text_field :name_zh, class: 'form-control' %>
           </div>
           <div class="form-group">
             <%= f.label :name_en, "英文名稱" %>
-            <% if @company.new_record? %>
-              <%= f.text_field :name_en, class: 'form-control' %>
-            <% else %>
-              <%= f.text_field :name_en, {class: 'form-control', readonly: true} %>
-            <% end %>
+            <%= f.text_field :name_en, class: 'form-control' %>
           </div>
           <div class="form-group">
             <%= f.label :ein, "公司稅號" %>
-            <% if @company.new_record? %>
-              <%= f.text_field :ein, class: 'form-control' %>
-            <% else %>
-              <%= f.text_field :ein, {class: 'form-control', readonly: true} %>
-            <% end %>
+            <%= f.text_field :ein, class: 'form-control' %>
           </div>
           <div class="form-group">
             <%= f.label :phone, "公司電話" %>
@@ -83,23 +70,43 @@
         <div class="panel-body">
           <div class="form-group">
             <%= f.label :stock_class, "股票類別" %>
-            <%= f.text_field :stock_class, class: 'form-control' %>
+            <% if @company.new_record? %>
+              <%= f.text_field :stock_class, class: 'form-control' %>
+            <% else %>
+              <%= f.text_field :stock_class, class: 'form-control', readonly: true} %>
+            <% end %>
           </div>
           <div class="form-group">
             <%= f.label :fund, "資本額" %>
-            <%= f.text_field :fund, class: 'form-control auto-calculate'%>
+            <% if @company.new_record? %>
+              <%= f.text_field :fund, class: 'form-control auto-calculate'%>
+            <% else %>
+              <%= f.text_field :fund, class: 'form-control', readonly: true} %>
+            <% end %>
           </div>
           <div class="form-group">
             <%= f.label :currency, "幣別" %>
-             <%= f.select :currency, Currency.types, {}, { :class => 'form-control' } %>
+            <% if @company.new_record? %>
+              <%= f.select :currency, Currency.types, {}, { :class => 'form-control' } %>
+            <% else %>
+              <%= f.text_field :currency, class: 'form-control', readonly: true} %>
+            <% end %>
           </div>
           <div class="form-group">
             <%= f.label :stock_price, "每股面額" %>
-            <%= f.text_field :stock_price, class: 'form-control auto-calculate'%>
+            <% if @company.new_record? %>
+              <%= f.text_field :stock_price, class: 'form-control auto-calculate'%>
+            <% else %>
+              <%= f.text_field :stock_price, class: 'form-control', readonly: true} %>
+            <% end %>
           </div>
           <div class="form-group">
             <%= f.label :stock_num, "原始股數" %>
-            <%= f.text_field :stock_num, {class: 'form-control', readonly: true} %>
+            <% if @company.new_record? %>
+              <%= f.text_field :stock_num, class: 'form-control' %>
+            <% else %>
+              <%= f.text_field :stock_num, class: 'form-control', readonly: true} %>
+            <% end %>
           </div>
         </div>
       </div>
