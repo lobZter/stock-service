@@ -1,171 +1,173 @@
-  <div class="col-md-6 col-xs-12">
-    <div class="card">
-      <div class="my-row">
-        <div class="col-xs-2 card-icon">
-          <span class="glyphicon glyphicon-user" aria-hidden="true" style="margin-top: 30px"></span>
-        </div>
-        <div class="col-xs-10 card-content">
-          <div class="my-row" style="margin: 10px 0px 10px 0px">
-            <div class="col-xs-3" style="text-align: center">
-              <strong style="font-size: 24px;">股東</strong>
-            </div>
+<div class="col-md-6 col-xs-12">
+  <div class="card">
+    <div class="my-row">
+      <div class="col-xs-2 card-icon">
+        <span class="glyphicon glyphicon-user" aria-hidden="true" style="margin-top: 30px"></span>
+      </div>
+      <div class="col-xs-10 card-content">
+        <div class="my-row" style="margin: 10px 0px 10px 0px">
+          <div class="col-xs-3" style="text-align: center">
+            <strong style="font-size: 24px;">股東</strong>
+          </div>
 
-            <form action="stockholders" class="col-xs-9" style="padding: 0px">
-              <div class="input-group">
-                <select name="id" class="form-control">
-                  <% @stockholders.each do |s| %>
-                    <option value="<%= s.id %>"><%= s.name_zh %><%= s.name_en %> / <%= s.passport %></option>
-                  <% end %>
-                </select>
-                <span class="input-group-btn">
-                  <button type="submit" class="btn btn-default">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                  </button>
-                </span>
-              </div>
-            </form>
-          </div>
-          <hr class="no-margin">
-          <div class="my-row">
-            <a href="<%= new_stockholder_path %>" class="col-xs-4 card-btn">
-              <h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增</h4>
-            </a>
-            <a href="<%= stockholders_path %>" class="col-xs-4 card-btn card-center-btn">
-              <h4><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 列表</h4>
-            </a>
-            <a href="stockholders/archive" class="col-xs-4 card-btn">
-              <h4><span class="glyphicon glyphicon glyphicon-trash" aria-hidden="true"></span> 封存</h4>
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="card">
-      <div class="my-row">
-        <div class="col-xs-2 card-icon">
-          <span class="glyphicon glyphicon-briefcase" aria-hidden="true" style="margin-top: 30px"></span>
-        </div>
-        <div class="col-xs-10 card-content">
-          <div class="my-row" style="margin: 10px 0px 10px 0px">
-            <div class="col-xs-3" style="text-align: center">
-              <strong style="font-size: 24px;">公司</strong>
+          <form action="stockholders" class="col-xs-9" style="padding: 0px">
+            <div class="input-group">
+              <select name="id" class="form-control select2">
+                <% @stockholders.each do |s| %>
+                  <option value="<%= s.id %>"><%= s.name_zh %><%= s.name_en %> / <%= s.passport %></option>
+                <% end %>
+              </select>
+              <span class="input-group-btn">
+                <button type="submit" class="btn btn-default">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+              </span>
             </div>
-          
-            <form action="companies" class="col-xs-9" style="padding: 0px">
-              <div class="input-group">
-                <select name="id" class="form-control">
-                  <% @companies.each do |c| %>
-                    <option value="<%= c.id %>"><%= c.name_zh %></option>
-                  <% end %>
-                </select>
-                <span class="input-group-btn">
-                  <button type="submit" class="btn btn-default">
-                    <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                  </button>
-                </span>
-              </div>
-            </form>
-          </div>
-          <hr class="no-margin">
-          <div class="my-row">
-            <a href="<%= new_company_path %>" class="col-xs-4 card-btn">
-              <h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增</h4>
-            </a>
-            <a href="<%= companies_path %>" class="col-xs-4 card-btn card-center-btn">
-              <h4><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 列表</h4>
-            </a>
-            <a href="companies/archive" class="col-xs-4 card-btn">
-              <h4><span class="glyphicon glyphicon glyphicon-trash" aria-hidden="true"></span> 封存</h4>
-            </a>
-          </div>
+          </form>
         </div>
-      </div>
-    </div>
-    
-    <div class="card">
-      <div class="my-row">
-        <div class="col-xs-2 card-icon">
-          <span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="margin-top: 67px"></span>
-        </div>
-        <div class="col-xs-10 card-content">
-          <div class="my-row" style="margin: 10px 0px 10px 0px">
-            <div class="col-xs-3" style="text-align: center">
-              <strong style="font-size: 24px;">報表</strong>
-            </div>
-          </div>
-          <hr class="no-margin">
-          <a href="company_report">
-            <div style="padding-left: 30px">
-              <h4><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 公司股數顯示表</h4>
-            </div>
+        <hr class="no-margin">
+        <div class="my-row">
+          <a href="<%= new_stockholder_path %>" class="col-xs-4 card-btn">
+            <h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增</h4>
           </a>
-          <hr class="no-margin">
-          <a href="contract_report">
-            <div style="padding-left: 30px">
-              <h4><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 合約進度表</h4>
-            </div>
+          <a href="<%= stockholders_path %>" class="col-xs-4 card-btn card-center-btn">
+            <h4><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 列表</h4>
           </a>
-          <hr class="no-margin">
-          <a href="lackinfo_report">
-            <div style="padding-left: 30px">
-              <h4><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 缺少資料表</h4>
-            </div>
+          <a href="stockholders/archive" class="col-xs-4 card-btn">
+            <h4><span class="glyphicon glyphicon glyphicon-trash" aria-hidden="true"></span> 封存</h4>
           </a>
-           
         </div>
       </div>
     </div>
   </div>
   
-  <div class="col-md-6 col-xs-12">
-    <div class="card">
-      <div class="my-row">
-        <div class="col-xs-2 card-icon">
-          <span class="glyphicon glyphicon-transfer" aria-hidden="true" style="margin-top: 30px"></span>
-        </div>
-        <div class="col-xs-10 card-content">
-          <div class="my-row" style="margin: 10px 0px 10px 0px">
-            <div class="col-xs-3" style="text-align: center">
-              <strong style="font-size: 24px;">交易</strong>
-            </div>
-          </div>
-          <hr class="no-margin">
-          <div class="my-row">
-            <a href="<%= new_transaction_path %>" class="col-xs-6 card-btn">
-              <h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增</h4>
-            </a>
-            <a href="<%= transactions_path %>" class="col-xs-6 card-btn card-center-btn" style="border-width: 0px 0px 0px 1px">
-              <h4><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 列表</h4>
-            </a>
-            </a>
-          </div>
-        </div>
+  <div class="card">
+    <div class="my-row">
+      <div class="col-xs-2 card-icon">
+        <span class="glyphicon glyphicon-briefcase" aria-hidden="true" style="margin-top: 30px"></span>
       </div>
-    </div>
-
-    <div class="card">
-      <div class="my-row">
-        <div class="col-xs-2 card-icon">
-          <span class="glyphicon glyphicon-usd" aria-hidden="true" style="margin-top: 30px"></span>
-        </div>
-        <div class="col-xs-10 card-content">
-          <div class="my-row" style="margin: 10px 0px 10px 0px">
-            <div class="col-xs-3" style="text-align: center">
-              <strong style="font-size: 24px;">增資</strong>
+      <div class="col-xs-10 card-content">
+        <div class="my-row" style="margin: 10px 0px 10px 0px">
+          <div class="col-xs-3" style="text-align: center">
+            <strong style="font-size: 24px;">公司</strong>
+          </div>
+        
+          <form action="companies" class="col-xs-9" style="padding: 0px">
+            <div class="input-group">
+              <select name="id" class="form-control select2">
+                <% @companies.each do |c| %>
+                  <option value="<%= c.id %>"><%= c.name_zh %></option>
+                <% end %>
+              </select>
+              <span class="input-group-btn">
+                <button type="submit" class="btn btn-default">
+                  <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                </button>
+              </span>
             </div>
-          </div>
-          <hr class="no-margin">
-          <div class="my-row">
-            <a href="<%= new_capital_increase_path %>" class="col-xs-6 card-btn">
-              <h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增</h4>
-            </a>
-            
-            <a href="<%= capital_increases_path %>" class="col-xs-6 card-btn card-center-btn" style="border-width: 0px 0px 0px 1px">
-              <h4><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 列表</h4>
-            </a>
-          </div>
+          </form>
+        </div>
+        <hr class="no-margin">
+        <div class="my-row">
+          <a href="<%= new_company_path %>" class="col-xs-4 card-btn">
+            <h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增</h4>
+          </a>
+          <a href="<%= companies_path %>" class="col-xs-4 card-btn card-center-btn">
+            <h4><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 列表</h4>
+          </a>
+          <a href="companies/archive" class="col-xs-4 card-btn">
+            <h4><span class="glyphicon glyphicon glyphicon-trash" aria-hidden="true"></span> 封存</h4>
+          </a>
         </div>
       </div>
     </div>
   </div>
+  
+  <div class="card">
+    <div class="my-row">
+      <div class="col-xs-2 card-icon">
+        <span class="glyphicon glyphicon-list-alt" aria-hidden="true" style="margin-top: 67px"></span>
+      </div>
+      <div class="col-xs-10 card-content">
+        <div class="my-row" style="margin: 10px 0px 10px 0px">
+          <div class="col-xs-3" style="text-align: center">
+            <strong style="font-size: 24px;">報表</strong>
+          </div>
+        </div>
+        <hr class="no-margin">
+        <a href="company_report">
+          <div style="padding-left: 30px">
+            <h4><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 公司股數顯示表</h4>
+          </div>
+        </a>
+        <hr class="no-margin">
+        <a href="contract_report">
+          <div style="padding-left: 30px">
+            <h4><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 合約進度表</h4>
+          </div>
+        </a>
+        <hr class="no-margin">
+        <a href="lackinfo_report">
+          <div style="padding-left: 30px">
+            <h4><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> 缺少資料表</h4>
+          </div>
+        </a>
+         
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="col-md-6 col-xs-12">
+  <div class="card">
+    <div class="my-row">
+      <div class="col-xs-2 card-icon">
+        <span class="glyphicon glyphicon-transfer" aria-hidden="true" style="margin-top: 30px"></span>
+      </div>
+      <div class="col-xs-10 card-content">
+        <div class="my-row" style="margin: 10px 0px 10px 0px">
+          <div class="col-xs-3" style="text-align: center">
+            <strong style="font-size: 24px;">交易</strong>
+          </div>
+        </div>
+        <hr class="no-margin">
+        <div class="my-row">
+          <a href="<%= new_transaction_path %>" class="col-xs-6 card-btn">
+            <h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增</h4>
+          </a>
+          <a href="<%= transactions_path %>" class="col-xs-6 card-btn card-center-btn" style="border-width: 0px 0px 0px 1px">
+            <h4><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 列表</h4>
+          </a>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="my-row">
+      <div class="col-xs-2 card-icon">
+        <span class="glyphicon glyphicon-usd" aria-hidden="true" style="margin-top: 30px"></span>
+      </div>
+      <div class="col-xs-10 card-content">
+        <div class="my-row" style="margin: 10px 0px 10px 0px">
+          <div class="col-xs-3" style="text-align: center">
+            <strong style="font-size: 24px;">增資</strong>
+          </div>
+        </div>
+        <hr class="no-margin">
+        <div class="my-row">
+          <a href="<%= new_capital_increase_path %>" class="col-xs-6 card-btn">
+            <h4><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> 新增</h4>
+          </a>
+          
+          <a href="<%= capital_increases_path %>" class="col-xs-6 card-btn card-center-btn" style="border-width: 0px 0px 0px 1px">
+            <h4><span class="glyphicon glyphicon-th-list" aria-hidden="true"></span> 列表</h4>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%= javascript_include_tag('main_index.js') %>
