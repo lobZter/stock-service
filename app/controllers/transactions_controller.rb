@@ -92,6 +92,7 @@ class TransactionsController < ApplicationController
     redirect_to transactions_path
   end
   
+  # 封存
   def delete
     if not @capital_increase.update({is_deleted: true, date_deleted: DateTime.now.to_date})
       # set flash by error messages
@@ -110,7 +111,6 @@ class TransactionsController < ApplicationController
   end
   
   def set_data
-    @currency_array = Currency.types
     @companies = Company.not_deleted
     @stockholders = Stockholder.not_deleted
   end

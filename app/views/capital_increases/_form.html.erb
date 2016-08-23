@@ -65,7 +65,7 @@
           <%= f.hidden_field :currency %>
           <input id="currency" class="form-control" readonly>
         <% else %>
-          <input class="form-control" value="<%= @currency_array[@capital_increase.currency-1][0] %>" readonly >
+          <input class="form-control" value="<%= Currency.types[@capital_increase.currency-1][0] %>" readonly >
         <% end %>
         <span class="help-block no-margin-bottom">由股票發行公司決定</span>
       </div>

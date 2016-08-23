@@ -106,6 +106,7 @@ class CapitalIncreasesController < ApplicationController
     redirect_to capital_increases_path
   end
   
+  # 封存
   def delete
     if not @capital_increase.update({is_deleted: true, date_deleted: DateTime.now.to_date})
       # set flash by error messages
@@ -122,7 +123,6 @@ class CapitalIncreasesController < ApplicationController
   def set_data
     @stockholders = Stockholder.not_deleted
     @companies = Company.not_deleted
-    @currency_array = Currency.types
   end
   
   def set_capital_increase
@@ -138,7 +138,6 @@ class CapitalIncreasesController < ApplicationController
   end
   
   def check_investor_params
-    
     # no investor
     if investor_params.empty?
       return false
@@ -149,6 +148,5 @@ class CapitalIncreasesController < ApplicationController
     end
     
     return true
-    
   end
 end

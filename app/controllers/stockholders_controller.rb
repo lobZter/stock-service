@@ -54,6 +54,7 @@ class StockholdersController < ApplicationController
     end
   end
   
+  # 封存
   def destroy
     @stockholder.update({is_deleted: true, date_deleted: DateTime.now.to_date})
     redirect_to stockholders_path

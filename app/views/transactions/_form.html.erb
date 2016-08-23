@@ -45,9 +45,9 @@
             <div class="col-md-6">
               <%= f.label :currency_original, "幣別" %>
               <% if @transaction.new_record? or @transaction.currency_original.nil? %>
-                <%= f.select :currency_original, @currency_array, {}, { class: 'form-control' } %>
+                <%= f.select :currency_original, Currency.types, {}, { class: 'form-control' } %>
               <% else %>
-                <input class="form-control" value="<%= @currency_array[@transaction.currency_original-1][0] %>" readonly >
+                <input class="form-control" value="<%= Currency.types[@transaction.currency_original-1][0] %>" readonly >
               <% end %>
             </div>
           </div>
@@ -96,7 +96,7 @@
               <% if @transaction.new_record? %>
                 <input class="form-control currency" readonly>
               <% else %>
-                <input class="form-control" value="<%= @currency_array[@transaction.currency-1][0] %>" readonly>
+                <input class="form-control" value="<%= Currency.types[@transaction.currency-1][0] %>" readonly>
               <% end %>
               <span class="help-block no-margin-bottom">由股票發行公司決定</span>
             </div>
@@ -118,7 +118,7 @@
               <% if @transaction.new_record? %>
                 <input class="form-control currency" readonly>
               <% else %>
-                <input class="form-control" value="<%= @currency_array[@transaction.currency-1][0] %>" readonly>
+                <input class="form-control" value="<%= Currency.types[@transaction.currency-1][0] %>" readonly>
               <% end %>
               <span class="help-block no-margin-bottom">由股票發行公司決定</span>
             </div>

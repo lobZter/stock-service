@@ -4,15 +4,10 @@ class CompaniesController < ApplicationController
 
   def index
     if params[:id]
-      @company = Company.find(params[:id])
-      @currency_array = [nil, "USD 美金", "RMB 人民幣", "NTD 新台幣"]
-      @identity = @company.identity
-      @stocks = @identity.stock_show
-      @transactions = @identity.recent_transactions
-      @capital_increases = @identity.recent_capital_increase
-      @staffs = Staff.where("company_id=?", @company.id)
-      @stock_percentage = @company.stock_percentage
-      render :action => :show
+      # GET /companies?id=#
+      redirect_to company_path(Company.find(params[:id]))
+    else
+      @companies = Company.not_deleted
     end
   end
 
@@ -22,11 +17,13 @@ class CompaniesController < ApplicationController
     if @company.save
       
       # Create staffs
-      staff_params[:stockholder_id].length.times do |i|
-        if(staff_params[:job_title][i] != "")
-          Staff.create(:company_id => @company.id,
-            :stockholder_id => staff_params[:stockholder_id][i],
-            :job_title => staff_params[:job_title][i])
+      if check_staff_params
+        staff_params[:stockholder_id].length.times do |i|
+          if not staff_params[:job_title][i].blank?
+            Staff.create(:company_id => @company.id,
+              :stockholder_id => staff_params[:stockholder_id][i],
+              :job_title => staff_params[:job_title][i])
+          end
         end
       end
       
@@ -34,8 +31,7 @@ class CompaniesController < ApplicationController
       @identity = Identity.create(:company_id => @company.id, :stockholder_id => nil)
       
       # Update identity_id
-      @company.identity_id = @identity.id
-      @company.save
+      @company.update({:identity_id => @identity.id})
       
       # Create capital increase
       @capital_increase = CapitalIncrease.create(
@@ -48,14 +44,11 @@ class CompaniesController < ApplicationController
         :stock_num => @company.stock_num,
         :remark => "起始增資",
         :stock_checked => false,
-        :is_first => true
-      )
+        :is_first => true)
+      
       redirect_to company_path(@company)
     else
-      set_data()
-      
       @staffs = Array.new
-      
       staff_params[:stockholder_id].length.times do |i|
         @staff = Staff.new({
           :stockholder_id => staff_params[:stockholder_id][i],
@@ -63,7 +56,12 @@ class CompaniesController < ApplicationController
         @staffs.push(@staff)
       end
       
+      # set flash by error messages
+      @capital_increase.errors.messages.each do |key, msg|
+        flash.now[key] = msg.first
+      end
       
+      set_data()
       render :action => :new
     end
   end
@@ -77,36 +75,49 @@ class CompaniesController < ApplicationController
   end
   
   def show
-    @currency_array = [nil, "USD 美金", "RMB 人民幣", "NTD 新台幣"]
-    @identity = @company.identity
-    @stocks = @identity.stock_show
-    @transactions = @identity.recent_transactions
-    @capital_increases = @identity.recent_capital_increase
+    @stocks = @company.identity.stock_show
+    @transactions = @company.identity.recent_transactions
+    @capital_increases = @company.identity.recent_capital_increase
     @staffs = Staff.where("company_id=?", @company.id)
     @stock_percentage = @company.stock_percentage
   end
   
   def update
-    @company = Company.find(params[:id])
     if @company.update(company_params)
-      Staff.where("company_id=?", @company.id).destroy_all
-      
-      staff_params[:stockholder_id].length.times do |i|
-        if(staff_params[:job_title][i] != "")
-          Staff.create(:company_id => @company.id,
-            :stockholder_id => staff_params[:stockholder_id][i],
-            :job_title => staff_params[:job_title][i])
+      if check_staff_params
+        Staff.where("company_id=?", @company.id).destroy_all
+        
+        staff_params[:stockholder_id].length.times do |i|
+          if(staff_params[:job_title][i] != "")
+            Staff.create(:company_id => @company.id,
+              :stockholder_id => staff_params[:stockholder_id][i],
+              :job_title => staff_params[:job_title][i])
+          end
         end
       end
       
       redirect_to company_path(@company)
     else
-      set_data()
-      if @company.errors.messages.value?(["股票已變動, 無法更動起始資金資訊"])
-        flash.now[:errors] = "股票已變動, 無法更動起始資金資訊"
+      @staffs = Array.new
+      staff_params[:stockholder_id].length.times do |i|
+        @staff = Staff.new({
+          :stockholder_id => staff_params[:stockholder_id][i],
+          :job_title => staff_params[:job_title][i]})
+        @staffs.push(@staff)
       end
+      
+      # set flash by error messages
+      @capital_increase.errors.messages.each do |key, msg|
+        flash.now[key] = msg.first
+      end
+      
+      set_data()
       render :action => :edit
     end
+  end
+  
+  # 封存
+  def destroy
   end
 
   
@@ -117,17 +128,6 @@ class CompaniesController < ApplicationController
   
   def set_data
     @stockholders = Stockholder.all
-    @currency_array = Currency.types
-    @company_hash = {
-      'Chinese' => :name_zh,
-      'English' => :name_en,
-      'Ein'     => :ein,
-      'Phone'   => :phone,
-      'Address' => :address }
-    @staff_hashes = [
-      'Chairan' => {'name' => :chairman_name, 'passport' => :chairman_passport, 'email' => :chairman_email},
-      'CEO' => {'name' => :ceo_name, 'passport' => :ceo_passport, 'email' => :ceo_email},
-      'CFO' => {'name' => :cfo_name, 'passport' => :cfo_passport, 'email' => :cfo_email}]
     @bank_hashes = [
       {'title'=> '匯款帳戶資訊 - 美金',
        'bank' => :us_account_bank,
@@ -147,14 +147,24 @@ class CompaniesController < ApplicationController
   end
     
   def company_params
-    params.require(:company).permit(:name_zh, :name_en, :ein, :phone, :address,
-      :date_establish, :date_accounting, :fund, :currency, :stock_class, :stock_price, :stock_num,
-      :us_account_bank, :us_account_num, :us_account_name, :us_account_bank_addr,
-      :cn_account_bank, :cn_account_num, :cn_account_name, :cn_account_bank_addr,
-      :tw_account_bank, :tw_account_num, :tw_account_name, :tw_account_bank_addr)
+    params.require(:company).permit!
   end
+  
   def staff_params
-    params.require(:staff).permit({stockholder_id: []}, {job_title: []})
+    params.permit(:staff)
+  end
+  
+  def check_staff_params
+    # no staff
+    if staff_params.empty?
+      return false
+    end
+    
+    if staff_params[:stockholder_id].length != staff_params[:job_title].length
+      return false
+    end
+    
+    return true
   end
  
 end

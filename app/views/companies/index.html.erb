@@ -1,0 +1,46 @@
+<h1 class="page-header" style="margin-top: 0px">公司列表</h1>
+
+<%= render :partial => "layouts/flash" %>
+
+<table class="table table-hover text-center">
+  <thead>
+    <tr>
+   	  <th class="text-center">中文名稱</th>
+   	  <th class="text-center">英文名稱</th>
+   	  <th class="text-center">稅號</th>
+   	  <th class="text-center">電話</th>
+      <th class="text-center">地址</th>
+      <th class="text-center">成立日期</th>
+      <th class="text-center">會計年度</th>
+      <% if session[:is_admin] %>
+      <th class="text-center">資料</th>
+      <th class="text-center">編輯</th>
+      <th class="text-center">刪除</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% if @companies.blank? %>
+      <tr><td colspan="10">無資料</td></tr>
+      <% else %>
+      <% @companies.each do |s| %>
+        <tr>
+       	  <td><%= s.name_zh %></td>
+       	  <td><%= s.name_en %></td>
+       	  <td><%= s.ein %></td>
+       	  <td><%= s.phone %></td>
+       	  <td><%= s.address %></td>
+       	  <td><%= s.date_establish %></td>
+      	  <td><%= s.date_accounting %></td>
+
+       	  <td><%= link_to "Info", company_path(s) , class: "btn btn-primary btn-xs" %></td>
+       	  <% if session[:is_admin] %>
+       	  <td><%= link_to "Edit", edit_company_path(s) , class: "btn btn-success btn-xs" %></td>
+       	  <td><%= button_to 'Del', company_path(s), {method: "delete", class: "btn btn-danger btn-xs", data: {confirm: "確定刪除?"}} %></td>
+       	  <% end %>
+       	</tr>
+      <% end %>
+
+    <% end %>
+  </tbody>
+</table>
