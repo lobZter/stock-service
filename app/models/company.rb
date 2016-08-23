@@ -14,6 +14,7 @@ class Company < ActiveRecord::Base
     :stock_num
     
   validate :readonly_field, :on => :update
+  validate :check_on_delete, :on => :update, :if => :is_deleted_changed?
   
   scope :deleted, -> { where("is_deleted=?", true)}
   scope :not_deleted, -> { where("is_deleted=?", false)}
@@ -69,6 +70,15 @@ class Company < ActiveRecord::Base
     self.errors.add(:stock_class, "READONLY") if self.stock_class_changed?
     self.errors.add(:stock_price, "READONLY") if self.stock_price_changed?
     self.errors.add(:stock_num, "READONLY") if self.stock_num_changed?
+  end
+  
+  def check_on_delete
+    capital_increases = CapitalIncrease.where("company_id=?", self.id)
+    
+    capital_increases.each do |c|
+      c.update(update({is_deleted: true, date_deleted: DateTime.now.to_date}))
+    end
+    
   end
   
 end

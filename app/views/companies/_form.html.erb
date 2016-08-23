@@ -73,7 +73,7 @@
             <% if @company.new_record? %>
               <%= f.text_field :stock_class, class: 'form-control' %>
             <% else %>
-              <%= f.text_field :stock_class, class: 'form-control', readonly: true} %>
+              <%= f.text_field :stock_class, class: 'form-control', readonly: true %>
             <% end %>
           </div>
           <div class="form-group">
@@ -81,7 +81,7 @@
             <% if @company.new_record? %>
               <%= f.text_field :fund, class: 'form-control auto-calculate'%>
             <% else %>
-              <%= f.text_field :fund, class: 'form-control', readonly: true} %>
+              <%= f.text_field :fund, class: 'form-control', readonly: true %>
             <% end %>
           </div>
           <div class="form-group">
@@ -89,7 +89,7 @@
             <% if @company.new_record? %>
               <%= f.select :currency, Currency.types, {}, { :class => 'form-control' } %>
             <% else %>
-              <%= f.text_field :currency, class: 'form-control', readonly: true} %>
+              <%= f.text_field :currency, class: 'form-control', readonly: true %>
             <% end %>
           </div>
           <div class="form-group">
@@ -97,7 +97,7 @@
             <% if @company.new_record? %>
               <%= f.text_field :stock_price, class: 'form-control auto-calculate'%>
             <% else %>
-              <%= f.text_field :stock_price, class: 'form-control', readonly: true} %>
+              <%= f.text_field :stock_price, class: 'form-control', readonly: true %>
             <% end %>
           </div>
           <div class="form-group">
@@ -105,7 +105,7 @@
             <% if @company.new_record? %>
               <%= f.text_field :stock_num, class: 'form-control' %>
             <% else %>
-              <%= f.text_field :stock_num, class: 'form-control', readonly: true} %>
+              <%= f.text_field :stock_num, class: 'form-control', readonly: true %>
             <% end %>
           </div>
         </div>

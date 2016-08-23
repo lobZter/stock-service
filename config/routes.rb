@@ -8,22 +8,22 @@ Rails.application.routes.draw do
   get   'contract_report' => 'report#contract_report'
   get   'lackinfo_report' => 'report#lackinfo_report'
   
-  resources :stockholders do
+  resources :stockholders, except: [:destroy] do
+    get 'delete', on: :member
     get 'archive', on: :collection
   end
   
-  resources :companies do
+  resources :companies, except: [:destroy] do
+    get 'delete', on: :member
     get 'archive', on: :collection
     resources :stocks, only: [:index]
   end
   
   resources :capital_increases, except: [:show] do
-    get 'delete', on: :member
     get 'archive', on: :collection
   end
   
   resources :transactions, except: [:show] do
-    get 'delete', on: :member
     get 'archive', on: :collection
   end
   

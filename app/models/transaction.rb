@@ -59,7 +59,6 @@ class Transaction < ActiveRecord::Base
   validate :check_buyer_seller, :on => :create
   validate :readonly_field, :on => :update
   validate :check_stock_num_on_destory, :on => :destroy
-  validate :check_stock_num_on_delete, :on => :update, :if => :is_deleted_changed?
   validate :status
 
   private
@@ -156,13 +155,6 @@ class Transaction < ActiveRecord::Base
     else
       stock_num = seller_stock.stock_num + @transaction.stock_num
       seller_stock.update({:stock_num => stock_num})
-    end
-  end
-  
-  def check_stock_num_on_delete
-    # is_deleted: false => true
-    if self.is_deleted
-      check_stock_num_on_destory()
     end
   end
 

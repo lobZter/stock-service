@@ -1,5 +1,5 @@
 class CompaniesController < ApplicationController
-  before_action :set_company, :only => [:show, :edit, :update]
+  before_action :set_company, :only => [:show, :edit, :update, :destroy]
   before_action :set_data, :only => [:new, :edit]
 
   def index
@@ -118,6 +118,8 @@ class CompaniesController < ApplicationController
   
   # 封存
   def destroy
+    @company.update({is_deleted: true, date_deleted: DateTime.now.to_date})
+    redirect_to companies_path
   end
 
   

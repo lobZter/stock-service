@@ -11,7 +11,7 @@
         <% if @capital_increase.new_record? %>
           <%= f.select :identity_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} ), {}, {class: "form-control transaction_select2"} %>
         <% else %>
-          <input class="form-control" value="<%= @capital_increase.identity.self_detail.name_zh %>" readonly >
+          <input class="form-control" value="<%= @capital_increase.company.name_zh %>" readonly >
         <% end %>
       </div>
       <div class="col-sm-4">
