@@ -23,7 +23,6 @@
       <span class="help-block no-margin-bottom">開始</span>
     </div>
     
-    
     <div class="col-md-2">
       <div class="input-group date" id="report_datetimepicker2">
         <input type="text" id="end_time" name="end_time" class="form-control" />
@@ -43,7 +42,7 @@
 </div>
 
 <h1><strong>
-  <%= link_to @capital_increase.identity.self_detail.name_zh+" / "+@capital_increase.stock_class+" / "+@capital_increase.date_issued.to_s , url_for(params.merge(:format => :xlsx)) %>
+  <%= link_to @capital_increase.company.name_zh+" / "+@capital_increase.stock_class+" / "+@capital_increase.date_issued.to_s , url_for(params.merge(:format => :xlsx)) %>
 </strong></h1>
 
 <div class="row">

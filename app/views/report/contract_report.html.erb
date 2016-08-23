@@ -3,7 +3,7 @@
     <div class="col-md-4">
       <select id="select_capital_increase" name="id" class="form-control main_select2">
         <% @capital_increases.each do |c| %>
-          <option value="<%= c.id %>"><%= c.identity.self_detail.name_zh %> / <%= c.stock_class %> / <%= c.date_issued %></option>
+          <option value="<%= c.id %>"><%= c.company.name_zh %> / <%= c.stock_class %> / <%= c.date_issued %></option>
         <% end %>
       </select>
     </div>
@@ -17,7 +17,7 @@
 </div>
 
 <h1><strong>
-  <%= link_to @capital_increase.identity.self_detail.name_zh+" / "+@capital_increase.stock_class+" / "+@capital_increase.date_issued.to_s , url_for(params.merge(:format => :xlsx)) %>
+  <%= link_to @capital_increase.company.name_zh+" / "+@capital_increase.stock_class+" / "+@capital_increase.date_issued.to_s , url_for(params.merge(:format => :xlsx)) %>
 </strong></h1>
 
 <div>
@@ -46,8 +46,8 @@
         <% @complete.each do |t| %>
           <tr data-link="<%= edit_transaction_path(t) %>" class="tr-clickable">
             <td><%= Identity.find(t.buyer_id).self_detail.name_zh %></td>
-       	    <td><%= t.fund_original %>/<%=@currency_array[t.currency_original] %></td>
-       	    <td><%= t.stock_price %>/<%=@currency_array[Company.find(t.company_id).currency] %></td>
+       	    <td><%= t.fund_original %>/<%= Currency.types[t.currency_original-1][0] %></td>
+       	    <td><%= t.stock_price %>/<%= Currency.types[Company.find(t.company_id).currency-1][0] %></td>
        	    <td><%= t.stock_num %></td>
        	    <td><%= status_check(true, t.is_printed) %></td>
        	    <td>
@@ -100,8 +100,8 @@
         <% @lacking.each do |t| %>
           <tr data-link="<%= edit_transaction_path(t) %>" class="tr-clickable">
             <td><%= Identity.find(t.buyer_id).self_detail.name_zh %></td>
-       	    <td><%= t.fund_original %>/<%=@currency_array[t.currency_original] %></td>
-       	    <td><%= t.stock_price %>/<%=@currency_array[Company.find(t.company_id).currency] %></td>
+       	    <td><%= t.fund_original %>/<%= Currency.types[t.currency_original-1][0] %></td>
+       	    <td><%= t.stock_price %>/<%= Currency.types[Company.find(t.company_id).currency-1][0] %></td>
        	    <td><%= t.stock_num %></td>
        	    <td><%= status_check(true, t.is_printed) %></td>
        	    <td>
@@ -208,8 +208,8 @@
         <% @not_complete.each do |t| %>
           <tr data-link="<%= edit_transaction_path(t) %>" class="tr-clickable">
             <td><%= Identity.find(t.buyer_id).self_detail.name_zh %></td>
-       	    <td><%= t.fund_original %>/<%=@currency_array[t.currency_original] %></td>
-       	    <td><%= t.stock_price %>/<%=@currency_array[Company.find(t.company_id).currency] %></td>
+       	    <td><%= t.fund_original %>/<%= Currency.types[t.currency_original-1][0] %></td>
+       	    <td><%= t.stock_price %>/<%= Currency.types[Company.find(t.company_id).currency-1][0] %></td>
        	    <td><%= t.stock_num %></td>
        	    <td><%= status_check(true, t.is_printed) %></td>
        	    <td>
