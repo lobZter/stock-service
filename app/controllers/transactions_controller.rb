@@ -138,8 +138,8 @@ class TransactionsController < ApplicationController
   def set_stock(capital_increase)
     if capital_increase.stock_num > 0
       @stocks.push({
-        :company_id => capital_increase.identity.company_id,
-        :company_name => capital_increase.identity.self_detail.name_zh,
+        :company_id => capital_increase.company.id,
+        :company_name => capital_increase.company.name_zh,
         :stock_class => capital_increase.stock_class,
         :date_issued => capital_increase.date_issued
       })
