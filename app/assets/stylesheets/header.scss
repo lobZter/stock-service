@@ -1,0 +1,10 @@
+#logo {
+  font-size: 1.7em;
+  color: #777;
+  letter-spacing: -1px;
+  font-weight: bold;
+  &:hover {
+    opacity: 0.5;
+    text-decoration: none;
+  }
+}

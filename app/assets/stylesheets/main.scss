@@ -1,0 +1,87 @@
+body {
+  font-family: "微軟正黑體", "Microsoft JhengHei", sans-serif;
+  color: #333;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.large {
+  font-size: 40px;
+}
+
+.xlarge {
+  font-size: 56px;
+}
+
+.xxlarge {
+  font-size: 72px;
+}
+
+.pull-left {
+  float: left!important;
+}
+
+.pull-right {
+  float: right!important;
+}
+
+.no-margin {
+  margin: 0px;
+}
+
+.no-margin-top {
+  margin-top: 0px;
+}
+
+.no-margin-bottom {
+  margin-bottom: 0px;
+}
+
+.margin-top-40 {
+  margin-top: 40px;
+}
+
+.my-row {
+  display: table;
+  width: 100%;
+}
+
+.field_with_errors {
+  input{
+    border-color: #a94442;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+  }
+  input:focus{
+    border-color: #843534;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+            box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 6px #ce8483;
+  }
+  label {
+    color: #a94442;
+  }
+}
+
+.custom-list li {
+    display: block;
+}
+
+.custom-list li:before {
+    content: "\e014";
+    font-family: 'Glyphicons Halflings';
+    font-size: 9px;
+    float: left;
+    margin-top: 4px;
+    margin-left: -17px;
+}
+
+.success-list li:before {
+    content: "\e013";
+    font-family: 'Glyphicons Halflings';
+    font-size: 9px;
+    float: left;
+    margin-top: 1px;
+    margin-left: -17px;
+}

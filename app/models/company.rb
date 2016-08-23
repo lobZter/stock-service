@@ -76,7 +76,7 @@ class Company < ActiveRecord::Base
     capital_increases = CapitalIncrease.where("company_id=?", self.id)
     
     capital_increases.each do |c|
-      c.update(update({is_deleted: true, date_deleted: DateTime.now.to_date}))
+      c.update({is_deleted: true, date_deleted: DateTime.now.to_date})
     end
     
   end
