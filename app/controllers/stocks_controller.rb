@@ -6,8 +6,7 @@ class StocksController < ApplicationController
       @identity = Identity.find(params[:identity_id])
       @stocks = @identity.stock_detail
     elsif params.has_key? :company_id
-      @identity = Company.find(params[:company_id]).identity
-      @stocks = CapitalIncrease.where("identity_id=?", @identity.id).where("date_decreased is null OR date_decreased=?", "")
+      @stocks = CapitalIncrease.where("company_id=?", params[:company_id]).where("date_decreased is null OR date_decreased=?", "")
     end
     
     respond_to do |format|

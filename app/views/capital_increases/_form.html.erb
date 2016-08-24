@@ -7,9 +7,9 @@
 
     <div class="row" style="margin-top: 0px">
       <div class="col-sm-4">
-        <%= f.label :identity_id, "公司名稱" %>
+        <%= f.label :company_id, "公司名稱" %>
         <% if @capital_increase.new_record? %>
-          <%= f.select :identity_id, options_for_select(@companies.map{ |c| [c.name_zh, c.identity.id]} ), {}, {class: "form-control transaction_select2"} %>
+          <%= f.select :company_id, options_for_select(@companies.map{ |c| [c.name_zh, c.id]} ), {}, {class: "form-control transaction_select2"} %>
         <% else %>
           <input class="form-control" value="<%= @capital_increase.company.name_zh %>" readonly >
         <% end %>
