@@ -1,4 +1,4 @@
-<h1 class="page-header" style="margin-top: 0px">公司列表</h1>
+<h1 class="page-header" style="margin-top: 0px">公司封存列表</h1>
 
 <%= render :partial => "layouts/flash" %>
 
@@ -13,15 +13,11 @@
       <th class="text-center">成立日期</th>
       <th class="text-center">會計年度</th>
       <th class="text-center">資料</th>
-      <% if session[:is_admin] %>
-        <th class="text-center">編輯</th>
-        <th class="text-center">刪除</th>
-      <% end %>
     </tr>
   </thead>
   <tbody>
     <% if @companies.blank? %>
-      <tr><td colspan="10">無資料</td></tr>
+      <tr><td colspan="8">無資料</td></tr>
       <% else %>
       <% @companies.each do |s| %>
         <tr>
@@ -32,12 +28,7 @@
        	  <td><%= s.address %></td>
        	  <td><%= s.date_establish %></td>
       	  <td><%= s.date_accounting %></td>
-
        	  <td><%= link_to "Info", company_path(s) , class: "btn btn-primary btn-xs" %></td>
-       	  <% if session[:is_admin] %>
-       	  <td><%= link_to "Edit", edit_company_path(s) , class: "btn btn-success btn-xs" %></td>
-       	  <td><%= button_to 'Del', company_path(s), {method: "delete", class: "btn btn-danger btn-xs", data: {confirm: "確定刪除?"}} %></td>
-       	  <% end %>
        	</tr>
       <% end %>
 
