@@ -49,16 +49,20 @@ class CompaniesController < ApplicationController
       redirect_to company_path(@company)
     else
       @staffs = Array.new
-      staff_params[:stockholder_id].length.times do |i|
-        @staff = Staff.new({
-          :stockholder_id => staff_params[:stockholder_id][i],
-          :job_title => staff_params[:job_title][i]})
-        @staffs.push(@staff)
+      if check_staff_params
+        staff_params[:stockholder_id].length.times do |i|
+          @staff = Staff.new({
+            :stockholder_id => staff_params[:stockholder_id][i],
+            :job_title => staff_params[:job_title][i]})
+          @staffs.push(@staff)
+        end
       end
       
       # set flash by error messages
-      @capital_increase.errors.messages.each do |key, msg|
-        flash.now[key] = msg.first
+      @company.errors.messages.each do |key, msg|
+        if msg.first != "can't be blank"
+          flash.now[key] = msg.first
+        end
       end
       
       set_data()
@@ -107,8 +111,11 @@ class CompaniesController < ApplicationController
       end
       
       # set flash by error messages
-      @capital_increase.errors.messages.each do |key, msg|
-        flash.now[key] = msg.first
+      @company.errors.messages.each do |key, msg|
+        puts msg
+        if msg.first != "can't be blank"
+          flash.now[key] = msg.first
+        end
       end
       
       set_data()
@@ -158,7 +165,7 @@ class CompaniesController < ApplicationController
   
   def check_staff_params
     # no staff
-    if staff_params.empty?
+    if staff_params.blank?
       return false
     end
     

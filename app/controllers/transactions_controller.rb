@@ -54,7 +54,9 @@ class TransactionsController < ApplicationController
     else
       # set flash by error messages
       @transaction.errors.messages.each do |key, msg|
-        flash.now[key] = msg.first
+        if msg.first != "can't be blank"
+          flash.now[key] = msg.first
+        end
       end
       
       set_data()
@@ -76,6 +78,11 @@ class TransactionsController < ApplicationController
       flash[:saved] = "已儲存"
       redirect_to edit_transaction_path(@transaction)
     else
+      @transaction.errors.messages.each do |key, msg|
+        if msg.first != "can't be blank"
+          flash.now[key] = msg.first
+        end
+      end
       set_data()
       render :action => :edit
     end
@@ -85,7 +92,9 @@ class TransactionsController < ApplicationController
     if not @transaction.destroy
       # set flash by error messages
       @transaction.errors.messages.each do |key, msg|
-        flash[key] = msg.first
+        if msg.first != "can't be blank"
+          flash.now[key] = msg.first
+        end
       end
     end
       
@@ -97,7 +106,9 @@ class TransactionsController < ApplicationController
     if not @capital_increase.update({is_deleted: true, date_deleted: DateTime.now.to_date})
       # set flash by error messages
       @capital_increase.errors.messages.each do |key, msg|
-        flash[key] = msg.first
+        if msg.first != "can't be blank"
+          flash.now[key] = msg.first
+        end
       end
     end
     

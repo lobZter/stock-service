@@ -6,10 +6,10 @@ class CapitalIncreasesController < ApplicationController
     set_data()
     
     # script to update company_id
-    # @capital_increases = CapitalIncrease.all
-    # @capital_increases.each do |c_i|
-    #   c_i.update({:company_id => Identity.find(c_i.identity_id).company_id})
-    # end
+    @capital_increases = CapitalIncrease.all
+    @capital_increases.each do |c_i|
+      c_i.update({:company_id => Identity.find(c_i.identity_id).company_id})
+    end
     
     @capital_increases = CapitalIncrease.order("updated_at DESC")
     @capital_increases = @capital_increases.company(params[:company_id]) if params[:company_id].present?
@@ -48,7 +48,9 @@ class CapitalIncreasesController < ApplicationController
       
       # set flash by error messages
       @capital_increase.errors.messages.each do |key, msg|
-        flash.now[key] = msg.first
+        if msg.first != "can't be blank"
+          flash.now[key] = msg.first
+        end
       end
       
       set_data()
@@ -101,7 +103,9 @@ class CapitalIncreasesController < ApplicationController
     if not @capital_increase.destroy
       # set flash by error messages
       @capital_increase.errors.messages.each do |key, msg|
-        flash[key] = msg.first
+        if msg.first != "can't be blank"
+          flash.now[key] = msg.first
+        end
       end
     end
     

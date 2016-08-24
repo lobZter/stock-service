@@ -100,7 +100,7 @@ class ReportController < ApplicationController
         end
  
         send_data p.to_stream.read,
-          filename: @capital_increase.identity.self_detail.name_zh+"_"+@capital_increase.stock_class+"_"+@capital_increase.date_issued.to_s + ".xlsx", 
+          filename: @capital_increase.company.name_zh+"_"+@capital_increase.stock_class+"_"+@capital_increase.date_issued.to_s + ".xlsx", 
           type: "application/xlsx"
       end
     end
@@ -193,7 +193,7 @@ class ReportController < ApplicationController
         end
  
         send_data p.to_stream.read,
-          filename: @capital_increase.identity.self_detail.name_zh+"_"+@capital_increase.stock_class+"_"+@capital_increase.date_issued.to_s + ".xlsx", 
+          filename: @capital_increase.company.name_zh+"_"+@capital_increase.stock_class+"_"+@capital_increase.date_issued.to_s + ".xlsx", 
           type: "application/xlsx"
       end
     end
