@@ -24,16 +24,15 @@ class Identity < ActiveRecord::Base
     
     stock_array = Array.new
     @stocks.each do |s|
-      stock_hash= Hash.new
-      stock_hash[:id] = s.id
-      stock_hash[:identity_id] = s.identity_id
-      stock_hash[:company_id] = s.company_id
-      stock_hash[:company_name] = Company.find(s.company_id).name_zh
-      stock_hash[:currency] = Company.find(s.company_id).currency
-      stock_hash[:stock_class] = s.stock_class
-      stock_hash[:date_issued] = s.date_issued
-      stock_hash[:stock_num] = s.stock_num
-      stock_array.push(stock_hash)
+      stock_array.push({
+        :id => s.id,
+        :identity_id => s.identity_id,
+        :company_id => s.company_id,
+        :company_name => Company.find(s.company_id).name_zh,
+        :currency => Company.find(s.company_id).currency,
+        :stock_class => s.stock_class,
+        :date_issued => s.date_issued,
+        :stock_num => s.stock_num })
     end
     return stock_array
   end
@@ -66,40 +65,38 @@ class Identity < ActiveRecord::Base
     array = Array.new
     
     @transactions.each do |t|
-      hash= Hash.new
-      hash[:id] = t.id
-      hash[:buyer_id] = t.buyer_id
-      hash[:buyer_name] = Identity.find(t.buyer_id).self_detail.name_zh
-      hash[:seller_id] = t.seller_id
-      hash[:seller_name] = Identity.find(t.seller_id).self_detail.name_zh
-      hash[:company_id] = t.company_id
-      hash[:company_name] = Company.find(t.company_id).name_zh
-      hash[:stock_class] = t.stock_class
-      hash[:date_issued] = t.date_issued
-      hash[:stock_num] = t.stock_num
-      hash[:date_signed] = t.date_signed
-      array.push(hash)
+      array.push({
+        :id => t.id,
+        :buyer_id => t.buyer_id,
+        :buyer_name => Identity.find(t.buyer_id).self_detail.name_zh,
+        :seller_id => t.seller_id,
+        :seller_name => Identity.find(t.seller_id).self_detail.name_zh,
+        :company_id => t.company_id,
+        :company_name => Company.find(t.company_id).name_zh,
+        :stock_class => t.stock_class,
+        :date_issued => t.date_issued,
+        :stock_num => t.stock_num,
+        :date_signed => t.date_signed })
     end
     
     return array
   end
   
   def recent_capital_increase
-    @capital_increases = self.capital_increases.sort_by{|s| s[:date_issued]}.reverse
+    @capital_increases = self.company.capital_increases.sort_by{|s| s[:date_issued]}.reverse
     array = Array.new
     
     @capital_increases.each do |c|
-      hash= Hash.new
-      hash[:id] = c.id
-      hash[:identity_id] = c.identity_id
-      hash[:company_name] = Identity.find(c.identity_id).self_detail.name_zh
-      hash[:stock_class] = c.stock_class
-      hash[:date_issued] = c.date_issued
-      hash[:fund] = c.fund
-      hash[:currency] = c.currency
-      hash[:stock_price] = c.stock_price
-      hash[:stock_num] = c.stock_num
-      array.push(hash)
+      array.push({
+        :id => c.id,
+        :company => c.company_id,
+        :company_name => c.company.name_zh,
+        :stock_class => c.stock_class,
+        :date_issued => c.date_issued,
+        :fund => c.fund,
+        :currency => c.currency,
+        :stock_price => c.stock_price,
+        :stock_num => c.stock_num })
     end
     return array
   end
