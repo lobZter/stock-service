@@ -5,12 +5,6 @@ class CapitalIncreasesController < ApplicationController
   def index
     set_data()
     
-    # script to update company_id
-    @capital_increases = CapitalIncrease.all
-    @capital_increases.each do |c_i|
-      c_i.update({:company_id => Identity.find(c_i.identity_id).company_id})
-    end
-    
     @capital_increases = CapitalIncrease.order("updated_at DESC")
     @capital_increases = @capital_increases.company(params[:company_id]) if params[:company_id].present?
   end

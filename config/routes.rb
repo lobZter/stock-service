@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   
+  devise_for :users
   root  'main#index'
   get   'login'  => 'main#login'
   post  'login'  => 'main#check_login'
